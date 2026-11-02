@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>window.__SOLO_NBA=true;window.__SIN_ANUNCIOS=true;</script>
+<script>(function(){try{if(localStorage.getItem("fc_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Juega online en Basket101: TresEnRaya en directo, duelos con amigos y comparación de resultados.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basket101">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Online · Basket101">
+<meta property="og:description" content="Juega online en Basket101: TresEnRaya en directo, duelos con amigos y comparación de resultados.">
+<meta property="og:url" content="__SITE_URL__/online.html">
+<meta property="og:image" content="__SITE_URL__/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>Online · Basket101</title>
+<meta name="theme-color" content="#3f63e0">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preload" href="fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/poppins.css">
+<style>
+  :root{
+    --blue-top:#5b86f5; --blue-bot:#3f63e0; --blue-deep:#2f4ec4;
+    --card:#ffffff; --ink:#1b2440; --ink-soft:#5b6685; --muted:#8791ab; --row:#eef1f8;
+    --gold:#ffb020; --gold-deep:#e8960a; --green:#15935a; --red:#d33;
+    --teal:#13917f;
+    --font:'Poppins','Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    --shadow-lg:0 18px 40px rgba(28,45,110,.35);
+  }
+  :root[data-theme="dark"]{ --card:#1e2440; --ink:#eef1fb; --ink-soft:#b7bfdc; --muted:#9aa3c4; --row:#2a3154; --green:#4ee29a; --red:#ff8080; }
+  *{box-sizing:border-box;}
+  html{background:var(--blue-deep);}
+  body{margin:0;font-family:var(--font);color:var(--ink);min-height:100vh;padding:0 0 28px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle at 15% -10%,rgba(255,255,255,.16) 0%,transparent 50%),
+      radial-gradient(circle at 100% 0%,rgba(255,255,255,.10) 0%,transparent 45%),
+      linear-gradient(160deg,var(--blue-top),var(--blue-bot) 55%,var(--blue-deep));}
+  button,input{font-family:inherit;}
+  .backrow{max-width:560px;margin:0 auto;padding:12px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .backlink{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:#fff;font-size:12.5px;font-weight:700;height:34px;
+    padding:0 13px 0 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);}
+  .backlink .chev{font-size:17px;line-height:1;margin-top:-2px;}
+  .head{text-align:center;color:#fff;padding:12px 16px 16px;}
+  .head .globe{font-size:38px;}
+  .head h1{margin:2px 0 2px;font-size:25px;font-weight:800;}
+  .head p{margin:0;font-size:12.5px;color:rgba(255,255,255,.8);font-weight:600;}
+  .cardwrap{max-width:560px;margin:0 auto;padding:0 12px;}
+  .card{background:var(--card);border-radius:24px;box-shadow:var(--shadow-lg);padding:12px;}
+  .tabs{display:flex;gap:5px;background:var(--row);border-radius:14px;padding:4px;margin-bottom:12px;}
+  .tabs button{flex:1;border:none;background:transparent;border-radius:10px;padding:10px 4px;font:700 13px/1 var(--font);color:var(--ink-soft);cursor:pointer;position:relative;}
+  .tabs button.active{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .tabs .dot{position:absolute;top:4px;right:8px;min-width:17px;height:17px;border-radius:9px;background:#ff6161;color:#fff;font-size:10.5px;line-height:17px;padding:0 4px;}
+  .rsport{display:flex;gap:4px;background:var(--row);border-radius:12px;padding:4px;margin-bottom:8px;}
+  .rsport button{flex:1;border:none;background:transparent;border-radius:9px;padding:8px 4px;cursor:pointer;font:700 12.5px/1 var(--font);color:var(--ink-soft);}
+  .rsport button.on{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .sec{font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:16px 2px 7px;}
+  .sec:first-child{margin-top:4px;}
+  .big{display:flex;align-items:center;gap:12px;width:100%;border:none;border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer;
+    background:var(--row);color:var(--ink);font:700 14.5px/1.25 var(--font);text-align:left;text-decoration:none;}
+  .big .i{font-size:22px;flex:0 0 auto;width:28px;text-align:center;}
+  .big small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;}
+  .big.pri{background:linear-gradient(135deg,#2cc0ab,#0b6e62);color:#fff;}
+  .big.pri small{color:rgba(255,255,255,.85);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .chips a{border-radius:999px;padding:8px 13px;background:var(--row);color:var(--ink);font-weight:700;font-size:13px;text-decoration:none;}
+  .code{display:flex;gap:8px;}
+  .code input{flex:1;min-width:0;border:2px solid #dfe4f2;border-radius:12px;padding:11px 12px;font:800 17px var(--font);letter-spacing:3px;text-transform:uppercase;background:var(--card);color:var(--ink);}
+  .code button{border:none;border-radius:12px;padding:0 16px;font-weight:800;background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;cursor:pointer;}
+  .item{display:flex;align-items:center;gap:10px;background:var(--row);color:var(--ink);text-decoration:none;border-radius:14px;padding:10px 12px;margin-bottom:6px;}
+  .item .e{font-size:20px;flex:0 0 auto;}
+  .item .t{flex:1;min-width:0;}
+  .item .t b{display:block;font-size:13.5px;}
+  .item .t small{display:block;font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .item .s{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--card);color:var(--ink-soft);white-space:nowrap;}
+  .st-toplay .s{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .st-won .s{background:rgba(32,201,117,.16);color:var(--green);}
+  .st-lost .s{background:rgba(255,97,97,.14);color:var(--red);}
+  .empty{font-size:12.5px;color:var(--muted);font-weight:600;text-align:center;padding:12px 6px;background:var(--row);border-radius:12px;}
+  .games3{display:flex;gap:6px;}
+  .games3 a{flex:1;text-align:center;text-decoration:none;background:var(--row);color:var(--ink);border-radius:12px;padding:9px 4px;font-size:11.5px;font-weight:800;}
+  .games3 a span{display:block;font-size:20px;}
+  .note{font-size:12px;color:var(--ink-soft);font-weight:500;line-height:1.45;margin:0 2px 8px;}
+
+  /* resultados */
+  .sum{display:flex;gap:8px;}
+  .tile{flex:1;background:var(--row);border-radius:14px;padding:10px;text-align:center;}
+  .tile .h{font-size:11.5px;font-weight:800;color:var(--ink-soft);}
+  .tile .v{font-size:20px;font-weight:900;margin:3px 0 1px;}
+  .tile .v .w{color:var(--green);} .tile .v .l{color:var(--red);} .tile .v .d{color:var(--muted);}
+  .tile small{font-size:9.5px;color:var(--muted);font-weight:700;white-space:nowrap;letter-spacing:-.2px;}
+  .rv{background:var(--row);border-radius:14px;margin-bottom:8px;overflow:hidden;}
+  .rv-h{display:flex;align-items:center;gap:10px;width:100%;border:none;background:transparent;padding:11px 12px;cursor:pointer;color:var(--ink);text-align:left;}
+  .rv-h .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:0 0 auto;}
+  .rv-h .t{flex:1;min-width:0;}
+  .rv-h .t b{display:block;font-size:14px;}
+  .rv-h .t small{display:block;font-size:11px;color:var(--muted);font-weight:600;}
+  .rv-h .sc{font-size:18px;font-weight:900;white-space:nowrap;}
+  .rv-h .sc .w{color:var(--green);} .rv-h .sc .l{color:var(--red);}
+  .bar{display:flex;height:6px;border-radius:3px;overflow:hidden;margin:0 12px 10px;background:var(--card);}
+  .bar i{display:block;height:100%;}
+  .bar .w{background:#20c975;} .bar .d{background:#b8c0d6;} .bar .l{background:#ff6161;}
+  .rv-list{display:none;padding:0 12px 10px;}
+  .rv.open .rv-list{display:block;}
+  .m{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border-radius:10px;padding:8px 10px;margin-top:5px;font-size:12.5px;font-weight:700;}
+  .m small{display:block;color:var(--muted);font-weight:600;font-size:10.5px;}
+  .m .r{font-weight:900;white-space:nowrap;}
+  .m .r.w{color:var(--green);} .m .r.l{color:var(--red);} .m .r.d{color:var(--muted);}
+
+  /* amigos */
+  .add{display:flex;gap:8px;margin-bottom:10px;}
+  .add input{flex:1;min-width:0;border:2px solid #dfe4f2;border-radius:12px;padding:11px 12px;font:600 14px var(--font);background:var(--card);color:var(--ink);}
+  .add button{border:none;border-radius:12px;padding:0 14px;font-weight:800;background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;cursor:pointer;}
+  .fr{display:flex;align-items:center;gap:10px;background:var(--row);border-radius:14px;padding:9px 10px 9px 12px;margin-bottom:6px;}
+  .fr .t{flex:1;min-width:0;}
+  .fr .t b{display:block;font-size:14px;}
+  .fr .t small{font-size:11px;color:var(--muted);font-weight:600;}
+  .fr a,.fr button{border:none;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;}
+  .fr a{background:linear-gradient(135deg,#2cc0ab,#0b6e62);color:#fff;}
+  .fr button{background:var(--card);color:var(--red);}
+  .login{text-align:center;padding:14px 6px;}
+  .login p{font-size:13.5px;color:var(--ink-soft);font-weight:600;line-height:1.5;margin:0 0 14px;}
+  .loading{text-align:center;color:var(--muted);font-weight:600;font-size:13px;padding:22px;}
+  :root[data-theme="dark"] .code input,:root[data-theme="dark"] .add input{border-color:#3a4570;}
+</style>
+</head>
+<body>
+  <div class="backrow"><a class="backlink" id="backLink" href="index.html" title="Volver al menú" aria-label="Volver al menú"><span class="chev">‹</span> Menú</a></div>
+  <div class="head">
+    <div class="globe" aria-hidden="true">🌐</div>
+    <h1>Online</h1>
+    <p>Juega contra otras personas y compara resultados</p>
+  </div>
+  <div class="cardwrap">
+    <div class="card">
+      <div class="tabs" role="tablist">
+        <button data-t="jugar" role="tab">⚡ Jugar<span class="dot" id="pendDot" hidden></span></button>
+        <button data-t="resultados" role="tab">📊 Resultados</button>
+        <button data-t="amigos" role="tab">👥 Amigos</button>
+      </div>
+      <div id="view"><div class="loading">Cargando…</div></div>
+    </div>
+  </div>
+
+<script>
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n || 0).toLocaleString('es-ES');
+const RAYA = { nba:'nbaraya.html' };
+let rsport = window.__SOLO_NBA ? 'nba' : 'futbol';
+rsport = window.__SOLO_NBA ? 'nba' : (() => { try{ return localStorage.getItem('fc_sport') === 'nba' ? 'nba' : 'futbol'; }catch(e){ return 'futbol'; } })();
+const DUEL_GAMES = { 
+  nbastats:{ em:'📊', name:'StatsHunter', file:'statshunter.html' }, nbatrophy:{ em:'🏆', name:'TrophyHunter', file:'trophyhunter.html' }, nbamulti:{ em:'🎰', name:'MultiHunter NBA', file:'nbamulti.html' }, };
+const STATUS = { toplay:'¡Te toca!', waiting:'Esperando', won:'Ganaste 🏆', lost:'Perdiste', tie:'Empate' };
+let tab = new URLSearchParams(location.search).get('tab') || 'jugar';
+if(!['jugar','resultados','amigos'].includes(tab)) tab = 'jugar';
+let data = null, loadingP = null, lastUid;
+const $ = id => document.getElementById(id);
+const dateLabel = t => { if(!t) return ''; const d = new Date(t); return `${d.getDate()}/${d.getMonth()+1}/${String(d.getFullYear()).slice(2)}`; };
+
+/* ---------- datos: salas de TresEnRaya online + duelos ---------- */
+async function loadData(){
+  const uid = HG.uid(), db = await HG.getDb();
+  const out = { invites:[], ttt:[], duels:[] };
+  if(!db) return out;
+  const now = Date.now();
+  try{
+    const [inv, h, g] = await Promise.all([
+      db.collection('ttt').where('to', '==', uid).where('status', '==', 'waiting').limit(10).get(),
+      db.collection('ttt').where('host', '==', uid).limit(60).get(),
+      db.collection('ttt').where('guest', '==', uid).limit(60).get() ]);
+    inv.forEach(d => { const x = d.data(); if(now - (x.ping || 0) < 60000) out.invites.push({ id:d.id, name:x.hostName, sport:x.sport || 'futbol' }); });
+    const seen = new Set();
+    [h, g].forEach(snap => snap.forEach(d => {
+      const x = d.data(); if(seen.has(d.id) || !x.guest) return; seen.add(d.id);
+      const mine = x.host === uid ? 'X' : 'O', other = mine === 'X' ? 'O' : 'X';
+      const played = x.status === 'over' ? x.round : (x.round || 1) - 1;
+      if(played <= 0) return;
+      const my = (x.score && x.score[mine]) || 0, their = (x.score && x.score[other]) || 0;
+      out.ttt.push({ id:d.id, rivalUid: mine === 'X' ? x.guest : x.host, rival: mine === 'X' ? x.guestName : x.hostName,
+        my, their, draws: Math.max(0, played - my - their), played, t: x.turnAt || x.createdAt || 0, sport: x.sport || 'futbol' });
+    }));
+    out.invites = out.invites.filter(x => x.sport === 'nba'); out.ttt = out.ttt.filter(x => x.sport === 'nba');   // Basket101: solo salas de la NBA
+  }catch(e){ console.warn('[online] salas', e); }
+  try{ out.duels = (await HG.duel.list(60)) || []; }catch(e){}
+  return out;
+}
+function ensureData(force){
+  if(force || !loadingP) loadingP = loadData().then(d => { data = d; return d; });
+  return loadingP;
+}
+
+/* ---------- comparación por rival ---------- */
+function byRival(){
+  const uid = HG.uid(), map = {};
+  const get = (key, name) => (map[key] = map[key] || { key, name, w:0, l:0, d:0, tttW:0, tttL:0, tttD:0, dW:0, dL:0, dD:0, list:[] });
+  data.ttt.forEach(m => {
+    const r = get(m.rivalUid, m.rival);
+    r.w += m.my; r.l += m.their; r.d += m.draws; r.tttW += m.my; r.tttL += m.their; r.tttD += m.draws;
+    r.list.push({ t:m.t, kind:'ttt', txt:`⭕ TresEnRaya${m.sport === 'nba' ? ' NBA' : ''} · ${m.played} ${m.played === 1 ? 'partida' : 'partidas'}${m.draws ? ` (${m.draws} empate${m.draws > 1 ? 's' : ''})` : ''}`, res: m.my > m.their ? 'w' : m.my < m.their ? 'l' : 'd', score:`${m.my} – ${m.their}` });
+  });
+  data.duels.forEach(x => {
+    const me = x.res.find(r => r.uid === uid);
+    if(!me) return;
+    x.res.filter(r => r.uid !== uid).forEach(o => {
+      const r = get(o.uid, o.name), g = DUEL_GAMES[x.game] || { em:'⚔️', name:x.game };
+      const res = me.score > o.score ? 'w' : me.score < o.score ? 'l' : 'd';
+      if(res === 'w'){ r.w++; r.dW++; } else if(res === 'l'){ r.l++; r.dL++; } else { r.d++; r.dD++; }
+      r.list.push({ t:x.t, kind:'duel', txt:`⚔️ Duelo · ${g.em} ${g.name}`, res, score:`${fmt(me.score)} – ${fmt(o.score)}` });
+    });
+  });
+  return Object.values(map).map(r => (r.list.sort((a,b) => b.t - a.t), r)).sort((a,b) => (b.w+b.l+b.d) - (a.w+a.l+a.d));
+}
+
+/* ---------- vistas ---------- */
+function loginView(){
+  $('view').innerHTML = `<div class="login"><p>Entra con Google para jugar en directo, retar a tus amigos y comparar tus resultados con ellos.</p>
+    <button class="hg-gbtn" type="button" id="loginBtn">${HG.googleLogo} Entrar con Google</button></div>`;
+  $('loginBtn').onclick = () => HG.signIn();
+}
+function pendingList(){
+  const inv = data.invites.map(x => `<a class="item st-toplay" href="${RAYA.nba}?sala=${x.id}"><span class="e">${x.sport === 'nba' ? '🏀' : '⭕'}</span><span class="t"><b>${esc(x.name)} te reta</b><small>TresEnRaya${x.sport === 'nba' ? ' NBA' : ''} en directo · te está esperando</small></span><span class="s">¡Únete!</span></a>`);
+  const du = data.duels.filter(x => x.status === 'toplay').map(x => { const g = DUEL_GAMES[x.game];
+    return `<a class="item st-toplay" href="${x.link}"><span class="e">${g.em}</span><span class="t"><b>Duelo de ${esc(x.rival)}</b><small>${g.name} · mismos jugadores que tu rival</small></span><span class="s">¡Te toca!</span></a>`; });
+  return inv.concat(du);
+}
+function jugarView(){
+  const friends = HG.friends.list();
+  const pend = pendingList();
+  const recent = data.duels.filter(x => x.status !== 'toplay').slice(0, 6).map(x => { const g = DUEL_GAMES[x.game];
+    const sc = x.res.map(r => `${r.uid === HG.uid() ? 'Tú' : esc(r.name)} ${fmt(r.score)}`).join(' · ');
+    return `<a class="item st-${x.status}" href="${x.link}"><span class="e">${g.em}</span><span class="t"><b>vs ${esc(x.rival)}</b><small>${g.name} · ${sc}</small></span><span class="s">${STATUS[x.status]}</span></a>`; });
+  $('view').innerHTML = `
+    ${pend.length ? `<div class="sec">📬 Pendientes</div>${pend.join('')}` : ''}
+    <div class="sec">⭕ TresEnRaya en directo</div>
+    
+    <a class="big pri" href="${RAYA[rsport]}?online=quick"><span class="i">⚡</span><span>Buscar rival<small>Te emparejamos con quien esté buscando partida</small></span></a>
+    <a class="big" href="${RAYA[rsport]}?online=link"><span class="i">🔗</span><span>Crear partida y enviar enlace<small>Para jugar con quien tú quieras</small></span></a>
+    ${friends.length ? `<p class="note">Retar a un amigo:</p><div class="chips" style="margin-bottom:8px;">${friends.map(f => `<a href="${RAYA[rsport]}?online=friend&to=${encodeURIComponent(f.uid)}&toName=${encodeURIComponent(f.alias)}">👤 ${esc(f.alias)}</a>`).join('')}</div>` : ''}
+    <div class="code"><input id="code" maxlength="5" placeholder="Código" aria-label="Código de partida" autocomplete="off" autocapitalize="characters" spellcheck="false"><button id="join">Unirme</button></div>
+    <div class="sec">⚔️ Duelos</div>
+    <p class="note">Juega una partida y, al terminar, pulsa «⚔️ Retar a un amigo»: tu rival jugará con los mismos jugadores y en el mismo orden.</p>
+    
+    <div class="games3" style="margin-top:6px;"><a href="statshunter.html"><span>📊</span>StatsHunter</a><a href="trophyhunter.html"><span>🏀</span>TrophyHunter</a><a href="nbamulti.html"><span>🎰</span>Multi NBA</a></div>
+    ${recent.length ? `<div class="sec">Últimos duelos</div>${recent.join('')}` : ''}`;
+  const go = () => { const c = $('code').value.toUpperCase().replace(/[^A-Z0-9]/g, ''); if(c.length !== 5){ HG.toast('El código tiene 5 letras o números.'); return; } location.href = RAYA[rsport] + '?sala=' + c; };
+  $('join').onclick = go; $('code').onkeydown = e => { if(e.key === 'Enter') go(); };
+  document.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { rsport = b.dataset.rs; try{ localStorage.setItem('fc_sport', rsport); }catch(e){} jugarView(); });
+}
+function rivalCard(r){
+  const tot = r.w + r.l + r.d || 1;
+  const initials = String(r.name || '?').trim().split(/\s+/).map(x => x[0]).slice(0,2).join('').toUpperCase();
+  const parts = [];
+  if(r.tttW + r.tttL + r.tttD) parts.push(`⭕ ${r.tttW}-${r.tttL}${r.tttD ? ` (${r.tttD}E)` : ''}`);
+  if(r.dW + r.dL + r.dD) parts.push(`⚔️ ${r.dW}-${r.dL}${r.dD ? ` (${r.dD}E)` : ''}`);
+  return `<div class="rv">
+    <button class="rv-h" aria-expanded="false"><span class="av">${esc(initials)}</span>
+      <span class="t"><b>${esc(r.name)}</b><small>${parts.join(' · ')}${r.d ? ` · ${r.d} empate${r.d > 1 ? 's' : ''}` : ''}</small></span>
+      <span class="sc"><span class="w">${r.w}</span> – <span class="l">${r.l}</span></span></button>
+    <div class="bar" aria-hidden="true"><i class="w" style="width:${r.w/tot*100}%"></i><i class="d" style="width:${r.d/tot*100}%"></i><i class="l" style="width:${r.l/tot*100}%"></i></div>
+    <div class="rv-list">${r.list.map(m => `<div class="m"><span>${m.txt}<small>${dateLabel(m.t)}</small></span><span class="r ${m.res}">${m.res === 'w' ? '✅' : m.res === 'l' ? '❌' : '🤝'} ${m.score}</span></div>`).join('')}</div>
+  </div>`;
+}
+function resultadosView(){
+  const T = data.ttt.reduce((a, m) => (a.w += m.my, a.l += m.their, a.d += m.draws, a), { w:0, l:0, d:0 });
+  const uid = HG.uid();
+  const D = data.duels.reduce((a, x) => { if(x.status === 'won') a.w++; else if(x.status === 'lost') a.l++; else if(x.status === 'tie') a.d++; return a; }, { w:0, l:0, d:0 });
+  const rivals = byRival();
+  $('view').innerHTML = `
+    <div class="sum">
+      <div class="tile"><div class="h">⭕ TresEnRaya en directo</div><div class="v"><span class="w">${T.w}</span> · <span class="d">${T.d}</span> · <span class="l">${T.l}</span></div><small>Ganadas · Empates · Perdidas</small></div>
+      <div class="tile"><div class="h">⚔️ Duelos</div><div class="v"><span class="w">${D.w}</span> · <span class="d">${D.d}</span> · <span class="l">${D.l}</span></div><small>Ganados · Empates · Perdidos</small></div>
+    </div>
+    <div class="sec">Cara a cara</div>
+    ${rivals.length ? rivals.map(rivalCard).join('') : `<div class="empty">Todavía no has jugado contra nadie. ¡Busca rival o reta a un amigo!</div>`}
+    <p class="note" style="margin-top:10px;">Toca un rival para ver todas vuestras partidas. Los empates no suman a nadie.</p>`;
+  document.querySelectorAll('.rv-h').forEach(b => b.onclick = () => { const c = b.parentElement; c.classList.toggle('open'); b.setAttribute('aria-expanded', c.classList.contains('open')); });
+}
+function amigosView(){
+  const list = HG.friends.list();
+  const rv = {}; byRival().forEach(r => rv[r.key] = r);
+  $('view').innerHTML = `
+    <div class="add"><input id="fname" maxlength="20" placeholder="Nombre de ranking exacto" aria-label="Nombre de tu amigo"><button id="fadd">Añadir</button></div>
+    ${list.length ? list.map(f => { const r = rv[f.uid];
+      return `<div class="fr"><span class="t"><b>${esc(f.alias)}</b><small>${r ? `Tú ${r.w} – ${r.l} ${esc(f.alias)}${r.d ? ` · ${r.d} empates` : ''}` : 'Todavía no habéis jugado'}</small></span>
+        <a href="${RAYA[rsport]}?online=friend&to=${encodeURIComponent(f.uid)}&toName=${encodeURIComponent(f.alias)}">${rsport === 'nba' ? '🏀' : '⭕'} Retar</a>
+        <button data-rm="${esc(f.uid)}" aria-label="Quitar a ${esc(f.alias)}">✕</button></div>`; }).join('')
+      : `<div class="empty">Añade a tus amigos con su nombre de ranking para retarles y ver vuestros resultados.</div>`}
+    <p class="note" style="margin-top:10px;">Solo puedes añadir a alguien que ya haya jugado con sesión iniciada. Tu nombre de ranking lo cambias en tu cuenta (arriba a la derecha).</p>`;
+  const add = async () => { const v = $('fname').value.trim(); if(!v) return; await HG.friends.add(v); render(); };
+  $('fadd').onclick = add; $('fname').onkeydown = e => { if(e.key === 'Enter') add(); };
+  document.querySelectorAll('[data-rm]').forEach(b => b.onclick = async () => { await HG.friends.remove(b.dataset.rm); render(); });
+}
+
+async function render(){
+  document.querySelectorAll('.tabs button').forEach(b => { b.classList.toggle('active', b.dataset.t === tab); b.setAttribute('aria-selected', b.dataset.t === tab); });
+  history.replaceState(null, '', '?tab=' + tab);
+  const st = HG.state();
+  if(!st.configured){ $('view').innerHTML = `<div class="empty">El modo online estará disponible cuando la app esté conectada al servidor.</div>`; return; }
+  if(!st.ready){ $('view').innerHTML = `<div class="loading">Cargando…</div>`; return; }
+  if(!st.user){ loginView(); return; }
+  if(!data) $('view').innerHTML = `<div class="loading">Cargando…</div>`;
+  await ensureData();
+  const n = pendingList().length;
+  $('pendDot').hidden = !n; $('pendDot').textContent = n;
+  if(tab === 'jugar') jugarView(); else if(tab === 'resultados') resultadosView(); else amigosView();
+}
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => { tab = b.dataset.t; render(); }));
+document.addEventListener('DOMContentLoaded', () => {
+  if(!window.HG){ $('view').innerHTML = `<div class="empty">No se pudo cargar. Revisa tu conexión.</div>`; return; }
+  HG.onChange(st => {
+    const uid = st.user ? st.user.uid : null;
+    if(uid !== lastUid){ lastUid = uid; data = null; loadingP = null; render(); }
+    else if(!st.ready || !data) render();
+  });
+});
+try{ if(localStorage.getItem('fc_sport') === 'nba') document.getElementById('backLink').href = 'index.html'; }catch(e){}
+</script>
+<script src="hunter-account.js" defer></script>
+</body>
+</html>

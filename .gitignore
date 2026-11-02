@@ -1,0 +1,7 @@
+# Generado al compilar o al descargar datos
+dist/
+nba_cache/
+__pycache__/
+*.pyc
+.firebase/
+*.log

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>window.__SOLO_NBA=true;window.__SIN_ANUNCIOS=true;</script>
+<script>(function(){try{if(localStorage.getItem("fc_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="NBAwordle: adivina el apellido de una leyenda de la NBA en 6 intentos. Verde, amarillo y gris, como el Wordle. Reto del día y ranking mundial.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basket101">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="NBAwordle · Basket101">
+<meta property="og:description" content="NBAwordle: adivina el apellido de una leyenda de la NBA en 6 intentos. Verde, amarillo y gris, como el Wordle. Reto del día y ranking mundial.">
+<meta property="og:url" content="__SITE_URL__/nbawordle.html">
+<meta property="og:image" content="__SITE_URL__/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>NBAwordle</title>
+<meta name="theme-color" content="#5b2c9e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔤</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preload" href="fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/poppins.css">
+<style>
+  :root{
+    --blue-top:#8e5bd6; --blue-bot:#5b2c9e; --blue-deep:#2a1152;
+    --card:#ffffff; --row:#f2edf9; --ink:#23173a; --ink-soft:#5f5277; --muted:#9a8fb0;
+    --gold:#ffd24a; --gold-deep:#e8960a;
+    --t-ok:#1fa35a; --t-in:#e0a800; --t-no:#7c7f8a; --t-empty:#e3dcef; --key:#e6e0f0;
+    --font:'Poppins','Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    --shadow-lg:0 18px 40px rgba(40,10,80,.35); --shadow-sm:0 2px 8px rgba(40,10,80,.12);
+  }
+  :root[data-theme="dark"]{ --card:#1e2440; --ink:#eef1fb; --ink-soft:#b7bfdc; --muted:#9aa3c4; --row:#2a3154; --t-empty:#39406a; --key:#353d66; --t-no:#4a5070; }
+  *{box-sizing:border-box;}
+  html{background:var(--blue-deep);height:100%;}
+  body{margin:0;font-family:var(--font);color:var(--ink);height:100dvh;overflow:hidden;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle at 15% -10%,rgba(255,255,255,.2) 0%,transparent 50%),radial-gradient(circle at 100% 0%,rgba(255,255,255,.1) 0%,transparent 45%),
+      linear-gradient(160deg,var(--blue-top),var(--blue-bot) 55%,var(--blue-deep));}
+  button{font-family:inherit;}
+  .backrow{width:100%;max-width:560px;margin:0 auto;padding:10px 12px 0;display:flex;align-items:center;gap:8px;flex:0 0 auto;}
+  .backlink{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:#fff;font-size:12.5px;font-weight:700;height:34px;padding:0 13px 0 10px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);}
+  .backlink .chev{font-size:17px;line-height:1;margin-top:-2px;}
+  .topbar{padding:8px 12px 10px;flex:0 0 auto;}
+  .topbar-inner{max-width:560px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;}
+  .applogo{justify-self:start;width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;background:linear-gradient(145deg,#b58af0,#5b2c9e);border:2px solid rgba(255,255,255,.55);box-shadow:var(--shadow-sm);}
+  .topcenter{text-align:center;color:#fff;}
+  .t-lbl{font-size:10.5px;letter-spacing:2.5px;font-weight:800;color:rgba(255,255,255,.8);}
+  .t-val{font-size:30px;font-weight:900;line-height:1;color:var(--gold);text-shadow:0 2px 10px rgba(0,0,0,.15);margin:2px 0;}
+  .t-sub{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.88);}
+  .topbtns{justify-self:end;display:flex;gap:6px;}
+  .circlebtn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;cursor:pointer;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;position:relative;}
+  .circlebtn::after{content:"";position:absolute;inset:-5px;}
+
+  .cardwrap{width:100%;max-width:560px;margin:0 auto calc(10px + env(safe-area-inset-bottom));padding:0 10px;flex:1 1 auto;min-height:0;display:flex;}
+  .whitecard{background:var(--card);border-radius:24px;box-shadow:var(--shadow-lg);padding:12px 10px 10px;flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;}
+  .clue{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--ink-soft);min-height:22px;text-align:center;flex:0 0 auto;padding:0 4px;}
+  .clue b{color:var(--ink);}
+  .board{flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:var(--gap);padding:6px 0;}
+  .row{display:flex;gap:var(--gap);}
+  .row.shake{animation:shake .45s;}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  .tile{width:var(--tile);height:var(--tile);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:calc(var(--tile) * .5);text-transform:uppercase;
+    background:transparent;border:2px solid var(--t-empty);color:var(--ink);transition:transform .12s;}
+  .tile.filled{border-color:var(--muted);transform:scale(1.04);}
+  .tile.ok,.tile.in,.tile.no{color:#fff;border-color:transparent;animation:flip .45s ease both;}
+  .tile.ok{background:var(--t-ok);} .tile.in{background:var(--t-in);} .tile.no{background:var(--t-no);}
+  @keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
+  .msg{min-height:30px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12.5px;font-weight:700;color:var(--ink-soft);padding:0 6px;flex:0 0 auto;}
+  .msg.bad{color:#d33;} .msg.good{color:var(--t-ok);}
+  .kb{display:flex;flex-direction:column;gap:6px;flex:0 0 auto;user-select:none;-webkit-user-select:none;}
+  .kr{display:flex;gap:5px;justify-content:center;}
+  .key{flex:1 1 0;max-width:44px;height:clamp(40px, 6.2dvh, 54px);border:none;border-radius:8px;background:var(--key);color:var(--ink);font-weight:800;font-size:14.5px;cursor:pointer;padding:0;touch-action:manipulation;}
+  .key.wide{max-width:66px;flex:1.5 1 0;font-size:11.5px;}
+  .key.ok{background:var(--t-ok);color:#fff;} .key.in{background:var(--t-in);color:#fff;} .key.no{background:var(--t-no);color:#fff;opacity:.75;}
+  .key:active{transform:scale(.95);}
+
+  .overlay{position:fixed;inset:0;background:rgba(30,10,60,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50;}
+  .overlay.show{display:flex;}
+  .modal{background:var(--card);border-radius:22px;color:var(--ink);padding:24px 20px;max-width:420px;width:100%;text-align:center;box-shadow:var(--shadow-lg);max-height:92dvh;overflow-y:auto;}
+  .modal h2{margin:0 0 6px;font-size:21px;}
+  .modal p{color:var(--ink-soft);font-size:14px;line-height:1.5;}
+  .pl{display:flex;align-items:center;gap:12px;background:var(--row);border-radius:16px;padding:12px;margin:12px 0 4px;text-align:left;}
+  .pl .av{width:48px;height:48px;border-radius:14px;background:linear-gradient(150deg,#b58af0,#5b2c9e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;flex:0 0 auto;}
+  .pl b{display:block;font-size:17px;}
+  .pl small{display:block;font-size:12px;color:var(--muted);font-weight:600;}
+  .grid-mini{font-size:18px;line-height:1.15;letter-spacing:1px;margin:10px 0 0;}
+  .modalbtns{display:flex;gap:10px;margin-top:14px;}
+  .btn{border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14.5px;cursor:pointer;flex:1;}
+  .btn-primary{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;box-shadow:0 6px 16px rgba(40,10,80,.3);}
+  .btn-secondary{background:var(--row);color:var(--ink);}
+  .helpbody{text-align:left;font-size:14px;line-height:1.6;color:var(--ink-soft);}
+  .helpbody b{color:var(--ink);}
+  .helpbody ul{padding-left:18px;}
+  .ex{display:flex;gap:4px;margin:6px 0;}
+  .ex span{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;background:var(--t-no);}
+  .ex span.ok{background:var(--t-ok);} .ex span.in{background:var(--t-in);}
+  @media (max-height:640px){ .applogo{width:44px;height:44px;font-size:20px;} .t-val{font-size:24px;} .t-lbl{display:none;} .topbar{padding-bottom:6px;} .kb{gap:5px;} }
+  @media (max-width:370px){ .circlebtn{width:31px;height:31px;} .topbtns{gap:4px;} .applogo{width:44px;height:44px;} .kr{gap:4px;} }
+</style>
+</head>
+<body>
+  <div class="backrow"><a class="backlink" href="index.html" title="Volver al menú" aria-label="Volver al menú"><span class="chev">‹</span> Menú</a></div>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="applogo" aria-hidden="true">🔤</div>
+      <div class="topcenter">
+        <div class="t-lbl">RACHA</div>
+        <div class="t-val" id="streak">0</div>
+        <div class="t-sub" id="subLbl">Apellido de 5 letras</div>
+      </div>
+      <div class="topbtns">
+        <button class="circlebtn" id="resetBtn" title="Nueva partida" aria-label="Nueva partida">↻</button>
+        <button class="circlebtn" id="helpBtn" title="Cómo jugar" aria-label="Cómo jugar">?</button>
+      </div>
+    </div>
+  </div>
+  <button id="modeClassic" hidden></button><button id="modeDaily" hidden></button>
+
+  <div class="cardwrap">
+    <div class="whitecard">
+      <div class="clue" id="clue">Adivina el apellido de una leyenda de la NBA</div>
+      <div class="board" id="board" aria-label="Tablero"></div>
+      <div class="msg" id="msg" aria-live="polite"></div>
+      <div class="kb" id="kb"></div>
+    </div>
+  </div>
+
+<div class="overlay" id="helpOverlay">
+  <div class="modal" style="max-width:480px;">
+    <h2>Cómo jugar</h2>
+    <div class="helpbody">
+      <p>Adivina el <b>apellido de una leyenda de la NBA</b> en <b>6 intentos</b>. Arriba ves cuántas letras tiene.</p>
+      <ul>
+        <li>Cada intento tiene que ser el <b>apellido de un jugador</b> de la base de datos, con las mismas letras.</li>
+        <li>Después de cada intento, las casillas cambian de color:</li>
+      </ul>
+      <div class="ex"><span class="ok">C</span><span>U</span><span>R</span><span>R</span><span>Y</span></div>
+      <p style="margin:2px 0 8px;"><b>Verde</b>: la letra está en el apellido y en ese sitio.</p>
+      <div class="ex"><span>W</span><span class="in">A</span><span>D</span><span>E</span></div>
+      <p style="margin:2px 0 8px;"><b>Amarillo</b>: la letra está, pero en otro sitio.</p>
+      <p style="margin:2px 0 8px;"><b>Gris</b>: la letra no está.</p>
+      <ul>
+        <li>Si fallas 3 veces te damos una <b>pista</b> (posición y década de debut), y otra más si fallas 5.</li>
+        <li>Los acentos y los apóstrofos no cuentan: O’Neal se escribe ONEAL; Jokić, JOKIC.</li>
+        <li><b>📅 Reto del día</b>: el mismo jugador para todo el mundo, una sola partida. Si sales a mitad, cuenta como perdido.</li>
+      </ul>
+    </div>
+    <div class="modalbtns"><button class="btn btn-primary" id="closeHelp">Entendido</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="resultOverlay">
+  <div class="modal">
+    <h2 id="resTitle">¡Acertaste!</h2>
+    <p id="resText" style="margin:0;"></p>
+    <div class="pl"><div class="av" id="resAv"></div><div><b id="resName"></b><small id="resTag"></small></div></div>
+    <div class="grid-mini" id="resGrid"></div>
+    <p id="resBest" style="margin:8px 0 0;font-weight:700;"></p>
+    <div class="modalbtns">
+      <button class="btn btn-secondary" id="shareBtn">📤 Compartir</button>
+      <button class="btn btn-primary" id="againBtn">Jugar otra</button>
+    </div>
+  </div>
+</div>
+
+<script src="datos-nba.js"></script>
+<script>
+/* NBAwordle: adivina el apellido de una leyenda (FC_NBA.pool de datos-nba.js) en 6 intentos. */
+const GAME_ID = 'nbawordle', TRIES = 6, MINL = 4, MAXL = 8;
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => s.normalize('NFD').replace(/[^A-Za-z]/g, '').toUpperCase();
+function surname(name){
+  const t = name.split(/\s+/).filter(x => x && !/^(JR|SR|II|III|IV)\.?$/i.test(x));
+  return norm(t[t.length - 1] || name);
+}
+const initials = n => { const p = n.split(' ').filter(Boolean); return (p.length > 1 ? p[0][0] + p[p.length-1][0] : n.slice(0,2)).toUpperCase(); };
+// jugadores posibles (conocidos, apellido de 4 a 8 letras) y apellidos válidos para escribir (toda la base de datos)
+const POOL = FC_NBA.pool.filter(p => { const l = surname(p.name).length; return l >= MINL && l <= MAXL; });
+const VALID = {};
+FC_NBA.players.forEach(p => { const s = surname(p.name); (VALID[s.length] = VALID[s.length] || new Set()).add(s); });
+const POS = { Guard:'Base / escolta', Forward:'Alero / ala-pívot', Center:'Pívot' };
+const posOf = p => POS[(p.pos || '').split('-')[0]] || '';
+
+function mulberry32(seed){ return function(){ seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function dateSeed(){ const s = 'wordle-' + new Date().toISOString().slice(0,10); let h = 0; for(let i = 0; i < s.length; i++) h = (h*31 + s.charCodeAt(i)) | 0; return h; }
+
+/* ============ ESTADO ============ */
+let mode = 'classic', target = null, word = '', guesses = [], cur = '', over = false, busy = false, started = false;
+const keyState = {};
+
+function pickTarget(){
+  if(mode === 'daily'){ const r = mulberry32(dateSeed()); r(); return POOL[Math.floor(r() * POOL.length)]; }
+  let p; do{ p = POOL[Math.floor(Math.random() * POOL.length)]; }while(target && POOL.length > 1 && p === target);
+  return p;
+}
+function newGame(){
+  if(mode === 'daily' && window.HG && !HG.daily.canStart(GAME_ID)){ mode = 'classic'; HG.daily.explainBlocked(GAME_ID); }
+  target = pickTarget(); word = surname(target.name);
+  guesses = []; cur = ''; over = false; busy = false; started = false;
+  Object.keys(keyState).forEach(k => delete keyState[k]);
+  $('resultOverlay').classList.remove('show');
+  $('subLbl').textContent = (mode === 'daily' ? '📅 Reto del día · ' : '') + `${word.length} letras`;
+  $('clue').innerHTML = 'Adivina el apellido de una leyenda de la NBA';
+  setMsg('');
+  buildBoard(); buildKeyboard(); renderStreak();
+}
+function renderStreak(){
+  const m = window.HG ? HG.state().marks[GAME_ID] : null;
+  $('streak').textContent = (m && m.streak) || 0;
+}
+
+/* ============ TABLERO ============ */
+function sizeBoard(){
+  const b = $('board'), L = word.length || 5;
+  const w = b.clientWidth - 8, h = b.clientHeight - 12;
+  const gap = h < 300 ? 4 : 6, tile = Math.max(22, Math.min(62, Math.floor((w - gap * (L - 1)) / L), Math.floor((h - gap * (TRIES - 1)) / TRIES)));
+  b.style.setProperty('--tile', tile + 'px'); b.style.setProperty('--gap', gap + 'px');
+}
+function buildBoard(){
+  const b = $('board'); b.innerHTML = '';
+  for(let r = 0; r < TRIES; r++){
+    const row = document.createElement('div'); row.className = 'row';
+    for(let c = 0; c < word.length; c++){ const t = document.createElement('div'); t.className = 'tile'; row.appendChild(t); }
+    b.appendChild(row);
+  }
+  sizeBoard();
+}
+function rowEl(r){ return $('board').children[r]; }
+function paintCurrent(){
+  const row = rowEl(guesses.length); if(!row) return;
+  [...row.children].forEach((t, i) => { t.textContent = cur[i] || ''; t.className = 'tile' + (cur[i] ? ' filled' : ''); });
+}
+function evaluate(g){
+  const res = Array(word.length).fill('no'), left = {};
+  for(let i = 0; i < word.length; i++){ if(g[i] === word[i]) res[i] = 'ok'; else left[word[i]] = (left[word[i]] || 0) + 1; }
+  for(let i = 0; i < word.length; i++){ if(res[i] !== 'ok' && left[g[i]]){ res[i] = 'in'; left[g[i]]--; } }
+  return res;
+}
+const RANK = { no:1, in:2, ok:3 };
+function paintRow(r, g, res, animate){
+  const row = rowEl(r);
+  [...row.children].forEach((t, i) => {
+    t.textContent = g[i];
+    const apply = () => { t.className = 'tile ' + res[i]; };
+    if(animate){ t.style.animationDelay = (i * 0.18) + 's'; apply(); } else { t.style.animation = 'none'; apply(); }
+  });
+  g.split('').forEach((ch, i) => { if(!keyState[ch] || RANK[res[i]] > RANK[keyState[ch]]) keyState[ch] = res[i]; });
+}
+
+/* ============ TECLADO ============ */
+const ROWS = ['QWERTYUIOP', 'ASDFGHJKL', '⏎ZXCVBNM⌫'];
+function buildKeyboard(){
+  $('kb').innerHTML = ROWS.map(r => `<div class="kr">${r.split('').map(k => {
+    const wide = k === '⏎' || k === '⌫';
+    const label = k === '⏎' ? 'ENVIAR' : k;
+    return `<button type="button" class="key${wide ? ' wide' : ''}" data-k="${k}" aria-label="${k === '⏎' ? 'Enviar' : k === '⌫' ? 'Borrar' : k}">${label}</button>`;
+  }).join('')}</div>`).join('');
+  paintKeys();
+}
+function paintKeys(){
+  document.querySelectorAll('.key').forEach(b => { const s = keyState[b.dataset.k]; b.className = 'key' + (b.dataset.k === '⏎' || b.dataset.k === '⌫' ? ' wide' : '') + (s ? ' ' + s : ''); });
+}
+function press(k){
+  if(over || busy) return;
+  if(k === '⌫'){ cur = cur.slice(0, -1); paintCurrent(); setMsg(''); return; }
+  if(k === '⏎'){ submit(); return; }
+  if(/^[A-Z]$/.test(k) && cur.length < word.length){ cur += k; paintCurrent(); }
+}
+function setMsg(t, cls){ const m = $('msg'); m.textContent = t; m.className = 'msg' + (cls ? ' ' + cls : ''); }
+function shakeRow(){ const row = rowEl(guesses.length); row.classList.remove('shake'); void row.offsetWidth; row.classList.add('shake'); }
+
+function submit(){
+  if(cur.length < word.length){ setMsg(`Faltan letras: el apellido tiene ${word.length}`, 'bad'); shakeRow(); return; }
+  if(!VALID[word.length].has(cur)){ setMsg('No es el apellido de ningún jugador de la base de datos', 'bad'); shakeRow(); if(window.HG) HG.sfx.play('wrong'); return; }
+  if(!started){
+    started = true;
+    if(window.HG && HG.limit && !HG.limit.begin(GAME_ID)){ started = false; return; }
+    if(mode === 'daily' && window.HG) HG.daily.progress(GAME_ID, 0, false);
+  }
+  const g = cur, res = evaluate(g), r = guesses.length;
+  guesses.push(g); cur = ''; busy = true;
+  paintRow(r, g, res, true);
+  setTimeout(() => {
+    busy = false; paintKeys();
+    if(g === word) return finish(true);
+    if(guesses.length >= TRIES) return finish(false);
+    if(window.HG) HG.sfx.play('correct');
+    setMsg('');
+    showClues();
+  }, 180 * word.length + 350);
+}
+function showClues(){
+  const n = guesses.length, parts = [];
+  if(n >= 3){ const pos = posOf(target), d = Math.floor((target.stats.debut || 0) / 10) * 10, dec = d >= 2000 ? d : String(d % 100).padStart(2, '0');
+    parts.push(`💡 ${pos ? `<b>${pos}</b> · ` : ''}debut en los <b>${dec}</b>`); }
+  if(n >= 5 && target.teams && target.teams.length){ parts.push(`jugó en <b>${esc(target.teams[0])}</b>`); }
+  if(parts.length) $('clue').innerHTML = parts.join(' · ');
+}
+
+/* ============ FINAL ============ */
+function finish(win){
+  over = true;
+  if(window.HG){
+    HG.report(GAME_ID, { win, mode: mode === 'daily' ? 'daily' : 'classic' });
+    HG.sfx.play(win ? 'win' : 'wrong');
+  }
+  renderStreak();
+  setMsg(win ? '¡Acertaste!' : `Era ${target.name}`, win ? 'good' : 'bad');
+  setTimeout(() => {
+    $('resTitle').textContent = win ? (guesses.length === 1 ? '🤯 ¡A la primera!' : '🏆 ¡Acertaste!') : '😬 Otra vez será';
+    $('resText').textContent = win ? `En ${guesses.length} de ${TRIES} intentos` : 'El jugador era:';
+    if(mode === 'daily') $('resText').textContent = (win ? '📅 Reto del día superado ✅ · ' : '📅 Reto del día no superado ❌ · ') + $('resText').textContent;
+    $('resAv').textContent = initials(target.name);
+    $('resName').textContent = target.name;
+    $('resTag').textContent = target.tag || '';
+    $('resGrid').innerHTML = gridText().replace(/\n/g, '<br>');
+    const m = window.HG ? HG.state().marks[GAME_ID] : null;
+    $('resBest').textContent = m ? `Racha: ${m.streak || 0} · mejor racha: ${m.bestStreak || 0}` : '';
+    $('againBtn').textContent = mode === 'daily' ? 'Jugar normal' : 'Jugar otra';
+    $('resultOverlay').classList.add('show');
+  }, win ? 900 : 700);
+}
+function gridText(){
+  return guesses.map(g => evaluate(g).map(x => x === 'ok' ? '🟩' : x === 'in' ? '🟨' : '⬛').join('')).join('\n');
+}
+
+/* ============ EVENTOS ============ */
+$('kb').addEventListener('click', e => { const b = e.target.closest('.key'); if(b) press(b.dataset.k); });
+document.addEventListener('keydown', e => {
+  if(e.ctrlKey || e.metaKey || e.altKey || document.querySelector('.overlay.show, .hg-dlg-ov, .hg-menu-ov.show')) return;
+  if(e.key === 'Enter'){ e.preventDefault(); press('⏎'); }
+  else if(e.key === 'Backspace'){ e.preventDefault(); press('⌫'); }
+  else if(/^[a-zñ]$/i.test(e.key)) press(norm(e.key) || '');
+});
+$('againBtn').addEventListener('click', () => { if(mode === 'daily') mode = 'classic'; newGame(); });
+$('resetBtn').addEventListener('click', async () => {
+  const inProgress = started && !over;
+  if(inProgress && mode === 'daily'){
+    if(window.HG && !(await HG.dialog({ title:'¿Abandonar el reto de hoy?', text:'El reto del día solo se juega una vez: si empiezas otra partida, cuenta como perdido.', ok:'Abandonar', danger:true }))) return;
+    if(window.HG) HG.report(GAME_ID, { win:false, mode:'daily' });
+    mode = 'classic';
+  } else if(inProgress && window.HG && !(await HG.dialog({ title:'¿Nueva partida?', text:'Si empiezas otra, esta cuenta como perdida.', ok:'Empezar otra' }))) return;
+  else if(inProgress && window.HG) HG.report(GAME_ID, { win:false, mode:'classic' });
+  newGame();
+});
+$('modeDaily').addEventListener('click', async () => {
+  if(started && !over && mode !== 'daily' && window.HG) HG.report(GAME_ID, { win:false, mode:'classic' });
+  mode = 'daily'; newGame();
+});
+$('modeClassic').addEventListener('click', () => { mode = 'classic'; newGame(); });
+$('shareBtn').addEventListener('click', () => {
+  if(!window.HG) return;
+  const n = over && guesses[guesses.length - 1] === word ? guesses.length : 'X';
+  HG.share({ emoji:'🔤', game:'NBAwordle' + (mode === 'daily' ? ' 📅' : ''), detail:`${n}/${TRIES}\n${gridText()}` });
+});
+$('helpBtn').addEventListener('click', () => $('helpOverlay').classList.add('show'));
+$('closeHelp').addEventListener('click', () => $('helpOverlay').classList.remove('show'));
+['helpOverlay','resultOverlay'].forEach(id => $(id).addEventListener('click', e => { if(e.target.id === id) $(id).classList.remove('show'); }));
+window.addEventListener('resize', sizeBoard);
+document.addEventListener('DOMContentLoaded', () => { if(window.HG) HG.onChange(renderStreak); });
+try{ if(!localStorage.getItem('fc_help_seen_' + GAME_ID)){ localStorage.setItem('fc_help_seen_' + GAME_ID, '1'); $('helpOverlay').classList.add('show'); } }catch(e){}
+
+newGame();
+</script>
+<script src="hunter-account.js" defer></script>
+</body>
+</html>

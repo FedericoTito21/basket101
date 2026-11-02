@@ -1,0 +1,103 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn(){ return request.auth != null; }
+    function validName(n){ return n is string && n.size() > 0 && n.size() <= 20; }
+    function validScore(s){ return s is int && s >= 0 && s < 1000000; }
+    function isRank(col){ return col.matches('rank_(golhunter|titulohunter|trofeominas|multihunter|tresenraya|tttonline|futorder|nbastats|nbatrophy|nbaorder|nbamulti|nbaraya|nbarayaonline|nbawordle)'); }
+    function isDaily(col){ return col.matches('daily_(golhunter|titulohunter|multihunter|nbastats|nbatrophy|nbamulti)_[0-9]{4}-[0-9]{2}-[0-9]{2}'); }
+
+    // Marcas privadas: cada jugador solo lee y escribe su propio documento.
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+
+    // Rankings. Todo el mundo puede verlos; cada jugador solo escribe su propia fila.
+    //  - rank_<juego>: ranking de siempre; la marca nunca puede bajar.
+    //  - daily_<juego>_<AAAA-MM-DD>: ranking del reto de ese día; se publica UNA sola vez
+    //    y no se puede cambiar (cada día es una colección nueva, así se renueva solo).
+    match /{col}/{uid} {
+      allow read: if isRank(col) || isDaily(col);
+      allow create: if (isRank(col) || isDaily(col))
+        && signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'score', 'updatedAt'])
+        && validName(request.resource.data.name)
+        && validScore(request.resource.data.score);
+      allow update: if isRank(col)
+        && signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'score', 'updatedAt'])
+        && validName(request.resource.data.name)
+        && validScore(request.resource.data.score)
+        && request.resource.data.score >= resource.data.score;
+      allow delete: if (isRank(col) || isDaily(col)) && signedIn() && request.auth.uid == uid;
+    }
+
+    // Directorio público de nombres (solo para poder añadir amigos por su
+    // nombre de ranking). Todo el mundo puede leerlo; cada jugador solo
+    // puede escribir su propia fila.
+    match /players/{uid} {
+      allow read: if true;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['alias', 'alias_lc', 'updatedAt'])
+        && validName(request.resource.data.alias)
+        && request.resource.data.alias_lc == request.resource.data.alias.lower();
+      allow delete: if signedIn() && request.auth.uid == uid;
+    }
+
+    // TresEnRaya online: una sala por partida (ttt/{CÓDIGO}). El anfitrión juega con ✕ y el invitado con ◯.
+    //  - cualquiera con sesión puede ver salas (para unirse por código o emparejarse)
+    //  - solo el anfitrión la crea (sin invitado) y solo él la borra
+    //  - para unirse, la sala debe estar esperando y sin invitado
+    //  - solo los dos jugadores la modifican, y el tablero solo lo cambia quien tiene el turno
+    //    (o cualquiera de los dos cuando la partida ha terminado, para la revancha)
+    match /ttt/{id} {
+      function isHost(){ return resource.data.host == request.auth.uid; }
+      function isGuest(){ return resource.data.guest == request.auth.uid; }
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.host == request.auth.uid
+        && request.resource.data.guest == ''
+        && request.resource.data.status == 'waiting'
+        && validName(request.resource.data.hostName);
+      allow update: if signedIn()
+        && request.resource.data.host == resource.data.host
+        && (
+          (resource.data.status == 'waiting' && resource.data.guest == ''
+            && request.resource.data.guest == request.auth.uid
+            && validName(request.resource.data.guestName))
+          || ((isHost() || isGuest())
+            && request.resource.data.guest == resource.data.guest
+            && (request.resource.data.board == resource.data.board
+                || resource.data.status == 'over'
+                || (isHost() && resource.data.turn == 'X')
+                || (isGuest() && resource.data.turn == 'O')))
+        );
+      allow delete: if signedIn() && resource.data.host == request.auth.uid;
+    }
+
+    // Duelos: misma partida (misma semilla) para dos o más jugadores.
+    // El duelo no se puede modificar; cada jugador publica su resultado UNA vez.
+    match /duels/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['game', 'seed', 'by', 'byName', 'to', 'toName', 'createdAt'])
+        && request.resource.data.by == request.auth.uid
+        && request.resource.data.game in ['golhunter', 'titulohunter', 'multihunter', 'nbastats', 'nbatrophy', 'nbamulti']
+        && request.resource.data.seed is int
+        && validName(request.resource.data.byName)
+        && request.resource.data.to is string
+        && request.resource.data.toName is string && request.resource.data.toName.size() <= 20;
+      allow delete: if signedIn() && resource.data.by == request.auth.uid;
+
+      match /results/{uid} {
+        allow read: if signedIn();
+        allow create: if signedIn() && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['name', 'score', 'at'])
+          && validName(request.resource.data.name)
+          && validScore(request.resource.data.score);
+        allow delete: if signedIn() && request.auth.uid == uid;
+      }
+    }
+  }
+}

@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>window.__SOLO_NBA=true;window.__SIN_ANUNCIOS=true;</script>
+<script>(function(){try{if(localStorage.getItem("fc_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Tres en raya de la NBA: para marcar una casilla nombra a una leyenda que cumpla las dos condiciones de su fila y su columna (premios, estadísticas, altura, debut…).">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basket101">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="TresEnRaya NBA · Basket101">
+<meta property="og:description" content="Tres en raya de la NBA: para marcar una casilla nombra a una leyenda que cumpla las dos condiciones de su fila y su columna (premios, estadísticas, altura, debut…).">
+<meta property="og:url" content="__SITE_URL__/nbaraya.html">
+<meta property="og:image" content="__SITE_URL__/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>TresEnRaya NBA</title>
+<meta name="theme-color" content="#1d428a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭕</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preload" href="fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/poppins.css">
+<style>
+  :root{
+    --blue-top:#4a78d8;
+    --blue-bot:#1d428a;
+    --blue-deep:#10275a;
+    --card:#ffffff;
+    --row:#eef1f8;
+    --row-hover:#e1e7f4;
+    --ink:#1b2440;
+    --ink-soft:#5b6685;
+    --muted:#8791ab;
+    --gold:#ffb020;
+    --gold-deep:#e8960a;
+    --green:#20c975;
+    --red:#ff6161;
+    --x:#3f63e0;
+    --x-soft:#e7edff;
+    --o:#f07b1d;
+    --o-soft:#ffefe0;
+    --font: 'Poppins', 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    --shadow-lg: 0 18px 40px rgba(10,60,55,.35);
+    --shadow-sm: 0 2px 8px rgba(10,60,55,.10);
+    --cell: 96px;
+  }
+  :root[data-theme="dark"]{
+    --card:#1e2440;
+    --ink:#eef1fb;
+    --ink-soft:#b7bfdc;
+    --muted:#9aa3c4;
+    --row:#2a3154;
+    --row-hover:#313a63;
+    --x-soft:#27336a;
+    --o-soft:#4a3016;
+  }
+  *{box-sizing:border-box;}
+  html{background:var(--blue-deep);height:100%;}
+  body{
+    margin:0;font-family:var(--font);color:var(--ink);
+    height:100dvh;overflow:hidden;display:flex;flex-direction:column;
+    -webkit-tap-highlight-color:transparent;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,255,255,.18) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,.10) 0%, transparent 45%),
+      linear-gradient(160deg, var(--blue-top), var(--blue-bot) 55%, var(--blue-deep));
+  }
+  button{font-family:inherit;}
+
+  /* fila superior */
+  .backrow{width:100%;max-width:560px;margin:0 auto;padding:10px 12px 0;display:flex;align-items:center;gap:8px;flex:0 0 auto;}
+  .backlink{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:#fff;font-size:12.5px;font-weight:700;
+    height:34px;padding:0 13px 0 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);}
+  .backlink .chev{font-size:17px;line-height:1;margin-top:-2px;}
+
+  /* cabecera */
+  .topbar{padding:8px 12px 12px;flex:0 0 auto;}
+  .topbar-inner{max-width:560px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;}
+  .applogo{justify-self:start;width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;
+    background:linear-gradient(145deg,#f08a3c,#8f2f12);border:2px solid rgba(255,255,255,.55);box-shadow:var(--shadow-sm);}
+  .topcenter{text-align:center;min-width:0;}
+  .gtitle{font-size:10.5px;letter-spacing:2.5px;font-weight:800;color:rgba(255,255,255,.78);}
+  .turn{margin-top:4px;font-size:15px;font-weight:800;color:#fff;line-height:1.25;min-height:19px;}
+  .scorebar{width:100%;max-width:560px;margin:0 auto 10px;padding:0 12px;display:flex;align-items:center;gap:8px;flex:0 0 auto;color:#fff;}
+  .pl{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:14px;background:rgba(255,255,255,.14);border:2px solid transparent;transition:.2s;}
+  .pl b{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;background:var(--x);color:#fff;flex:0 0 auto;}
+  .pl.o b{background:var(--o);}
+  .pl .nm{flex:1;min-width:0;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pl em{font-style:normal;font-weight:900;font-size:18px;color:var(--gold);}
+  .pl.active{background:rgba(255,255,255,.3);border-color:#fff;}
+  .vs{font-size:10px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.7);}
+  .topbtns{justify-self:end;display:flex;gap:6px;}
+  .circlebtn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;
+    cursor:pointer;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+  /* tarjeta */
+  .cardwrap{width:100%;max-width:560px;margin:0 auto calc(12px + env(safe-area-inset-bottom));padding:0 12px;flex:0 1 auto;min-height:0;display:flex;flex-direction:column;}
+  .whitecard{background:var(--card);border-radius:24px;box-shadow:var(--shadow-lg);padding:14px 12px 12px;flex:0 1 auto;min-height:0;display:flex;flex-direction:column;}
+  .boardwrap{display:flex;align-items:center;justify-content:center;}
+  .grid{display:grid;grid-template-columns:calc(var(--cell) * .82) repeat(3, var(--cell));grid-template-rows:calc(var(--cell) * .74) repeat(3, var(--cell));gap:6px;}
+  .corner{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted);text-align:center;line-height:1.25;}
+  .hd{border-radius:14px;background:var(--row);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px;gap:2px;min-width:0;overflow:hidden;}
+  .hd .e{font-size:calc(var(--cell) * .24);line-height:1;}
+  .hd .n{font-size:clamp(9px, calc(var(--cell) * .105), 11.5px);font-weight:800;line-height:1.15;color:var(--ink);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
+  .hd.row{flex-direction:column;}
+  .hd .n{word-break:normal;overflow-wrap:anywhere;hyphens:auto;}
+  .hd.row .n{font-size:clamp(8.5px, calc(var(--cell) * .095), 11px);}
+  .cell{border:2px dashed #cfd8ec;border-radius:16px;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:4px;gap:3px;position:relative;transition:transform .12s, background .15s;min-width:0;overflow:hidden;color:var(--ink);}
+  .cell:active{transform:scale(.96);}
+  .cell .plus{font-size:calc(var(--cell) * .28);color:#b9d3ce;font-weight:300;line-height:1;}
+  .cell.X{border:2px solid var(--x);background:var(--x-soft);cursor:default;}
+  .cell.O{border:2px solid var(--o);background:var(--o-soft);cursor:default;}
+  .cell .mk{font-size:calc(var(--cell) * .34);font-weight:900;line-height:1;}
+  .cell.X .mk{color:var(--x);}
+  .cell.O .mk{color:var(--o);}
+  .cell .who{font-size:clamp(9px, calc(var(--cell) * .105), 11.5px);font-weight:800;line-height:1.1;text-align:center;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .cell.win{animation:winPulse 1s ease-in-out infinite alternate;box-shadow:0 0 0 3px var(--gold);}
+  @keyframes winPulse{from{transform:scale(1)}to{transform:scale(1.05)}}
+  .cell.wrong{animation:shake .45s;border-color:var(--red);background:rgba(255,97,97,.12);}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  .cell.pop{animation:pop .45s cubic-bezier(.3,1.7,.4,1);}
+  @keyframes pop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+  .cell.disabled{cursor:default;opacity:.55;}
+  :root[data-theme="dark"] .cell{border-color:#3a4570;}
+  :root[data-theme="dark"] .cell .plus{color:#56628f;}
+
+  .actions{display:flex;gap:8px;margin-top:12px;flex:0 0 auto;}
+  .btn{border:none;border-radius:12px;padding:12px;font-weight:700;font-size:14px;cursor:pointer;flex:1;}
+  .btn-primary{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .btn-secondary{background:var(--row);color:var(--ink);}
+  .btn:disabled{opacity:.45;cursor:default;}
+
+  /* modales */
+  .overlay{position:fixed;inset:0;background:rgba(10,20,45,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50;}
+  .overlay.show{display:flex;}
+  .modal{background:var(--card);border-radius:22px;color:var(--ink);padding:24px 20px;max-width:420px;width:100%;text-align:center;box-shadow:var(--shadow-lg);max-height:92dvh;overflow-y:auto;}
+  .modal h2{margin:0 0 8px;font-size:21px;}
+  .modal p{color:var(--ink-soft);font-size:14px;line-height:1.5;}
+  .modalbtns{display:flex;gap:10px;margin-top:16px;}
+  .helpbody{text-align:left;font-size:14px;line-height:1.6;color:var(--ink-soft);}
+  .helpbody b{color:var(--ink);}
+  .helpbody ul{padding-left:18px;}
+
+  /* hoja de respuesta: arriba para que no la tape el teclado */
+  #answerOverlay{align-items:flex-start;padding-top:max(14px, env(safe-area-inset-top));}
+  .sheet{text-align:left;padding:18px 16px 14px;}
+  .cond{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .cond .c{flex:1;display:flex;align-items:center;gap:8px;background:var(--row);border-radius:12px;padding:8px 10px;font-size:12.5px;font-weight:800;min-width:0;}
+  .cond .c span:first-child{font-size:20px;}
+  .cond .plus{font-weight:900;color:var(--muted);}
+  .ask{font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:0 0 8px;}
+  #answerInput{width:100%;border:2px solid #d5e6e2;border-radius:14px;padding:12px 14px;font:600 16px var(--font);background:var(--card);color:var(--ink);outline:none;}
+  #answerInput:focus{border-color:var(--blue-bot);}
+  .sugg{display:flex;flex-direction:column;gap:5px;margin:10px 0 12px;max-height:38dvh;overflow-y:auto;}
+  .sugg button{border:none;background:var(--row);color:var(--ink);text-align:left;border-radius:12px;padding:11px 12px;font-size:14px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;gap:8px;}
+  .sugg button small{color:var(--muted);font-weight:600;font-size:11.5px;white-space:nowrap;}
+  .sugg button.used{opacity:.45;}
+  .sugg .none{font-size:12.5px;color:var(--muted);font-weight:600;padding:6px 2px;}
+  :root[data-theme="dark"] #answerInput{border-color:#3a4570;}
+
+  /* ajustes */
+  .opt-title{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px;text-align:left;}
+  .seg{display:flex;gap:6px;background:var(--row);border-radius:12px;padding:4px;}
+  .seg button{flex:1;border:none;background:transparent;border-radius:9px;padding:10px 4px;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;}
+  .seg button.active{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .stats{display:flex;gap:8px;margin-top:14px;}
+  .stat{flex:1;background:var(--row);border-radius:12px;padding:10px;text-align:center;}
+  .stat small{display:block;font-size:10.5px;color:var(--muted);font-weight:700;}
+  .stat b{font-size:19px;}
+
+  /* resultado y soluciones */
+  .bigres{font-size:54px;line-height:1;margin:4px 0 8px;}
+  .sol{text-align:left;margin-top:6px;}
+  .sol-row{background:var(--row);border-radius:12px;padding:9px 11px;margin-bottom:6px;}
+  .sol-row .t{font-size:11.5px;font-weight:800;color:var(--ink-soft);}
+  .sol-row .p{font-size:12.5px;font-weight:600;color:var(--ink);margin-top:2px;line-height:1.4;}
+  .sol-row .p b{color:var(--x);}
+  .sol-row .p b.o{color:var(--o);}
+
+  /* online */
+  .online p{margin:0 0 12px;}
+  .on-btn{display:flex;align-items:center;gap:12px;width:100%;border:none;border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer;
+    background:var(--row);color:var(--ink);font:700 14.5px/1.25 var(--font);text-align:left;}
+  .on-btn .i{font-size:22px;flex:0 0 auto;}
+  .on-btn small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;}
+  .on-btn.pri{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .on-btn.pri small{color:rgba(255,255,255,.85);}
+  .on-code{display:flex;gap:8px;margin:4px 0 8px;}
+  .on-code input{flex:1;min-width:0;border:2px solid #d5e6e2;border-radius:12px;padding:11px 12px;font:800 17px var(--font);letter-spacing:3px;text-transform:uppercase;background:var(--card);color:var(--ink);}
+  .on-code button{border:none;border-radius:12px;padding:0 16px;font-weight:800;background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;cursor:pointer;}
+  .on-sec{font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px;text-align:left;}
+  .on-friends{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+  .on-friends button{border:none;border-radius:999px;padding:8px 13px;background:var(--row);color:var(--ink);font-weight:700;font-size:13px;cursor:pointer;}
+  .big-code{font-size:38px;font-weight:900;letter-spacing:8px;color:var(--blue-deep);margin:6px 0 4px;}
+  .spinner{width:34px;height:34px;border-radius:50%;border:4px solid var(--row);border-top-color:var(--blue-bot);margin:6px auto 10px;animation:spin 1s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .on-inv{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--o-soft);border-radius:12px;padding:10px 12px;margin-bottom:6px;font-weight:700;font-size:13.5px;}
+  .on-inv button{border:none;border-radius:10px;padding:8px 12px;background:var(--o);color:#fff;font-weight:800;cursor:pointer;}
+  .turn .secs{display:inline-block;min-width:34px;padding:1px 7px;margin-left:4px;border-radius:999px;background:rgba(255,255,255,.22);font-size:12.5px;}
+  .turn .secs.low{background:#ff6161;}
+  :root[data-theme="dark"] .big-code{color:#7fe8d8;}
+  :root[data-theme="dark"] .on-code input{border-color:#3a4570;}
+
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;
+    background:#17302c;color:#fff;font-weight:700;font-size:13.5px;line-height:1.35;padding:12px 18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);
+    max-width:calc(100% - 32px);text-align:center;z-index:120;transition:opacity .2s, transform .2s;}
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+  .toast.bad{background:#c83b3b;}
+  .toast.good{background:#15935a;}
+
+  @media (max-height:640px){
+    .applogo{width:44px;height:44px;font-size:20px;}
+    .topbar{padding-bottom:8px;}
+    .btn{padding:10px;}
+  }
+  @media (max-width:370px){
+    .circlebtn{width:31px;height:31px;font-size:13px;}
+    .topbtns{gap:4px;}
+    .applogo{width:44px;height:44px;}
+    .pl .nm{max-width:56px;}
+  }
+</style>
+</head>
+<body>
+  <div class="backrow">
+    <a class="backlink" href="index.html" title="Volver al menú NBA" aria-label="Volver al menú"><span class="chev">‹</span> Menú</a>
+  </div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="applogo" aria-hidden="true">🏀</div>
+      <div class="topcenter">
+        <div class="gtitle">TRES EN RAYA NBA</div>
+        <div class="turn" id="turnLabel" aria-live="polite"></div>
+      </div>
+      <div class="topbtns">
+        <button class="circlebtn" id="resetTopBtn" title="Nueva partida" aria-label="Nueva partida">↻</button>
+        <button class="circlebtn" id="helpBtn" title="Cómo jugar" aria-label="Cómo jugar">?</button>
+        <button class="circlebtn" id="settingsBtn" title="Ajustes" aria-label="Ajustes">⚙</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scorebar">
+    <span class="pl" id="plX"><b>✕</b><span class="nm" id="nameX">Tú</span><em id="winsX">0</em></span>
+    <span class="vs">VS</span>
+    <span class="pl o" id="plO"><b>◯</b><span class="nm" id="nameO">Máquina</span><em id="winsO">0</em></span>
+  </div>
+
+  <div class="cardwrap">
+    <div class="whitecard">
+      <div class="boardwrap" id="boardwrap"><div class="grid" id="grid" role="grid" aria-label="Tablero de tres en raya"></div></div>
+      <div class="actions">
+        <button class="btn btn-secondary" id="passBtn">⏭ Pasar turno</button>
+        <button class="btn btn-primary" id="newBtn">Nueva partida</button>
+      </div>
+    </div>
+  </div>
+
+<!-- RESPUESTA -->
+<div class="overlay" id="answerOverlay">
+  <div class="modal sheet" role="dialog" aria-modal="true" aria-labelledby="askTitle">
+    <div class="cond"><div class="c" id="condR"></div><span class="plus">+</span><div class="c" id="condC"></div></div>
+    <p class="ask" id="askTitle">¿Qué jugador cumple las dos condiciones?</p>
+    <input id="answerInput" type="text" placeholder="Escribe un jugador…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
+    <div class="sugg" id="sugg"></div>
+    <button class="btn btn-secondary" id="cancelAnswer" style="width:100%;">Cancelar</button>
+  </div>
+</div>
+
+<!-- ONLINE -->
+<div class="overlay" id="onlineOverlay">
+  <div class="modal online" role="dialog" aria-modal="true" aria-labelledby="onTitle">
+    <h2 id="onTitle">🌐 Jugar online</h2>
+    <div id="onlineBody"></div>
+  </div>
+</div>
+
+<!-- AJUSTES -->
+<div class="overlay" id="settingsOverlay">
+  <div class="modal">
+    <h2>Ajustes</h2>
+    <div class="opt-title">Rival</div>
+    <div class="seg" id="modeSeg">
+      <button data-m="cpu">🤖 La máquina</button>
+      <button data-m="2p">👥 2 jugadores</button>
+      <button data-m="online">🌐 Online</button>
+    </div>
+    <div id="diffBox">
+      <div class="opt-title">Dificultad de la máquina</div>
+      <div class="seg" id="diffSeg">
+        <button data-d="facil">Fácil</button>
+        <button data-d="normal">Normal</button>
+        <button data-d="dificil">Difícil</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><small>Victorias vs máquina</small><b id="stWins">0</b></div>
+      <div class="stat"><small>Partidas</small><b id="stPlayed">0</b></div>
+    </div>
+    <p style="font-size:12px;margin:12px 0 0;">Cambiar de rival o dificultad empieza una partida nueva.</p>
+    <div class="modalbtns"><button class="btn btn-primary" id="closeSettings">Cerrar</button></div>
+  </div>
+</div>
+
+<!-- AYUDA -->
+<div class="overlay" id="helpOverlay">
+  <div class="modal" style="max-width:520px;">
+    <h2>Cómo jugar</h2>
+    <div class="helpbody">
+      <p>Es un <b>tres en raya</b>, pero para marcar una casilla tienes que nombrar a una <b>leyenda de la NBA que cumpla las dos condiciones</b>: la de su fila y la de su columna. Hay condiciones de <b>premios</b> (MVP, anillos, ROY…), del <b>draft</b>, de <b>estadísticas de carrera</b> (25.000+ puntos, 1.000+ triples…), de <b>mejor temporada</b> (promedió 30+ puntos en una temporada…), de <b>equipos</b> en los que jugó (Lakers, Celtics…; cada franquicia con su historia: Sonics = Thunder, Bullets = Wizards, Minneapolis Lakers = Lakers…), de <b>universidad</b>, <b>posición</b> y de <b>datos</b> (altura, peso, década de debut, temporadas).</p>
+      <p>Vale cualquier jugador de la base de datos NBA, aunque no sea muy conocido. Las casillas siempre tienen respuesta con jugadores conocidos, y en las soluciones salen primero.</p>
+      <ul>
+        <li>Toca una casilla libre y escribe el nombre del jugador. Elige de la lista.</li>
+        <li>Si aciertas, la casilla es tuya (❌). Si fallas, pierdes el turno.</li>
+        <li>Cada jugador solo se puede usar <b>una vez</b> por partida.</li>
+        <li>Gana quien haga <b>tres en raya</b>: en fila, en columna o en diagonal.</li>
+        <li>Si no se te ocurre nadie, puedes <b>pasar turno</b>.</li>
+        <li>Si se llena el tablero, o ya no queda ninguna respuesta posible, es empate.</li>
+      </ul>
+      <p>Juega contra <b>la máquina</b> (en fácil, normal o difícil), contra <b>un amigo en el mismo móvil</b> o <b>🌐 online</b> contra otra persona, cada uno desde su móvil (en ⚙ Ajustes).</p>
+      <p><b>Online:</b> busca rival, crea una partida y manda el enlace o el código, o reta a alguien de tu lista de amigos. Hay 60 segundos por turno; si se acaba, pierdes el turno. Si alguien sale de la partida, gana el otro. Las victorias contra la máquina y las online tienen su propio ranking.</p>
+      <p>Todas las casillas tienen al menos dos respuestas posibles. Al acabar puedes ver todas las soluciones.</p>
+    </div>
+    <div class="modalbtns"><button class="btn btn-primary" id="closeHelp">Entendido</button></div>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="overlay" id="resultOverlay">
+  <div class="modal">
+    <div class="bigres" id="resEmoji">🏆</div>
+    <h2 id="resTitle">¡Has ganado!</h2>
+    <p id="resText"></p>
+    <div class="modalbtns">
+      <button class="btn btn-secondary" id="solBtn">🔎 Soluciones</button>
+      <button class="btn btn-primary" id="againBtn">Jugar otra</button>
+    </div>
+    <button class="btn btn-secondary" id="shareBtn" style="margin-top:10px;width:100%;">📤 Compartir resultado</button>
+    <button id="modeClassic" hidden></button><button id="modeDaily" hidden></button>
+  </div>
+</div>
+
+<!-- SOLUCIONES -->
+<div class="overlay" id="solOverlay">
+  <div class="modal">
+    <h2>🔎 Soluciones</h2>
+    <p style="margin:0 0 10px;font-size:12.5px;">Leyendas que cumplen las dos condiciones de cada casilla.</p>
+    <div class="sol" id="solList"></div>
+    <div class="modalbtns"><button class="btn btn-primary" id="closeSol">Cerrar</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="datos-nba.js"></script>
+<script>
+/* Condiciones del TresEnRaya NBA a partir de TODAS las categorías NBA (datos-nba.js):
+   premios (≥1 o un mínimo), estadísticas de carrera, máximos por partido y datos del jugador. */
+(function(){
+  // g = grupo (para que cada tablero mezcle tipos de condición)
+  const COND = [
+    // premios
+    { g:'award', id:'mvp',      em:'🏆', name:'MVP',                 t:s => s.mvp >= 1 },
+    { g:'award', id:'mvp2',     em:'🏆', name:'2+ MVP',              t:s => s.mvp >= 2 },
+    { g:'award', id:'ring',     em:'💍', name:'Campeón NBA',         t:s => s.ring >= 1 },
+    { g:'award', id:'ring3',    em:'💍', name:'3+ anillos',          t:s => s.ring >= 3 },
+    { g:'award', id:'fmvp',     em:'🌟', name:'MVP de las Finales',  t:s => s.fmvp >= 1 },
+    { g:'award', id:'allnba',   em:'🥇', name:'10+ All-NBA',         t:s => s.allnba >= 10 },
+    { g:'award', id:'alldef',   em:'🛡️', name:'All-Defensive',       t:s => s.alldef >= 1 },
+    { g:'award', id:'alldef5',  em:'🛡️', name:'5+ All-Defensive',    t:s => s.alldef >= 5 },
+    { g:'award', id:'allstar',  em:'⭐', name:'10+ All-Star',        t:s => s.allstar >= 10 },
+    { g:'award', id:'noas',     em:'🚷', name:'Nunca fue All-Star',  t:s => s.allstar === 0 },
+    { g:'award', id:'scoring',  em:'🔥', name:'Máximo anotador',     t:s => s.scoring >= 1 },
+    { g:'award', id:'assistc',  em:'🎁', name:'Máximo asistente',    t:s => s.assistc >= 1 },
+    { g:'award', id:'reboundc', em:'💪', name:'Máximo reboteador',   t:s => s.reboundc >= 1 },
+    { g:'award', id:'stealc',   em:'🧤', name:'Líder en robos',      t:s => s.stealc >= 1 },
+    { g:'award', id:'blockc',   em:'🚫', name:'Líder en tapones',    t:s => s.blockc >= 1 },
+    { g:'award', id:'roy',      em:'🐣', name:'Rookie del Año',      t:s => s.roy >= 1 },
+    { g:'award', id:'dpoy',     em:'🧱', name:'Mejor Defensor',      t:s => s.dpoy >= 1 },
+    // draft
+    { g:'draft', id:'draft1',   em:'1️⃣', name:'Nº1 del Draft',       t:s => s.draft1 >= 1 },
+    { g:'draft', id:'top3',     em:'🥉', name:'Top 3 del Draft',      t:s => s.draftpick >= 1 && s.draftpick <= 3 },
+    { g:'draft', id:'pick15',   em:'🎟️', name:'Draft: nº 15 o más', t:s => s.draftpick >= 15 },
+    { g:'draft', id:'undraft',  em:'🙅', name:'No fue drafteado',     t:s => s.draftpick === 0 && s.debut >= 1950 },
+    // estadísticas de carrera
+    { g:'stat', id:'pts',  em:'🏀', name:'25.000+ puntos',     t:s => s.pts >= 25000 },
+    { g:'stat', id:'reb',  em:'🙌', name:'10.000+ rebotes',    t:s => s.reb >= 10000 },
+    { g:'stat', id:'ast',  em:'🤝', name:'6.000+ asistencias', t:s => s.ast >= 6000 },
+    { g:'stat', id:'stl',  em:'🥷', name:'1.500+ robos',       t:s => s.stl >= 1500 },
+    { g:'stat', id:'blk',  em:'✋', name:'1.000+ tapones',     t:s => s.blk >= 1000 },
+    { g:'stat', id:'td',   em:'🔺', name:'20+ triples-dobles', t:s => s.td >= 20 },
+    { g:'stat', id:'tp',   em:'🎯', name:'1.000+ triples',     t:s => s.tp >= 1000 },
+    // mejor temporada (por partido)
+    { g:'season', id:'maxpts', em:'📈', name:'Promedió 30+ puntos',  t:s => s.maxpts >= 30 },
+    { g:'season', id:'maxreb', em:'📈', name:'Promedió 12+ rebotes', t:s => s.maxreb >= 12 },
+    { g:'season', id:'maxast', em:'📈', name:'Promedió 9+ asistencias', t:s => s.maxast >= 9 },
+    { g:'season', id:'maxstl', em:'📈', name:'Promedió 2,2+ robos',  t:s => s.maxstl >= 2.2 },
+    { g:'season', id:'maxblk', em:'📈', name:'Promedió 2+ tapones',  t:s => s.maxblk >= 2 },
+    // carrera y físico
+    { g:'bio', id:'teams6', em:'🧳', name:'6+ equipos',              t:s => s.teams >= 6 },
+    { g:'bio', id:'teams1', em:'❤️', name:'Un solo equipo',          t:s => s.teams === 1 },
+    { g:'bio', id:'years',  em:'📅', name:'19+ temporadas',          t:s => s.years >= 19 },
+    { g:'bio', id:'short12',em:'⏱️', name:'Menos de 12 temporadas',  t:s => s.years > 0 && s.years < 12 },
+    { g:'debut', id:'old',  em:'📼', name:'Debut antes de 1980',     t:s => s.debut > 0 && s.debut < 1980 },
+    { g:'debut', id:'d80',  em:'📻', name:'Debut en los 80',         t:s => s.debut >= 1980 && s.debut < 1990 },
+    { g:'debut', id:'d90',  em:'💿', name:'Debut en los 90',         t:s => s.debut >= 1990 && s.debut < 2000 },
+    { g:'debut', id:'d00',  em:'📱', name:'Debut en los 2000', t:s => s.debut >= 2000 && s.debut < 2010 },
+    { g:'debut', id:'new',  em:'🆕', name:'Debut en 2010 o después', t:s => s.debut >= 2010 },
+    { g:'body', id:'tall',  em:'📏', name:'2,08 m o más',            t:s => s.height >= 208 },
+    { g:'body', id:'short', em:'🤏', name:'1,93 m o menos',          t:s => s.height > 0 && s.height <= 193 },
+    { g:'body', id:'heavy', em:'⚖️', name:'110 kg o más',            t:s => s.weight >= 110 },
+    { g:'body', id:'light', em:'🪶', name:'Menos de 90 kg',          t:s => s.weight > 0 && s.weight < 90 },
+  ];
+  // con los datos de la API (Equipos, Posición, País, Universidad) se añaden más condiciones
+  const P0 = FC_NBA.players, known = P0.filter(p => p.lvl !== 2);
+  const count = f => known.filter(f).length;
+  // franquicias con su historia: los Sonics cuentan como Thunder, los Bullets como Wizards, etc.
+  const TEAM_ES = {};
+  [...new Set(P0.flatMap(p => p.teams || []))].sort().forEach(tm => {
+    if(count(p => (p.teams || []).includes(tm)) >= 9)
+      COND.push({ g:'team', id:'tm_' + tm.replace(/\W/g, ''), em:'👕', name:'Jugó en ' + (TEAM_ES[tm] || tm), p: p => (p.teams || []).includes(tm) });
+  });
+  [['G', 'Base / escolta', '🏃'], ['F', 'Alero / ala-pívot', '🦘'], ['C', 'Pívot', '🗼']].forEach(([k, name, em]) => {
+    const f = p => (p.pos || '').split('-').some(x => x.trim().charAt(0) === k);
+    if(count(f) >= 9) COND.push({ g:'pos', id:'pos' + k, em, name, p: f });
+  });
+  { const f = p => !!p.country && !/^(usa|us|united states)$/i.test(p.country);
+    if(count(f) >= 9) COND.push({ g:'country', id:'intl', em:'🌍', name:'Nacido fuera de EE. UU.', p: f }); }
+  [...new Set(P0.map(p => p.school).filter(Boolean))].sort().forEach(sc => {
+    const f = p => p.school === sc;
+    if(count(f) >= 9) COND.push({ g:'school', id:'sc_' + sc.replace(/\W/g, ''), em:'🎓', name: sc.length > 14 ? sc : 'Univ. ' + sc, p: f });
+  });
+  window.CATEGORIES = COND.map(({ id, em, name, g }) => ({ id, em, name, g }));
+  window.PLAYERS = FC_NBA.players.map(p => { const st = {}; COND.forEach(c => { if(c.p ? c.p(p) : c.t(p.stats)) st[c.id] = 1; }); return { name: p.name, tag: p.tag, lvl: p.lvl, stats: st }; });
+})();
+</script>
+<script>
+/* CATEGORIES y PLAYERS: condiciones NBA calculadas arriba desde datos-nba.js */
+const GAME_ID = 'nbaraya';
+// fútbol y NBA comparten este código y la colección de salas online: cada sala lleva su deporte
+const SPORT = 'nba', ONLINE_ID = 'nbarayaonline';
+const RAYA_PAGE = { futbol:'tresenraya.html', nba:'nbaraya.html' || 'tresenraya.html' };
+const roomSport = d => (d && d.sport) || 'futbol';
+// página del otro deporte (null si no está disponible en esta versión de la app)
+const otherPage = sp => RAYA_PAGE[sp] !== RAYA_PAGE[SPORT] ? RAYA_PAGE[sp] : null;
+const FAIL_VERB = 'no cumple';
+const SHARE_NAME = 'TresEnRaya NBA';
+const MIN_ANSWERS = 2;   // cada casilla tiene al menos 2 respuestas posibles
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const DIFF = {
+  facil:   { name:'Fácil',   hit:.50, smart:.25 },
+  normal:  { name:'Normal',  hit:.72, smart:.65 },
+  dificil: { name:'Difícil', hit:.90, smart:1   },
+};
+
+const has = (p, id) => (p.stats[id] || 0) > 0;
+// títulos con suficientes jugadores para cruzarlos entre sí
+const KNOWN = PLAYERS.filter(p => p.lvl !== 2);   // las casillas se validan con jugadores conocidos; como respuesta vale cualquiera
+const POOL = CATEGORIES.filter(c => KNOWN.filter(p => has(p, c.id)).length >= 9);
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ============ ESTADO ============ */
+let mode = localStorage.getItem('nbaraya_mode') || 'cpu';      // cpu | 2p
+let diff = localStorage.getItem('nbaraya_diff') || 'normal';
+let rows = [], cols = [], answers = [];   // answers[i] = jugadores válidos de la casilla i
+let board = [];                           // null | {mark, player}
+let used = new Set();
+let turn = 'X', starter = 'X';
+let over = false, winLine = null, busy = false;
+let wins = { X:0, O:0 };
+let pendingCell = null;
+let limitCounted = false;   // la partida ya ha gastado una de las partidas del día
+let fx = null;   // animación pendiente para una casilla {i, cls}
+if(mode === 'online') mode = 'cpu';   // el modo online no se recuerda: se entra desde Ajustes o con un enlace
+
+const $ = id => document.getElementById(id);
+const gridEl = $('grid');
+
+// generador de azar: normal, o con semilla del día en el reto diario (mismo tablero y misma máquina para todos)
+let rng = Math.random;
+function mulberry32(seed){ return function(){ seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function dateSeed(){ const s = 'raya-' + new Date().toISOString().slice(0,10); let h = 0; for(let i = 0; i < s.length; i++) h = (h*31 + s.charCodeAt(i)) | 0; return h; }
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(rng()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+// reparto equilibrado: como mucho 3 equipos y 2 condiciones del mismo tipo por tablero
+const CAPS = { team: 3 };
+function pickSix(){
+  const n = {}, out = [];
+  for(const c of shuffle(POOL)){
+    const g = c.g || c.id;
+    if((n[g] || 0) >= (CAPS[g] || 2)) continue;
+    n[g] = (n[g] || 0) + 1; out.push(c);
+    if(out.length === 6) break;
+  }
+  return shuffle(out);
+}
+function validFor(r, c){ return PLAYERS.filter(p => has(p, r.id) && has(p, c.id)); }
+
+function makeGrid(){
+  for(let min = MIN_ANSWERS; min >= 1; min--){
+    for(let t = 0; t < 4000; t++){
+      const s = pickSix();
+      const R = s.slice(0,3), C = s.slice(3);
+      const A = [];
+      let ok = true;
+      for(const r of R){ for(const c of C){ const v = validFor(r, c); if(v.filter(p => p.lvl !== 2).length < min){ ok = false; break; } A.push(v); } if(!ok) break; }
+      if(ok){ rows = R; cols = C; answers = A; return; }
+    }
+  }
+}
+
+/* ============ PARTIDA ============ */
+function newGame(){
+  if(mode === 'daily' && window.HG && !HG.daily.canStart(GAME_ID)){ mode = savedMode(); HG.daily.explainBlocked(GAME_ID); }
+  rng = mode === 'daily' ? mulberry32(dateSeed()) : Math.random;
+  makeGrid();
+  board = Array(9).fill(null);
+  used = new Set();
+  over = false; winLine = null; busy = false; limitCounted = false;
+  if(mode === 'daily'){ turn = 'X'; }   // en el reto del día siempre empiezas tú
+  else { turn = starter; starter = starter === 'X' ? 'O' : 'X'; }   // la próxima empieza el otro
+  ['resultOverlay','solOverlay','answerOverlay'].forEach(id => $(id).classList.remove('show'));
+  render();
+  if(isCpuTurn()) cpuMove();
+}
+
+function isCpuTurn(){ return (mode === 'cpu' || mode === 'daily') && turn === 'O' && !over; }
+function vsCpu(){ return mode === 'cpu' || mode === 'daily'; }
+function cpuDiff(){ return mode === 'daily' ? 'normal' : diff; }
+function savedMode(){ const m = localStorage.getItem('nbaraya_mode'); return m === '2p' ? '2p' : 'cpu'; }
+function isMyOnlineTurn(){ return mode === 'online' && room && room.status === 'playing' && turn === myMark; }
+// ¿se puede tocar el tablero ahora?
+function blocked(){ return over || busy || isCpuTurn() || (mode === 'online' && !isMyOnlineTurn()); }
+function nameOf(m){
+  if(mode === 'online') return m === myMark ? 'Tú' : onlineName(m);
+  return m === 'X' ? (vsCpu() ? 'Tú' : 'Jugador 1') : (vsCpu() ? 'Máquina' : 'Jugador 2');
+}
+
+function render(){
+  $('nameX').textContent = nameOf('X');
+  $('nameO').textContent = nameOf('O');
+  $('winsX').textContent = wins.X; $('winsO').textContent = wins.O;
+  $('plX').classList.toggle('active', !over && turn === 'X');
+  $('plO').classList.toggle('active', !over && turn === 'O');
+  renderTurnLabel();
+  $('passBtn').disabled = blocked();
+  $('newBtn').textContent = mode === 'online' ? '🚪 Salir' : 'Nueva partida';
+
+  let h = `<div class="corner">${mode === 'daily' ? '📅 Reto del día' : mode === 'cpu' ? DIFF[diff].name : mode === 'online' ? '🌐 Online' : '2 jugadores'}</div>`;
+  cols.forEach(c => { h += `<div class="hd" role="columnheader"><span class="e">${c.em}</span><span class="n">${esc(c.name)}</span></div>`; });
+  rows.forEach((r, ri) => {
+    h += `<div class="hd row" role="rowheader"><span class="e">${r.em}</span><span class="n">${esc(r.name)}</span></div>`;
+    cols.forEach((c, ci) => {
+      const i = ri*3 + ci, b = board[i];
+      const win = winLine && winLine.includes(i) ? ' win' : '';
+      if(b) h += `<div class="cell ${b.mark}${win}${fx && fx.i === i ? ' ' + fx.cls : ''}" role="gridcell" aria-label="${esc(r.name)} y ${esc(c.name)}: ${esc(b.player)}"><span class="mk">${b.mark === 'X' ? '✕' : '◯'}</span><span class="who">${esc(b.player)}</span></div>`;
+      else h += `<button class="cell${blocked() ? ' disabled' : ''}${fx && fx.i === i ? ' ' + fx.cls : ''}" data-i="${i}" role="gridcell" aria-label="${esc(r.name)} y ${esc(c.name)}: casilla libre"><span class="plus">+</span></button>`;
+    });
+  });
+  gridEl.innerHTML = h;
+  fx = null;
+  gridEl.querySelectorAll('button.cell').forEach(b => b.addEventListener('click', () => openAnswer(+b.dataset.i)));
+  sizeGrid();
+}
+
+function renderTurnLabel(){
+  const tl = $('turnLabel');
+  if(mode === 'online'){
+    if(!room){ tl.textContent = '🌐 Online'; return; }
+    if(room.status === 'waiting'){ tl.textContent = '⏳ Esperando rival'; return; }
+    if(room.status === 'over'){
+      tl.textContent = room.winner === 'draw' ? '🤝 Empate' : room.winner === myMark ? '🏆 ¡Has ganado!' : `😬 Gana ${onlineName(room.winner)}`;
+      return;
+    }
+    const left = Math.max(0, TURN_SECS - Math.floor((Date.now() - (room.turnAt || Date.now())) / 1000));
+    const secs = `<span class="secs${left <= 10 ? ' low' : ''}">${left}s</span>`;
+    tl.innerHTML = (turn === myMark ? 'Tu turno' : `Turno de ${esc(onlineName(turn))}`) + secs;
+    return;
+  }
+  if(over) tl.textContent = winLine ? (board[winLine[0]].mark === 'X' ? (vsCpu() ? '🏆 ¡Has ganado!' : '🏆 Gana Jugador 1') : (vsCpu() ? '🤖 Gana la máquina' : '🏆 Gana Jugador 2')) : '🤝 Empate';
+  else if(isCpuTurn()) tl.textContent = '🤖 Pensando…';
+  else tl.textContent = vsCpu() ? 'Tu turno' : `Turno: ${turn === 'X' ? 'Jugador 1' : 'Jugador 2'}`;
+}
+
+function sizeGrid(){
+  const w = $('boardwrap');
+  const W = w.clientWidth;
+  // alto disponible: desde la parte de arriba del tablero hasta el final de la pantalla,
+  // menos los botones de abajo y los márgenes de la tarjeta
+  const H = window.innerHeight - w.getBoundingClientRect().top - $('grid').parentElement.nextElementSibling.offsetHeight - 12 - 12 - 14;
+  const gap = 6;
+  // columnas: 0.82 + 3 celdas; filas: 0.74 + 3 celdas
+  const byW = (W - gap*3) / 3.82, byH = (H - gap*3) / 3.74;
+  const cell = Math.max(56, Math.min(byW, byH, 128));
+  document.documentElement.style.setProperty('--cell', Math.floor(cell) + 'px');
+}
+
+/* ============ RESPUESTA ============ */
+function openAnswer(i){
+  if(!limitCounted && (mode === 'cpu' || mode === '2p') && window.HG && HG.limit){ if(!HG.limit.begin(GAME_ID)) return; limitCounted = true; }
+  if(blocked() || board[i]) return;
+  pendingCell = i;
+  const r = rows[Math.floor(i/3)], c = cols[i%3];
+  $('condR').innerHTML = `<span>${r.em}</span><span>${esc(r.name)}</span>`;
+  $('condC').innerHTML = `<span>${c.em}</span><span>${esc(c.name)}</span>`;
+  $('askTitle').textContent = mode !== '2p' ? '¿Qué jugador cumple las dos condiciones?' : `${turn === 'X' ? '❌ Jugador 1' : '⭕ Jugador 2'}: ¿qué jugador cumple las dos?`;
+  $('answerInput').value = '';
+  renderSugg();
+  $('answerOverlay').classList.add('show');
+  setTimeout(() => $('answerInput').focus(), 60);
+}
+function closeAnswer(){ $('answerOverlay').classList.remove('show'); pendingCell = null; $('answerInput').blur(); }
+
+function renderSugg(){
+  const q = norm($('answerInput').value);
+  const box = $('sugg');
+  if(q.length < 2){ box.innerHTML = `<div class="none">Escribe al menos 2 letras del nombre.</div>`; return; }
+  // con cientos de jugadores: primero los conocidos y los que empiezan por lo escrito
+  const list = PLAYERS.filter(p => norm(p.name).split(/\s+/).some(w => w.startsWith(q)) || norm(p.name).includes(q))
+    .sort((a, b) => (a.lvl === 2) - (b.lvl === 2) || (norm(b.name).startsWith(q)) - (norm(a.name).startsWith(q))).slice(0, 8);
+  if(!list.length){ box.innerHTML = `<div class="none">Ese jugador no está en la base de datos de Basket101.</div>`; return; }
+  box.innerHTML = list.map(p => `<button type="button" data-n="${esc(p.name)}" class="${used.has(p.name) ? 'used' : ''}">${esc(p.name)}<small>${used.has(p.name) ? 'ya usado' : esc(p.tag || '')}</small></button>`).join('');
+  box.querySelectorAll('button').forEach(b => b.addEventListener('click', () => answer(b.dataset.n)));
+}
+
+function answer(name){
+  const i = pendingCell; if(i == null) return;
+  if(used.has(name)){ toast(`${name} ya está en el tablero: elige a otro.`, 'bad'); return; }
+  closeAnswer();
+  play(i, name);
+}
+
+function play(i, name){
+  if(mode === 'online') return onlinePlay(i, name);
+  const p = PLAYERS.find(x => x.name === name);
+  const r = rows[Math.floor(i/3)], c = cols[i%3];
+  const ok = p && has(p, r.id) && has(p, c.id);
+  const who = vsCpu() && turn === 'O' ? '🤖 ' : '';
+  // en el reto del día, desde la primera respuesta ya cuenta (si sales, se da por perdido)
+  if(mode === 'daily' && window.HG && !who) HG.daily.progress(GAME_ID, 0, false);
+  if(ok){
+    board[i] = { mark: turn, player: name };
+    used.add(name);
+    sfx('correct');
+    if(who) toast(`${who}La máquina pone a ${name}`, '');
+    else toast(`✅ ¡Correcto! ${name}`, 'good');
+    const line = LINES.find(L => L.every(k => board[k] && board[k].mark === turn));
+    fx = { i, cls:'pop' };
+    if(line){ return endGame(line); }
+    if(board.every(Boolean) || !movesLeft()){ return endGame(null); }
+    nextTurn();
+  } else {
+    sfx('wrong');
+    toast(who ? `🤖 La máquina falla con ${name}` : `❌ ${name} ${FAIL_VERB} ${r.name} y ${c.name}`, 'bad');
+    fx = { i, cls:'wrong' };
+    busy = true; render();
+    setTimeout(() => { busy = false; nextTurn(); }, 650);
+  }
+}
+function movesLeft(){ return board.some((b, i) => !b && answers[i].some(p => !used.has(p.name))); }
+
+function nextTurn(){
+  turn = turn === 'X' ? 'O' : 'X';
+  render();
+  if(isCpuTurn()) cpuMove();
+}
+
+/* ============ MÁQUINA ============ */
+function cpuMove(){
+  busy = true; render();
+  setTimeout(() => {
+    busy = false;
+    if(over) return;
+    const d = DIFF[cpuDiff()];
+    const free = board.map((b, i) => b ? -1 : i).filter(i => i >= 0);
+    let target = null;
+    if(rng() < d.smart){
+      const lineMove = m => { for(const L of LINES){ const marks = L.map(k => board[k] ? board[k].mark : null); if(marks.filter(x => x === m).length === 2 && marks.includes(null)) return L[marks.indexOf(null)]; } return null; };
+      target = lineMove('O') ?? lineMove('X');
+      if(target == null && !board[4]) target = 4;
+      if(target == null){ const corners = [0,2,6,8].filter(k => !board[k]); if(corners.length) target = corners[Math.floor(rng()*corners.length)]; }
+    }
+    if(target == null) target = free[Math.floor(rng()*free.length)];
+    const allOpts = answers[target].filter(p => !used.has(p.name)), known = allOpts.filter(p => p.lvl !== 2);
+    const options = known.length ? known : allOpts;   // la máquina contesta con jugadores conocidos
+    let name;
+    if(options.length && rng() < d.hit) name = options[Math.floor(rng()*options.length)].name;
+    else {
+      // falla con un jugador que "suena" (tiene uno de los dos títulos) pero no ambos
+      const r = rows[Math.floor(target/3)], c = cols[target%3];
+      const near = KNOWN.filter(p => !used.has(p.name) && (has(p, r.id) !== has(p, c.id)));
+      name = (near.length ? near : PLAYERS)[Math.floor(rng()*(near.length || PLAYERS.length))].name;
+    }
+    play(target, name);
+  }, 950 + Math.random()*500);
+}
+
+/* ============ FIN ============ */
+function endGame(line){
+  over = true; winLine = line;
+  const w = line ? board[line[0]].mark : null;
+  if(w) wins[w]++;
+  render();
+  const humanWon = vsCpu() && w === 'X';
+  if(vsCpu()){
+    try{ localStorage.setItem('nbaraya_played', (+localStorage.getItem('nbaraya_played') || 0) + 1); if(humanWon) localStorage.setItem('nbaraya_wins', (+localStorage.getItem('nbaraya_wins') || 0) + 1); }catch(e){}
+    if(window.HG) HG.report(GAME_ID, { win: humanWon, mode: mode === 'daily' ? 'daily' : 'classic' });
+  }
+  sfx(w && (mode === '2p' || humanWon) ? 'win' : w ? 'wrong' : 'correct');
+  setTimeout(() => {
+    $('resEmoji').textContent = !w ? '🤝' : mode === '2p' ? '🏆' : humanWon ? '🏆' : '🤖';
+    $('againBtn').textContent = mode === 'daily' ? 'Jugar normal' : 'Jugar otra';
+    $('resTitle').textContent = !w ? '¡Empate!' : mode === '2p' ? `¡Gana el ${w === 'X' ? 'Jugador 1 ❌' : 'Jugador 2 ⭕'}!` : humanWon ? '¡Has ganado!' : 'Gana la máquina';
+    $('resText').textContent = !w
+      ? (board.every(Boolean) ? 'Tablero completo sin tres en raya.' : 'Ya no quedaba ninguna respuesta posible en las casillas libres.')
+      : mode === 'daily' ? '' : mode === 'cpu' ? `Marcador contra la máquina (${DIFF[diff].name}): ${wins.X} – ${wins.O}` : `Marcador: ${wins.X} – ${wins.O}`;
+    if(mode === 'daily') $('resText').textContent = (humanWon ? '📅 Reto del día superado ✅ ' : '📅 Reto del día no superado ❌ ') + ($('resText').textContent || '');
+    $('resultOverlay').classList.add('show');
+  }, line ? 1100 : 500);
+}
+
+function showSolutions(){
+  let h = '';
+  for(let i = 0; i < 9; i++){
+    const r = rows[Math.floor(i/3)], c = cols[i%3];
+    // primero los conocidos y el que se jugó; si hay muchísimos, solo los 15 primeros
+    const played = board[i] && board[i].player;
+    const list = answers[i].slice().sort((a, b) => (b.name === played) - (a.name === played) || (a.lvl === 2) - (b.lvl === 2));
+    const names = list.slice(0, 15).map(p => {
+      const b = played === p.name;
+      return b ? `<b class="${board[i].mark === 'O' ? 'o' : ''}">${esc(p.name)}</b>` : esc(p.name);
+    });
+    if(list.length > 15) names.push(`y ${list.length - 15} más`);
+    h += `<div class="sol-row"><div class="t">${r.em} ${esc(r.name)} + ${c.em} ${esc(c.name)} · ${answers[i].length}</div><div class="p">${names.join(', ')}</div></div>`;
+  }
+  $('solList').innerHTML = h;
+  $('solOverlay').classList.add('show');
+}
+
+/* ============ UTILIDADES ============ */
+let toastTimer = null;
+function toast(msg, kind){
+  const t = $('toast');
+  t.textContent = msg; t.className = 'toast show' + (kind ? ' ' + kind : '');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2300);
+}
+function sfx(k){ if(window.HG) HG.sfx.play(k); }
+
+function renderSettings(){
+  document.querySelectorAll('#modeSeg button').forEach(b => b.classList.toggle('active', b.dataset.m === mode));
+  document.querySelectorAll('#diffSeg button').forEach(b => b.classList.toggle('active', b.dataset.d === diff));
+  $('diffBox').style.display = mode === 'cpu' ? '' : 'none';
+  $('stWins').textContent = localStorage.getItem('nbaraya_wins') || 0;
+  $('stPlayed').textContent = localStorage.getItem('nbaraya_played') || 0;
+}
+
+async function confirmRestart(){
+  const inProgress = !over && board.some(Boolean);
+  if(mode === 'daily'){
+    if(!over && window.HG && board.some(Boolean)){
+      const ok = await HG.dialog({ title:'¿Abandonar el reto de hoy?', text:'El reto del día solo se juega una vez: si empiezas otra partida, cuenta como perdido.', ok:'Abandonar', danger:true });
+      if(!ok) return false;
+      HG.report(GAME_ID, { win:false, mode:'daily' });
+    }
+    mode = savedMode();
+    return true;
+  }
+  if(!inProgress) return true;
+  if(window.HG) return HG.dialog({ title:'¿Nueva partida?', text:'Se perderá la partida actual.', ok:'Empezar otra' });
+  return true;
+}
+
+
+/* ============ ONLINE (Firestore en tiempo real) ============ */
+// Sala = documento ttt/{CODIGO}. El anfitrión juega con ✕ y el invitado con ◯.
+// Cada jugada se guarda con una transacción; los dos móviles escuchan el documento
+// y pintan el mismo tablero al momento.
+const TURN_SECS = 60;        // tiempo por turno
+const ABANDON_SECS = 150;    // si el rival no aparece en este tiempo, ganas por abandono
+const CAT = {}; CATEGORIES.forEach(c => CAT[c.id] = c);
+let room = null, roomId = null, myMark = null, unsub = null, tick = null, pingTimer = null;
+let lastSeq = null, shownOverRound = null, reportedKey = null, rematchAsked = false, prevMode = 'cpu';
+let db = null, answersRound = null;
+
+function uid(){ return window.HG ? HG.uid() : null; }
+function onlineName(m){ if(!room) return m === 'X' ? 'Anfitrión' : 'Rival'; return m === 'X' ? (room.hostName || 'Anfitrión') : (room.guestName || 'Rival'); }
+function other(m){ return m === 'X' ? 'O' : 'X'; }
+function roomLink(code){ return location.origin + location.pathname + '?sala=' + code; }
+function genCode(){ const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for(let i = 0; i < 5; i++) c += A[Math.floor(Math.random()*A.length)]; return c; }
+function ref(id){ return db.collection('ttt').doc(id || roomId); }
+
+async function ensureDb(){
+  if(!window.HG) { toast('El modo online necesita conexión.', 'bad'); return false; }
+  await HG.ready();
+  if(!(await HG.requireLogin('Para jugar online necesitas entrar con Google: así tu rival sabe quién eres.'))) return false;
+  db = await HG.getDb();
+  if(!db){ toast('Sin conexión con el servidor.', 'bad'); return false; }
+  return true;
+}
+
+/* ---------- menú online ---------- */
+async function openOnline(){
+  $('onlineOverlay').classList.add('show');
+  $('onlineBody').innerHTML = '<div class="spinner"></div>';
+  if(!(await ensureDb())){ $('onlineOverlay').classList.remove('show'); return; }
+  renderOnlineMenu();
+}
+async function renderOnlineMenu(){
+  const friends = window.HG ? HG.friends.list() : [];
+  $('onTitle').textContent = '🌐 Jugar online';
+  $('onlineBody').innerHTML = `
+    <p>Juega en tiempo real contra otra persona: cada uno desde su móvil, con ${TURN_SECS} segundos por turno.</p>
+    <div id="onInv"></div>
+    <button class="on-btn pri" id="onQuick"><span class="i">⚡</span><span>Buscar rival<small>Te emparejamos con quien esté buscando partida</small></span></button>
+    <button class="on-btn" id="onLink"><span class="i">🔗</span><span>Crear partida y enviar enlace<small>Para jugar con quien tú quieras</small></span></button>
+    ${friends.length ? `<div class="on-sec">Retar a un amigo</div><div class="on-friends">${friends.map((f,i) => `<button data-f="${i}">👤 ${esc(f.alias)}</button>`).join('')}</div>` : ''}
+    <div class="on-sec">Unirme con código</div>
+    <div class="on-code"><input id="onCode" maxlength="5" placeholder="K7P2Q" autocomplete="off" autocapitalize="characters" spellcheck="false"><button id="onJoin">Unirme</button></div>
+    <a class="on-btn" href="online.html?tab=resultados" style="justify-content:center;margin-top:10px;text-decoration:none;"><span class="i">📊</span><span>Mis resultados cara a cara</span></a>
+    <button class="btn btn-secondary" id="onClose" style="width:100%;">Cancelar</button>`;
+  $('onQuick').onclick = quickMatch;
+  $('onLink').onclick = () => createRoom({ public:false });
+  $('onJoin').onclick = () => joinByCode($('onCode').value);
+  $('onCode').onkeydown = e => { if(e.key === 'Enter') joinByCode($('onCode').value); };
+  $('onClose').onclick = () => $('onlineOverlay').classList.remove('show');
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { const f = friends[+b.dataset.f]; createRoom({ public:false, to:f.uid, toName:f.alias }); });
+  // invitaciones pendientes
+  try{
+    const snap = await db.collection('ttt').where('to', '==', uid()).where('status', '==', 'waiting').limit(5).get();
+    const inv = []; snap.forEach(d => { const x = d.data(); if(Date.now() - (x.ping || 0) < 60000) inv.push({ id:d.id, ...x }); });
+    // (las invitaciones del otro deporte también salen: al pulsar Jugar te lleva a su página)
+    if(inv.length && $('onInv')) $('onInv').innerHTML = inv.map(x => `<div class="on-inv"><span>⭕ ${esc(x.hostName)} te reta</span><button data-inv="${x.id}">Jugar</button></div>`).join('');
+    document.querySelectorAll('[data-inv]').forEach(b => b.onclick = () => joinByCode(b.dataset.inv));
+  }catch(e){}
+}
+function showWaiting(){
+  const pub = room && room.public;
+  $('onTitle').textContent = pub ? '⚡ Buscando rival' : '⏳ Esperando a tu rival';
+  $('onlineBody').innerHTML = `
+    <div class="spinner"></div>
+    ${pub ? `<p>En cuanto alguien busque partida, empezáis. También puede unirse con este código:</p>`
+          : room.toName ? `<p>Hemos avisado a <b>${esc(room.toName)}</b>: lo verá en la pantalla Online de Basket101 y en «Jugar online». También puedes mandarle el enlace.</p>`
+          : `<p>Manda el enlace a tu rival, o dile que entre en «Jugar online» y escriba este código:</p>`}
+    <div class="big-code">${roomId}</div>
+    <button class="on-btn pri" id="onShare" style="justify-content:center;"><span class="i">📤</span><span>Enviar enlace</span></button>
+    <button class="btn btn-secondary" id="onCancel" style="width:100%;">Cancelar</button>`;
+  $('onShare').onclick = () => {
+    const text = `⭕ ¿Echamos un ${SHARE_NAME} en Basket101? Código ${roomId}\n${roomLink(roomId)}`;
+    if(window.HG) HG.shareText(text); else toast(text);
+  };
+  $('onCancel').onclick = cancelWaiting;
+  $('onlineOverlay').classList.add('show');
+}
+
+/* ---------- crear / unirse ---------- */
+function newGridIds(){ makeGrid(); return { rows: rows.map(r => r.id), cols: cols.map(c => c.id) }; }
+async function createRoom(opts){
+  if(!(await ensureDb())) return;
+  $('onlineBody').innerHTML = '<div class="spinner"></div>';
+  let code = null;
+  for(let t = 0; t < 6 && !code; t++){ const c = genCode(); try{ const s = await ref(c).get(); if(!s.exists) code = c; }catch(e){} }
+  if(!code){ toast('No se pudo crear la partida. ¿Tienes conexión?', 'bad'); renderOnlineMenu(); return; }
+  const g = newGridIds();
+  const now = Date.now();
+  const data = {
+    host: uid(), hostName: HG.alias() || 'Jugador', guest: '', guestName: '',
+    to: opts.to || '', toName: opts.toName || '', public: !!opts.public,
+    sport: SPORT, rows: g.rows, cols: g.cols, board: Array(9).fill(null), used: [],
+    turn: 'X', starter: 'X', status: 'waiting', winner: '', winLine: [], reason: '',
+    score: { X:0, O:0 }, round: 1, rematch: { X:false, O:false },
+    seq: 0, last: { seq: 0, kind: 'create' }, turnAt: now, ping: now, createdAt: now,
+  };
+  try{ await ref(code).set(data); }catch(e){ toast('No se pudo crear la partida. ¿Tienes conexión?', 'bad'); renderOnlineMenu(); return; }
+  enterOnline(code, 'X');
+  room = Object.assign({}, data);
+  showWaiting();
+  clearInterval(pingTimer);
+  pingTimer = setInterval(() => { if(room && room.status === 'waiting') ref().update({ ping: Date.now() }).catch(()=>{}); }, 20000);
+}
+async function tryJoin(code){
+  try{
+    return await db.runTransaction(async t => {
+      const s = await t.get(ref(code));
+      if(!s.exists) return 'none';
+      const d = s.data();
+      if(d.host === uid() || d.guest === uid()) return 'mine';
+      if(d.status !== 'waiting' || d.guest) return 'full';
+      t.update(ref(code), { guest: uid(), guestName: HG.alias() || 'Jugador', status: 'playing', turnAt: Date.now(),
+        seq: d.seq + 1, last: { seq: d.seq + 1, kind: 'join' } });
+      return 'ok';
+    });
+  }catch(e){ return 'error'; }
+}
+async function joinByCode(raw){
+  const code = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if(code.length !== 5){ toast('El código tiene 5 letras o números.', 'bad'); return; }
+  if(!(await ensureDb())) return;
+  try{ const pre = await ref(code).get(); if(pre.exists && roomSport(pre.data()) !== SPORT){ const pg = otherPage(roomSport(pre.data())); if(pg) location.href = pg + '?sala=' + code; else toast('Esa partida es de otro juego que no está en esta versión.', 'bad'); return; } }catch(e){}
+  const r = await tryJoin(code);
+  if(r === 'ok' || r === 'mine'){
+    const s = await ref(code).get(); const d = s.data();
+    enterOnline(code, d.host === uid() ? 'X' : 'O');
+    if(d.status === 'waiting') { room = d; showWaiting(); }
+    else if(d.status === 'over'){ $('onlineOverlay').classList.remove('show'); }
+    return;
+  }
+  toast(r === 'none' ? 'No existe ninguna partida con ese código.' : r === 'full' ? 'Esa partida ya ha empezado o ha terminado.' : 'No se pudo entrar. ¿Tienes conexión?', 'bad');
+}
+async function quickMatch(){
+  if(!(await ensureDb())) return;
+  $('onlineBody').innerHTML = '<div class="spinner"></div><p>Buscando rival…</p>';
+  try{
+    const snap = await db.collection('ttt').where('status', '==', 'waiting').where('public', '==', true).limit(15).get();
+    const now = Date.now(), c = [];
+    snap.forEach(d => { const x = d.data(); if(x.host !== uid() && roomSport(x) === SPORT && now - (x.ping || 0) < 45000) c.push({ id:d.id, t:x.createdAt || 0 }); });
+    c.sort((a, b) => a.t - b.t);
+    for(const x of c){ if(await tryJoin(x.id) === 'ok'){ enterOnline(x.id, 'O'); return; } }
+  }catch(e){}
+  createRoom({ public:true });
+}
+
+/* ---------- escuchar la sala ---------- */
+function enterOnline(code, mark){
+  if(unsub) unsub();
+  if(mode !== 'online') prevMode = mode;
+  mode = 'online'; roomId = code; myMark = mark; room = null;
+  lastSeq = null; shownOverRound = null; rematchAsked = false; answersRound = null;
+  try{ localStorage.setItem('ttt_room', code); }catch(e){}
+  ['resultOverlay','solOverlay','answerOverlay','settingsOverlay'].forEach(id => $(id).classList.remove('show'));
+  unsub = ref(code).onSnapshot(s => {
+    if(!s.exists){
+      if(room){ toast('La partida se ha cancelado.', 'bad'); }
+      exitOnline(); return;
+    }
+    onRoom(s.data());
+  }, () => toast('Se ha perdido la conexión con la partida.', 'bad'));
+  clearInterval(tick);
+  tick = setInterval(onTick, 1000);
+}
+function onRoom(d){
+  if(roomSport(d) !== SPORT){ if(unsub) unsub(); const pg = otherPage(roomSport(d)); if(pg) location.replace(pg + '?sala=' + roomId); else { try{ localStorage.removeItem('ttt_room'); }catch(e){} exitOnline(); } return; }
+  const wasWaiting = room && room.status === 'waiting';
+  room = d;
+  // estado del tablero a partir de la sala
+  rows = d.rows.map(id => CAT[id]); cols = d.cols.map(id => CAT[id]);
+  if(answersRound !== d.round + ':' + d.rows.join() + d.cols.join()){
+    answersRound = d.round + ':' + d.rows.join() + d.cols.join();
+    answers = []; rows.forEach(r => cols.forEach(c => answers.push(validFor(r, c))));
+  }
+  board = d.board.map(b => b ? { mark: b.m, player: b.p } : null);
+  used = new Set(d.used || []);
+  turn = d.turn; over = d.status === 'over';
+  winLine = d.winLine && d.winLine.length === 3 ? d.winLine : null;
+  wins = { X: d.score.X, O: d.score.O };
+  // avisos de la última jugada
+  if(lastSeq !== null && d.last && d.last.seq !== lastSeq) announce(d.last);
+  lastSeq = d.last ? d.last.seq : 0;
+  if(d.status === 'playing'){
+    $('resultOverlay').classList.remove('show'); rematchAsked = false; $('againBtn').disabled = false;
+    if(wasWaiting || $('onlineOverlay').classList.contains('show')){
+      $('onlineOverlay').classList.remove('show');
+      clearInterval(pingTimer);
+      toast(`🌐 ¡Empieza la partida contra ${onlineName(other(myMark))}!`, 'good'); sfx('win');
+    }
+  }
+  render();
+  if(d.status === 'over' && shownOverRound !== d.round){ shownOverRound = d.round; onlineGameOver(d); }
+  // revancha: cuando los dos la piden, el anfitrión prepara el tablero nuevo
+  if(d.status === 'over' && d.rematch && d.rematch.X && d.rematch.O && myMark === 'X') startRematch(d);
+  if(d.status === 'over' && rematchAsked) $('againBtn').textContent = `Esperando a ${onlineName(other(myMark))}…`;
+}
+function announce(l){
+  const mine = l.by === myMark, who = mine ? 'Tú' : onlineName(l.by);
+  if(l.kind === 'move'){
+    fx = { i: l.i, cls: l.ok ? 'pop' : 'wrong' };
+    if(mine) return;   // lo propio ya se avisó al jugar
+    sfx(l.ok ? 'correct' : 'wrong');
+    toast(l.ok ? `${who} pone a ${l.p}` : `${who} falla con ${l.p}`, l.ok ? '' : 'bad');
+  } else if(l.kind === 'pass'){ if(!mine) toast(`${who} pasa el turno`, ''); }
+  else if(l.kind === 'timeout'){ toast(mine ? '⏱️ Se acabó tu tiempo: pierdes el turno' : `⏱️ Se acabó el tiempo de ${who}`, mine ? 'bad' : ''); }
+  else if(l.kind === 'rematch'){ toast('🔁 ¡Revancha! Tablero nuevo', 'good'); }
+}
+function onTick(){
+  if(mode !== 'online' || !room) return;
+  renderTurnLabel();
+  if(room.status !== 'playing') return;
+  const el = (Date.now() - (room.turnAt || 0)) / 1000;
+  if(turn === myMark && el > TURN_SECS){ closeAnswer(); onlinePass('timeout'); }
+  else if(turn !== myMark && el > ABANDON_SECS) claimAbandon();
+}
+
+/* ---------- jugadas ---------- */
+async function commit(mutate){
+  // transacción: solo se aplica si sigue siendo mi turno y nadie ha jugado entretanto
+  const expected = room && room.seq;
+  try{
+    await db.runTransaction(async t => {
+      const s = await t.get(ref());
+      const d = s.data();
+      if(!d || d.status !== 'playing' || d.turn !== myMark || d.seq !== expected) throw new Error('stale');
+      t.update(ref(), mutate(d));
+    });
+    return true;
+  }catch(e){ if(e.message !== 'stale') toast('No se pudo enviar la jugada. Revisa tu conexión.', 'bad'); return false; }
+}
+function onlinePlay(i, name){
+  const p = PLAYERS.find(x => x.name === name);
+  const r = rows[Math.floor(i/3)], c = cols[i%3];
+  const ok = !!(p && has(p, r.id) && has(p, c.id));
+  sfx(ok ? 'correct' : 'wrong');
+  toast(ok ? `✅ ¡Correcto! ${name}` : `❌ ${name} ${FAIL_VERB} ${r.name} y ${c.name}`, ok ? 'good' : 'bad');
+  busy = true; render();
+  commit(d => {
+    const seq = d.seq + 1, now = Date.now();
+    const upd = { seq, last: { seq, by: myMark, i, p: name, ok, kind: 'move' }, turnAt: now };
+    if(!ok){ upd.turn = other(myMark); return upd; }
+    const nb = d.board.slice(); nb[i] = { m: myMark, p: name };
+    const nu = (d.used || []).concat(name);
+    upd.board = nb; upd.used = nu;
+    const line = LINES.find(L => L.every(k => nb[k] && nb[k].m === myMark));
+    const left = nb.some((b, k) => !b && answers[k].some(pp => !nu.includes(pp.name)));
+    if(line){ Object.assign(upd, { status:'over', winner: myMark, winLine: line, reason:'line', score: Object.assign({}, d.score, { [myMark]: d.score[myMark] + 1 }) }); }
+    else if(nb.every(Boolean) || !left){ Object.assign(upd, { status:'over', winner:'draw', winLine: [], reason: nb.every(Boolean) ? 'full' : 'nomoves' }); }
+    else upd.turn = other(myMark);
+    return upd;
+  }).finally(() => { busy = false; render(); });
+}
+function onlinePass(kind){
+  if(kind === 'pass') toast('Pasas el turno', '');
+  commit(d => { const seq = d.seq + 1; return { seq, turn: other(myMark), turnAt: Date.now(), last: { seq, by: myMark, kind } }; });
+}
+let claiming = false;
+async function claimAbandon(){
+  if(claiming) return; claiming = true;
+  try{
+    await db.runTransaction(async t => {
+      const s = await t.get(ref()); const d = s.data();
+      if(!d || d.status !== 'playing' || d.turn === myMark || Date.now() - d.turnAt < ABANDON_SECS*1000) return;
+      const seq = d.seq + 1;
+      t.update(ref(), { status:'over', winner: myMark, winLine: [], reason:'left', seq, last:{ seq, by: other(myMark), kind:'left' },
+        score: Object.assign({}, d.score, { [myMark]: d.score[myMark] + 1 }) });
+    });
+  }catch(e){}
+  claiming = false;
+}
+
+/* ---------- final, revancha y salir ---------- */
+function onlineGameOver(d){
+  const key = roomId + ':' + d.round;
+  const won = d.winner === myMark, draw = d.winner === 'draw';
+  if(reportedKey !== key){
+    reportedKey = key;
+    if(window.HG) HG.report(ONLINE_ID, { win: won });
+    sfx(won ? 'win' : draw ? 'correct' : 'wrong');
+  }
+  const rival = onlineName(other(myMark));
+  const reasonTxt = d.reason === 'left' ? (won ? `${rival} ha abandonado la partida.` : 'Abandonaste la partida.')
+    : d.reason === 'full' ? 'Tablero completo sin tres en raya.' : d.reason === 'nomoves' ? 'Ya no quedaba ninguna respuesta posible.' : '';
+  setTimeout(() => {
+    if(!room || room.round !== d.round || room.status !== 'over') return;
+    $('resEmoji').textContent = draw ? '🤝' : won ? '🏆' : '😬';
+    $('resTitle').textContent = draw ? '¡Empate!' : won ? '¡Has ganado!' : `Gana ${rival}`;
+    $('resText').textContent = `${reasonTxt} Marcador: Tú ${d.score[myMark]} – ${d.score[other(myMark)]} ${rival}`.trim();
+    $('againBtn').textContent = rematchAsked ? `Esperando a ${rival}…` : '🔁 Revancha';
+    $('againBtn').disabled = rematchAsked || d.reason === 'left';
+    $('resultOverlay').classList.add('show');
+  }, d.reason === 'line' ? 1100 : 400);
+}
+async function askRematch(){
+  if(!room || room.status !== 'over' || rematchAsked) return;
+  rematchAsked = true;
+  $('againBtn').disabled = true; $('againBtn').textContent = `Esperando a ${onlineName(other(myMark))}…`;
+  try{ await ref().update({ rematch: Object.assign({}, room.rematch, { [myMark]: true }) }); }catch(e){ rematchAsked = false; $('againBtn').disabled = false; }
+}
+let rematching = false;
+async function startRematch(d){
+  if(rematching) return; rematching = true;
+  const g = newGridIds();
+  try{
+    await db.runTransaction(async t => {
+      const s = await t.get(ref()); const x = s.data();
+      if(!x || x.status !== 'over' || x.round !== d.round || !x.rematch.X || !x.rematch.O) return;
+      const starter = x.starter === 'X' ? 'O' : 'X', seq = x.seq + 1;
+      t.update(ref(), { rows: g.rows, cols: g.cols, board: Array(9).fill(null), used: [], turn: starter, starter,
+        status:'playing', winner:'', winLine: [], reason:'', round: x.round + 1, rematch:{ X:false, O:false },
+        turnAt: Date.now(), seq, last:{ seq, kind:'rematch' } });
+    });
+  }catch(e){}
+  rematching = false;
+}
+async function cancelWaiting(){
+  $('onlineOverlay').classList.remove('show');
+  try{ if(room && room.status === 'waiting' && myMark === 'X') await ref().delete(); }catch(e){}
+  exitOnline();
+}
+async function leaveOnline(){
+  if(mode !== 'online') return true;
+  if(room && room.status === 'playing'){
+    const ok = window.HG ? await HG.dialog({ title:'¿Salir de la partida?', text:`Si sales ahora, ${onlineName(other(myMark))} gana por abandono.`, ok:'Salir', danger:true }) : true;
+    if(!ok) return false;
+    try{
+      await db.runTransaction(async t => {
+        const s = await t.get(ref()); const d = s.data();
+        if(!d || d.status !== 'playing') return;
+        const w = other(myMark), seq = d.seq + 1;
+        t.update(ref(), { status:'over', winner: w, winLine: [], reason:'left', seq, last:{ seq, by: myMark, kind:'left' },
+          score: Object.assign({}, d.score, { [w]: d.score[w] + 1 }) });
+      });
+    }catch(e){}
+  } else if(room && room.status === 'waiting' && myMark === 'X'){
+    try{ await ref().delete(); }catch(e){}
+  }
+  exitOnline();
+  return true;
+}
+function exitOnline(){
+  if(unsub){ unsub(); unsub = null; }
+  clearInterval(tick); clearInterval(pingTimer);
+  room = null; roomId = null; myMark = null;
+  try{ localStorage.removeItem('ttt_room'); }catch(e){}
+  if(mode === 'online'){ mode = prevMode === 'online' ? 'cpu' : prevMode; wins = { X:0, O:0 }; starter = 'X'; newGame(); }
+  $('againBtn').disabled = false; $('againBtn').textContent = 'Jugar otra';
+}
+window.addEventListener('pagehide', () => {
+  if(mode === 'online' && room && room.status === 'waiting' && myMark === 'X'){ try{ ref().delete(); }catch(e){} }
+});
+
+// entrar por enlace (?sala=CODIGO) o volver a una partida que estaba en marcha
+async function onlineBoot(){
+  // accesos directos desde la página Online (online.html)
+  const qp = new URLSearchParams(location.search), act = qp.get('online');
+  if(act && window.HG){
+    history.replaceState(null, '', location.pathname);
+    await HG.ready();
+    $('onlineOverlay').classList.add('show'); $('onlineBody').innerHTML = '<div class="spinner"></div>';
+    if(!(await ensureDb())){ $('onlineOverlay').classList.remove('show'); return; }
+    if(act === 'quick') return quickMatch();
+    if(act === 'link') return createRoom({ public:false });
+    if(act === 'friend' && qp.get('to')) return createRoom({ public:false, to: qp.get('to'), toName: (qp.get('toName') || '').slice(0, 20) });
+    return renderOnlineMenu();
+  }
+  const m = location.search.match(/[?&]sala=([A-Za-z0-9]{5})/);
+  const saved = (() => { try{ return localStorage.getItem('ttt_room'); }catch(e){ return null; } })();
+  if(!m && !saved) return;
+  if(!window.HG){ return; }
+  await HG.ready();
+  if(m){ $('onlineOverlay').classList.add('show'); $('onlineBody').innerHTML = '<div class="spinner"></div>'; await joinByCode(m[1]); if(mode !== 'online') $('onlineOverlay').classList.remove('show'); history.replaceState(null, '', location.pathname); return; }
+  if(!HG.uid()) return;
+  db = await HG.getDb(); if(!db) return;
+  try{
+    const s = await ref(saved).get();
+    const d = s.exists ? s.data() : null;
+    if(d && (d.host === uid() || d.guest === uid()) && d.status !== 'over'){
+      enterOnline(saved, d.host === uid() ? 'X' : 'O');
+      if(d.status === 'waiting'){ room = d; showWaiting(); } else toast('🌐 Has vuelto a tu partida online', 'good');
+    } else localStorage.removeItem('ttt_room');
+  }catch(e){}
+}
+document.addEventListener('DOMContentLoaded', () => setTimeout(onlineBoot, 0));
+
+/* ============ EVENTOS ============ */
+$('answerInput').addEventListener('input', renderSugg);
+$('answerInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter'){ const b = $('sugg').querySelector('button:not(.used)'); if(b) answer(b.dataset.n); }
+  if(e.key === 'Escape') closeAnswer();
+});
+$('cancelAnswer').addEventListener('click', closeAnswer);
+$('answerOverlay').addEventListener('click', e => { if(e.target.id === 'answerOverlay') closeAnswer(); });
+$('passBtn').addEventListener('click', () => {
+  if(blocked()) return;
+  if(mode === 'online') return onlinePass('pass');
+  toast(`${mode === 'cpu' ? 'Pasas' : (turn === 'X' ? 'Jugador 1 pasa' : 'Jugador 2 pasa')} el turno`, '');
+  nextTurn();
+});
+$('newBtn').addEventListener('click', async () => { if(mode === 'online') return leaveOnline(); if(await confirmRestart()) newGame(); });
+$('resetTopBtn').addEventListener('click', async () => { if(mode === 'online') return leaveOnline(); if(await confirmRestart()) newGame(); });
+$('againBtn').addEventListener('click', () => { if(mode === 'online') return askRematch(); if(mode === 'daily') mode = savedMode(); newGame(); });
+$('solBtn').addEventListener('click', showSolutions);
+$('closeSol').addEventListener('click', () => $('solOverlay').classList.remove('show'));
+$('shareBtn').addEventListener('click', () => {
+  if(!window.HG) return;
+  const w = winLine ? board[winLine[0]].mark : null;
+  const detail = mode === 'daily'
+    ? (w === 'X' ? '📅 ¡Reto del día superado! Gané a la máquina 🏆' : '📅 Reto del día: la máquina me ganó… ¿tú puedes?')
+    : mode === 'cpu'
+    ? (w === 'X' ? `¡Gané a la máquina en ${DIFF[diff].name}! 🏆` : w ? `La máquina (${DIFF[diff].name}) me ganó… ¿tú puedes?` : `Empate contra la máquina (${DIFF[diff].name})`)
+    : mode === 'online'
+      ? (room && room.winner === myMark ? `¡Gané online a ${onlineName(myMark === 'X' ? 'O' : 'X')}! 🏆` : room && room.winner === 'draw' ? `Empate online contra ${onlineName(myMark === 'X' ? 'O' : 'X')}` : `Partida online contra ${onlineName(myMark === 'X' ? 'O' : 'X')}: ¿te atreves tú?`)
+    : (w ? `Partida a dos: gana el ${w === 'X' ? 'Jugador 1 ❌' : 'Jugador 2 ⭕'}` : 'Partida a dos: empate');
+  HG.share({ emoji:'🏀', game:'TresEnRaya NBA', detail });
+});
+$('helpBtn').addEventListener('click', () => $('helpOverlay').classList.add('show'));
+$('closeHelp').addEventListener('click', () => $('helpOverlay').classList.remove('show'));
+$('settingsBtn').addEventListener('click', () => { renderSettings(); $('settingsOverlay').classList.add('show'); });
+$('closeSettings').addEventListener('click', () => $('settingsOverlay').classList.remove('show'));
+['helpOverlay','settingsOverlay','solOverlay','resultOverlay','onlineOverlay'].forEach(id => $(id).addEventListener('click', e => { if(e.target.id === id) $(id).classList.remove('show'); }));
+document.querySelectorAll('#modeSeg button').forEach(b => b.addEventListener('click', async () => {
+  if(b.dataset.m === 'online'){ $('settingsOverlay').classList.remove('show'); openOnline(); return; }
+  if(mode === 'online'){ if(!(await leaveOnline())) return; }
+  if(b.dataset.m === mode) return;
+  mode = b.dataset.m; localStorage.setItem('nbaraya_mode', mode);
+  wins = { X:0, O:0 }; starter = 'X';
+  renderSettings(); newGame();
+}));
+document.querySelectorAll('#diffSeg button').forEach(b => b.addEventListener('click', () => {
+  if(b.dataset.d === diff) return;
+  diff = b.dataset.d; localStorage.setItem('nbaraya_diff', diff);
+  wins = { X:0, O:0 }; starter = 'X';
+  renderSettings(); newGame();
+}));
+window.addEventListener('resize', sizeGrid);
+$('modeDaily').addEventListener('click', async () => { if(mode === 'online' && !(await leaveOnline())) return; mode = 'daily'; newGame(); });
+$('modeClassic').addEventListener('click', () => { mode = savedMode(); newGame(); });
+
+/* ============ INICIO ============ */
+newGame();
+</script>
+<script src="hunter-account.js" defer></script>
+</body>
+</html>

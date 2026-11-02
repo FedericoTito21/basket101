@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>window.__SOLO_NBA=true;window.__SIN_ANUNCIOS=true;</script>
+<script>(function(){try{if(localStorage.getItem("fc_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StatsHunter NBA: reparte a cada leyenda en la estadística donde más suma. ¿Llegas a la medalla de oro?">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basket101">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="StatsHunter · Basket101">
+<meta property="og:description" content="StatsHunter NBA: reparte a cada leyenda en la estadística donde más suma. ¿Llegas a la medalla de oro?">
+<meta property="og:url" content="__SITE_URL__/statshunter.html">
+<meta property="og:image" content="__SITE_URL__/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>StatsHunter</title>
+<meta name="theme-color" content="#d62f36">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preload" href="fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/poppins.css">
+<style>
+  :root{
+    --blue-top:#5b86f5;
+    --blue-bot:#3f63e0;
+    --blue-deep:#2f4ec4;
+    --card:#ffffff;
+    --row:#eef1f8;
+    --row-hover:#e2e7f7;
+    --ink:#1b2440;
+    --ink-soft:#5b6685;
+    --muted:#8791ab;
+    --gold:#ffb020;
+    --gold-deep:#e8960a;
+    --green:#20c975;
+    --red:#ff6161;
+    --font: 'Poppins', 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    --shadow-lg: 0 18px 40px rgba(28,45,110,.35);
+    --shadow-sm: 0 2px 8px rgba(28,45,110,.08);
+  }
+  :root[data-theme="dark"]{
+    --card:#1e2440;
+    --ink:#eef1fb;
+    --ink-soft:#b7bfdc;
+    --muted:#9aa3c4;
+    --row:#2a3154;
+    --row-hover:#313a63;
+  }
+  :root[data-theme="dark"] .modal{background:var(--card);color:var(--ink);}
+  :root[data-theme="dark"] .current-card{background:linear-gradient(150deg,#232a4a,#1c2240);border-color:#333c60;}
+  :root[data-theme="dark"] .cat-pill{background:rgba(255,255,255,.08);color:var(--ink);}
+  :root[data-theme="dark"] .cat-row.selectable:hover{background:var(--row-hover);}
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:var(--font);
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,255,255,.16) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,.10) 0%, transparent 45%),
+      linear-gradient(160deg, var(--blue-top), var(--blue-bot) 55%, var(--blue-deep));
+    background-attachment:fixed;
+    color:var(--ink);
+    height:100dvh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    padding:0;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px;}
+
+  /* ============ TOP BAR ============ */
+  .topbar{padding:clamp(6px,2vh,18px) 16px clamp(8px,2.5vh,26px);flex:0 0 auto;}
+  .topbar-inner{
+    max-width:560px;margin:0 auto;
+    display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  }
+  .applogo{
+    width:56px;height:56px;border-radius:16px;flex:0 0 auto;
+    background:linear-gradient(145deg,#2a9d5c,#0f5f34);
+    border:2px solid rgba(255,255,255,.55);
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+    box-shadow:var(--shadow-sm);
+  }
+  .topcenter{flex:1;text-align:center;padding-top:2px;}
+  .total-label{font-size:11px;letter-spacing:2px;font-weight:700;color:rgba(255,255,255,.75);}
+  .total-value{font-size:40px;font-weight:800;color:var(--gold);line-height:1.05;text-shadow:0 2px 10px rgba(0,0,0,.15);}
+  .target-label{font-size:12px;font-weight:700;color:rgba(255,255,255,.85);margin-top:2px;}
+  .target-label b{color:#fff;}
+
+  .progress-dots{display:flex;justify-content:center;gap:5px;margin-top:10px;flex-wrap:wrap;}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.28);}
+  .dot.done{background:var(--gold);}
+  .dot.current{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3);}
+  .step-label{font-size:11.5px;color:rgba(255,255,255,.75);margin-top:6px;font-weight:600;}
+
+  .topbtns{display:flex;gap:8px;flex:0 0 auto;}
+  .circlebtn{
+    width:38px;height:38px;border-radius:50%;flex:0 0 auto;
+    background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+    color:#fff;cursor:pointer;font-size:15px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .circlebtn:active{background:rgba(255,255,255,.3);}
+
+  /* ============ WHITE CARD ============ */
+  .cardwrap{
+    max-width:560px;margin:-14px auto 0;padding:0 12px;width:100%;
+    flex:1;min-height:0;display:flex;flex-direction:column;
+  }
+  .whitecard{
+    background:var(--card);border-radius:26px 26px 20px 20px;
+    box-shadow:var(--shadow-lg);
+    padding:clamp(8px,2vh,18px) 14px 10px;
+    flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+  }
+
+  /* CURRENT PLAYER CARD */
+  #currentWrap{margin-bottom:clamp(6px,1.6vh,14px);flex:0 0 auto;min-height:0;}
+  .current-card{
+    background:linear-gradient(150deg,#f4f7ff,#e9edfb);
+    border:1px solid #dfe4f5;border-radius:20px;
+    padding:clamp(8px,2vh,18px);text-align:center;position:relative;
+    opacity:0;transform:translateY(14px) scale(.97);
+  }
+  .current-card.enter{
+    animation:cardIn .45s cubic-bezier(.2,.8,.3,1.15) forwards;
+  }
+  @keyframes cardIn{
+    0%{ opacity:0; transform:translateY(18px) scale(.94) rotate(-1deg); }
+    60%{ opacity:1; transform:translateY(-4px) scale(1.02) rotate(.5deg); }
+    100%{ opacity:1; transform:translateY(0) scale(1) rotate(0); }
+  }
+  .current-card .lbl{font-size:clamp(9px,1.6vh,11px);color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:clamp(4px,1vh,10px);}
+  .current-avatar{
+    width:clamp(46px,9vh,78px);height:clamp(46px,9vh,78px);border-radius:18px;margin:0 auto clamp(4px,1vh,10px);
+    background:linear-gradient(150deg,#2a9d5c,#0f5f34);
+    display:flex;align-items:center;justify-content:center;font-size:clamp(18px,3.2vh,28px);font-weight:800;color:#fff;
+    border:3px solid #fff;box-shadow:0 6px 16px rgba(20,80,50,.35), 0 0 0 3px rgba(91,134,245,.5);
+    animation:avatarPop .5s cubic-bezier(.3,1.6,.5,1);
+  }
+  @keyframes avatarPop{
+    0%{ transform:scale(.3) rotate(-15deg); opacity:0; }
+    70%{ transform:scale(1.12) rotate(4deg); opacity:1; }
+    100%{ transform:scale(1) rotate(0); }
+  }
+  .current-name{font-size:clamp(15px,2.8vh,21px);font-weight:800;margin-bottom:2px;letter-spacing:.2px;}
+  .current-sub{color:var(--muted);font-size:11px;margin-bottom:clamp(4px,1vh,12px);}
+
+  .current-hint{color:var(--ink-soft);font-size:11.5px;margin-top:2px;font-weight:600;}
+
+  .finished-msg{
+    text-align:center;padding:30px 10px;color:var(--ink-soft);font-size:15px;font-weight:600;
+  }
+
+  /* ============ CATEGORY LIST ============ */
+  #board{display:flex;flex-direction:column;gap:clamp(3px,.8vh,8px);flex:1;min-height:0;overflow:hidden;}
+  .cat-row{
+    background:var(--row);border-radius:14px;
+    padding:clamp(4px,1.3vh,12px) 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    transition:.18s;border:1px solid transparent;
+    flex:1 1 0;min-height:0;overflow:hidden;
+  }
+  .cat-left{display:flex;align-items:center;gap:10px;min-width:0;}
+  .cat-icon{font-size:17px;flex:0 0 auto;}
+  .cat-name{font-size:13px;font-weight:800;letter-spacing:.2px;color:var(--ink);text-transform:uppercase;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cat-row.filled .cat-name{color:#fff;}
+  .mult-tag{color:var(--gold-deep);font-weight:800;font-size:10.5px;background:rgba(232,150,10,.14);padding:2px 6px;border-radius:6px;flex:0 0 auto;}
+  .cat-row.filled .mult-tag{color:#fff;background:rgba(255,255,255,.22);}
+
+  .cat-right{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
+  .cat-empty-mark{color:var(--muted);font-size:12px;font-style:italic;}
+  .cat-pill{
+    background:rgba(255,255,255,.9);color:var(--ink);font-weight:800;font-size:14px;
+    padding:4px 10px;border-radius:999px;min-width:34px;text-align:center;
+  }
+  .cat-row.filled .cat-pill{background:rgba(255,255,255,.22);color:#fff;}
+  .cat-playername{font-size:11px;color:var(--muted);max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cat-row.filled .cat-playername{color:rgba(255,255,255,.85);}
+
+  .cat-row.selectable{cursor:pointer;}
+  .cat-row.selectable:hover{background:var(--row-hover);transform:translateX(2px);}
+  .cat-row.filled{
+    background:linear-gradient(120deg,var(--blue-top),var(--blue-deep));
+    box-shadow:0 4px 14px rgba(63,99,224,.35);
+  }
+  .cat-row.pop{ animation:catPop .55s cubic-bezier(.3,1.7,.4,1); }
+  @keyframes catPop{
+    0%{ transform:scale(1); }
+    35%{ transform:scale(1.03); box-shadow:0 6px 20px rgba(63,99,224,.55); }
+    100%{ transform:scale(1); }
+  }
+  .cat-pill.enter, .cat-playername.enter{ animation:valueIn .4s ease-out; }
+  @keyframes valueIn{
+    0%{ opacity:0; transform:translateY(6px); }
+    100%{ opacity:1; transform:translateY(0); }
+  }
+
+  #newRoundBtn{
+    display:none;margin:6px auto 4px;background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));
+    color:#fff;font-weight:700;font-size:14px;padding:13px 28px;border-radius:14px;border:none;
+    cursor:pointer;box-shadow:0 6px 16px rgba(63,99,224,.35);
+  }
+  .center{display:flex;justify-content:center;}
+
+  .overlay{
+    position:fixed;inset:0;background:rgba(20,28,55,.55);display:none;
+    align-items:center;justify-content:center;padding:16px;z-index:50;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff;border-radius:22px;color:var(--ink);
+    padding:26px;max-width:420px;width:100%;text-align:center;
+    box-shadow:var(--shadow-lg);
+  }
+  .modal h2{margin-top:0;font-size:21px;color:var(--ink);}
+  .bigscore{font-size:50px;font-weight:900;color:var(--gold-deep);margin:6px 0;}
+  .modal p{color:var(--muted);font-size:14px;}
+  .modal .best{color:var(--green);font-weight:700;}
+  .achv-banner{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:linear-gradient(120deg,#fff7e6,#ffefd2);border:1px solid rgba(232,150,10,.35);
+    border-radius:14px;padding:10px 14px;margin:0 0 14px;font-weight:800;font-size:13.5px;
+    color:var(--gold-deep);text-align:center;
+  }
+  :root[data-theme="dark"] .achv-banner{background:linear-gradient(120deg,#2e2410,#3a2c10);border-color:rgba(232,150,10,.45);color:#ffcf6b;}
+  .modalbtns{display:flex;gap:10px;margin-top:18px;}
+  .btn{border:none;border-radius:12px;padding:13px;font-weight:700;font-size:14px;cursor:pointer;flex:1;}
+  .btn-primary{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .btn-secondary{background:var(--row);color:var(--ink);}
+
+  .recap{text-align:left;font-size:13px;margin:14px 0;max-height:220px;overflow:auto;border-top:1px solid #eef0f8;padding-top:12px;}
+  .recap-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #eef0f8;color:var(--ink-soft);}
+  .recap-row b{color:var(--gold-deep);}
+
+  .helpbody{text-align:left;font-size:14px;line-height:1.6;color:var(--ink-soft);}
+  .helpbody b{color:var(--ink);}
+  .helpbody ul{padding-left:18px;}
+
+  /* SETTINGS MODAL EXTRAS */
+  .settings-stats{display:flex;gap:10px;margin-bottom:16px;}
+  .settings-stat{flex:1;background:var(--row);border-radius:14px;padding:12px;text-align:center;}
+  .settings-stat .slabel{font-size:11px;color:var(--muted);font-weight:700;}
+  .settings-stat b{display:block;font-size:20px;color:var(--ink);margin-top:2px;}
+  .settings-stat.total b{color:var(--gold-deep);}
+  .modebar{display:flex;gap:8px;margin-bottom:10px;}
+  .modebtn{
+    flex:1;background:var(--row);border:1px solid transparent;color:var(--ink-soft);
+    padding:11px;border-radius:12px;font-size:13.5px;cursor:pointer;font-weight:700;
+  }
+  .modebtn.active{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .badge{
+    display:inline-block;background:rgba(232,150,10,.14);border-radius:999px;
+    padding:6px 12px;font-size:12px;color:var(--gold-deep);font-weight:700;margin-bottom:10px;
+  }
+  #resetBtn{
+    width:100%;background:var(--row);border:none;color:var(--red);font-weight:700;
+    padding:12px;border-radius:12px;cursor:pointer;font-size:13.5px;
+  }
+
+  .targetsbar{display:flex;gap:8px;margin-bottom:16px;}
+  .target-chip{
+    flex:1;background:var(--row);border-radius:12px;padding:9px 6px;text-align:center;transition:.2s;
+  }
+  .target-chip .tlabel{font-size:10.5px;color:var(--muted);font-weight:800;display:flex;align-items:center;justify-content:center;gap:4px;}
+  .target-chip .tmin{font-size:14px;font-weight:900;color:var(--ink);margin-top:2px;}
+  .target-chip.reached{background:rgba(232,150,10,.16);}
+  .target-chip.reached .tmin{color:var(--gold-deep);}
+
+  footer{text-align:center;color:rgba(255,255,255,.7);font-size:12px;margin-top:18px;padding:0 20px;}
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 480px){
+    .wrap{padding:0 10px;}
+    .topbar{padding:14px 10px 22px;}
+    .applogo{width:48px;height:48px;font-size:22px;border-radius:14px;}
+    .total-value{font-size:33px;}
+    .circlebtn{width:34px;height:34px;font-size:13px;}
+
+    .cardwrap{padding:0 6px;}
+    .whitecard{border-radius:22px 22px 16px 16px;}
+
+    .current-card{border-radius:16px;}
+    .current-name{font-size:16px;}
+
+    .cat-row{padding:clamp(4px,1.3vh,10px) 11px;border-radius:12px;}
+    .cat-name{font-size:11.5px;}
+    .cat-pill{font-size:12.5px;padding:3px 9px;}
+    .cat-playername{max-width:70px;}
+
+    .modal{padding:20px 16px;border-radius:18px;max-width:100%;}
+    .bigscore{font-size:40px;}
+  }
+
+  /* ===== DESIGN PASS: fixed background that never runs out on scroll / iOS ===== */
+  html{background:var(--blue-deep);}
+  body{background:none !important;}
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,255,255,.16) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,.10) 0%, transparent 45%),
+      linear-gradient(160deg, var(--blue-top), var(--blue-bot) 55%, var(--blue-deep));
+  }
+
+  /* back-to-menu link */
+  .backrow{max-width:560px;margin:0 auto;padding:clamp(4px,1.2vh,12px) 16px 0;flex:0 0 auto;}
+  .backlink{
+    display:inline-flex;align-items:center;gap:5px;text-decoration:none;
+    color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.2px;
+    padding:6px 13px 6px 9px;border-radius:999px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
+    transition:background .15s;
+  }
+  .backlink:hover{background:rgba(255,255,255,.22);}
+  .backlink:active{background:rgba(255,255,255,.3);}
+  .backlink .chev{font-size:17px;line-height:1;margin-top:-2px;}
+  .circlebtn{transition:background .15s;}
+  .circlebtn:hover{background:rgba(255,255,255,.26);}
+  @media (max-width:480px){ .backrow{padding:clamp(4px,1.2vh,10px) 10px 0;} }
+
+  /* progress dots: keep all categories on one line */
+  .progress-dots{gap:4px;flex-wrap:nowrap;}
+  .dot{width:7px;height:7px;}
+  .cat-row.selectable:active{transform:scale(.99);}
+  footer{flex:0 0 auto;padding:0 20px clamp(2px,1vh,8px);margin-top:clamp(2px,1vh,18px);font-size:11px;}
+  .modal{max-height:92dvh;overflow-y:auto;}
+
+  /* ===== COMPACT LAYOUT (estilo GeoHunter): filas de alto fijo, sin estirar ni aplastar ===== */
+  .backrow{padding:6px 12px 0;}
+  .topbar{padding:4px 14px 14px !important;}
+  .total-value{font-size:36px;}
+  .progress-dots{margin-top:6px;}
+  .step-label{margin-top:4px;}
+  .cardwrap{flex:0 1 auto;margin-top:0;padding:0 12px;}
+  .whitecard{flex:0 1 auto;padding:12px 12px 12px;border-radius:24px;}
+  .trophy-banner{margin-bottom:10px;padding:8px 12px;}
+  #currentWrap{margin-bottom:10px;display:flex;justify-content:center;}
+  .current-card{
+    display:inline-flex;flex-direction:column;align-items:center;
+    padding:10px 24px 9px;min-width:180px;max-width:100%;border-radius:22px;
+  }
+  .current-card .lbl,.current-hint{display:none;}
+  .current-avatar{width:100px;height:58px;border-radius:14px;font-size:22px;margin:0 auto 6px;}
+  .current-name{font-size:16px;text-transform:uppercase;letter-spacing:.5px;line-height:1.15;}
+  .current-sub{font-size:11px;margin:2px 0 0;}
+  .finished-msg{padding:14px 10px;}
+  #board{flex:0 1 auto;gap:5px;}
+  .cat-row,.slot-row{flex:0 1 44px;height:44px;min-height:32px;padding:0 14px;border-radius:14px;}
+  .cat-icon{font-size:20px;}
+  .cat-name{font-size:13px;letter-spacing:.3px;}
+  .cat-pill,.slot-pill{font-size:13.5px;padding:4px 12px;}
+  #newRoundBtn{margin:10px auto 0;}
+  footer{margin-top:auto;padding:8px 20px calc(8px + env(safe-area-inset-bottom));}
+  @media (max-width:480px){
+    .applogo{width:50px;height:50px;}
+    .cardwrap{padding:0 10px;}
+    .cat-row,.slot-row{padding:0 12px;}
+    .cat-name{font-size:12px;}
+  }
+  @media (max-height:760px){
+    footer{display:none;}
+    .topbar{padding-bottom:10px !important;}
+    .total-value{font-size:32px;}
+    .current-avatar{width:88px;height:48px;font-size:19px;margin-bottom:4px;}
+    .current-card{padding:8px 20px 7px;}
+    #board{gap:4px;}
+  }
+  /* puntos de progreso y "Categoría x/10" en la misma línea, como GeoHunter */
+  .progress-dots{display:inline-flex;vertical-align:middle;margin-top:6px;}
+  .step-label{display:inline-block;vertical-align:middle;margin:6px 0 0 8px;}
+  .cardwrap{margin-bottom:calc(10px + env(safe-area-inset-bottom));}
+  @media (max-height:760px){
+    .backrow{padding-top:4px;}
+    .backlink{padding:4px 11px 4px 8px;font-size:12px;}
+    .hg-chip{padding-top:4px !important;padding-bottom:4px !important;}
+    .topbar{padding-top:2px !important;}
+    .total-label{font-size:10px;}
+    .target-label{margin-top:0;}
+  }
+  .progress-dots{gap:3px;}
+  .progress-dots .dot{width:6px;height:6px;}
+  .step-label{font-size:10.5px;margin-left:6px;white-space:nowrap;}
+  .topcenter{min-width:0;}
+  @media (max-height:700px){
+    .current-avatar{width:80px;height:40px;font-size:16px;border-radius:12px;}
+    .current-name{font-size:14.5px;}
+    .cat-row,.slot-row{min-height:29px;}
+    #currentWrap{margin-bottom:8px;}
+  }
+  @media (max-height:630px){
+    .cat-row,.slot-row{min-height:26px;}
+    .cat-icon{font-size:17px;}
+  }
+  /* móvil en horizontal (pantalla muy baja): se permite scroll para no cortar filas */
+  @media (orientation:landscape) and (max-height:520px){
+    html,body{height:auto;}
+    body{overflow:auto;min-height:100dvh;}
+    .cardwrap,.whitecard,#board{flex:none;overflow:visible;}
+    .cat-row,.slot-row{flex:none;height:40px;}
+    footer{display:block;}
+  }
+
+  /* ================= MAQUETA FINAL (encuadre y proporciones) ================= */
+  :root{ --rows:10; --chrome:322px; --row-max:50px; }
+  /* fila superior: Menú a la izquierda, reto del día + cuenta a la derecha, alineados con la tarjeta */
+  .backrow{width:100%;max-width:560px;margin:0 auto;padding:10px 12px 0 !important;display:flex;align-items:center;gap:8px;}
+  .backlink,.hg-daily,.hg-chip{height:34px;box-sizing:border-box;}
+  .backlink{padding:0 13px 0 10px;}
+  /* cabecera: 3 columnas, el marcador siempre en el centro exacto */
+  .topbar{padding:8px 12px 14px !important;}
+  .topbar-inner{display:grid !important;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;max-width:560px;}
+  .topbar-inner .applogo{justify-self:start;width:52px;height:52px;border-radius:15px;font-size:24px;}
+  .topbar-inner .topbtns{justify-self:end;gap:6px;}
+  .circlebtn{width:34px;height:34px;font-size:14px;}
+  .topcenter{padding-top:0;min-width:0;}
+  .total-label{font-size:10px;letter-spacing:2.5px;}
+  .total-value{font-size:36px;line-height:1;margin:2px 0;}
+  .target-label{margin-top:0;font-size:11.5px;}
+  .progress-dots{display:flex !important;justify-content:center;margin:8px 0 0 !important;gap:4px;}
+  .progress-dots .dot{width:7px;height:7px;}
+  .step-label{display:block !important;margin:5px 0 0 !important;font-size:11px;}
+  /* tarjeta blanca: mismo margen a ambos lados y abajo, sin cortar sombras */
+  .cardwrap{padding:0 12px !important;margin:0 auto calc(12px + env(safe-area-inset-bottom)) !important;}
+  .whitecard{overflow:visible;padding:12px !important;border-radius:24px;}
+  #board{overflow:visible;gap:6px;}
+  /* filas: altura calculada para llenar la pantalla con proporción (entre 30 y --row-max px) */
+  .cat-row,.slot-row{
+    height:clamp(30px, calc((100dvh - var(--chrome)) / var(--rows) - 6px), var(--row-max));
+    flex:0 1 auto;min-height:28px;border-radius:14px;
+  }
+  .cat-row.filled,.slot-row.filled{box-shadow:0 3px 10px rgba(40,70,190,.28);}
+  .cat-row,.slot-row{background-origin:border-box;}
+  .cat-row.filled,.slot-row.filled{border:0;background-repeat:no-repeat;background-color:var(--blue-deep);}
+  footer{display:none !important;}
+  @media (max-height:700px){
+    .topbar{padding-bottom:10px !important;}
+    .total-value{font-size:30px;}
+    .progress-dots{margin-top:5px !important;}
+  }
+  /* pantallas muy bajas (p. ej. iPhone SE con las barras de Safari): tarjeta del jugador en horizontal */
+  @media (max-height:620px){
+    .backrow{padding-top:6px !important;}
+    .topbar{padding:4px 12px 8px !important;}
+    .total-label{display:none;}
+    .total-value{font-size:28px;}
+    .step-label{display:none !important;}
+    .topbar-inner .applogo{width:44px;height:44px;font-size:20px;}
+    .current-card{display:grid !important;grid-template-columns:auto auto;column-gap:10px;align-items:center;padding:6px 16px 6px 8px !important;min-width:0;text-align:left;}
+    .current-card .current-avatar{grid-row:1 / span 2;}
+    .current-card .current-name{align-self:end;}
+    .current-card .current-sub{align-self:start;}
+    .cat-row,.slot-row{height:clamp(26px, calc((100dvh - 205px) / var(--rows) - 5px), var(--row-max));}
+    .current-avatar{width:48px !important;height:36px !important;font-size:14px !important;margin:0 !important;flex:0 0 auto;border-width:2px;}
+    .current-name{font-size:13.5px !important;}
+    .current-sub{font-size:10.5px;margin:0 !important;}
+    #currentWrap{margin-bottom:8px !important;}
+    .trophy-banner{padding:6px 12px !important;margin-bottom:8px !important;}
+    .trophy-emoji{font-size:22px !important;}
+    .cat-row,.slot-row{min-height:25px;}
+    #board{gap:5px;}
+  }
+  @media (max-width:370px){
+    .circlebtn{width:31px;height:31px;font-size:13px;}
+    .topbar-inner .topbtns{gap:4px;}
+    .topbar-inner .applogo{width:44px;height:44px;}
+    .hg-daily{padding:0 9px;font-size:11px;}
+  }
+
+  /* ===== Basket101: colores de este juego ===== */
+  :root{ --blue-top:#f0564f; --blue-bot:#d62f36; --blue-deep:#9e1b25; }
+  html{background:#9e1b25;}
+  .applogo{background:linear-gradient(145deg,#ff9a3c,#c2460c) !important;}
+  .current-avatar{background:linear-gradient(150deg,#ff9a3c,#c2460c) !important;box-shadow:0 6px 16px rgba(0,0,0,.25), 0 0 0 3px rgba(255,154,60,.55) !important;}
+  .cat-row.filled,.slot-row.filled{box-shadow:0 3px 10px rgba(0,0,0,.22) !important;}
+  :root{ --rows:7; --row-max:62px; }
+</style>
+</head>
+<body>
+
+  <div class="backrow">
+    <a class="backlink" href="index.html" title="Volver al menú" aria-label="Volver al menú"><span class="chev">‹</span> Menú</a>
+  </div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="applogo">🏀</div>
+      <div class="topcenter">
+        <div class="total-label">TOTAL</div>
+        <div class="total-value" id="runningTotal">0</div>
+        <div class="target-label">OBJETIVO&nbsp;<b id="nextTargetVal">–</b></div>
+        <div class="progress-dots" id="queueBar"></div>
+        <div class="step-label" id="stepLabel">Estadística 1/7</div>
+      </div>
+      <div class="topbtns">
+        <button class="circlebtn" id="resetTopBtn" title="Reiniciar partida" aria-label="Reiniciar partida">↻</button>
+        <button class="circlebtn" id="helpBtn" title="Cómo jugar" aria-label="Cómo jugar">?</button>
+        <button class="circlebtn" id="settingsBtn" title="Ajustes" aria-label="Ajustes">⚙</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cardwrap">
+    <div class="whitecard">
+      <div id="currentWrap"></div>
+      <div id="board"></div>
+      <div class="center">
+        <button id="newRoundBtn">Jugar otra ronda</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>StatsHunter · Basket101 🏀</footer>
+
+<!-- SETTINGS MODAL -->
+<div class="overlay" id="settingsOverlay">
+  <div class="modal">
+    <h2>Ajustes</h2>
+    <div class="badge" id="dailyBadge" style="display:none;">Reto del día</div>
+    <div class="settings-stats">
+      <div class="settings-stat"><div class="slabel">Mejor puntuación</div><b id="bestScore">–</b></div>
+      <div class="settings-stat"><div class="slabel">Partidas jugadas</div><b id="playedCount">0</b></div>
+    </div>
+    <div class="targetsbar" id="targetsBar"></div>
+    <div class="modebar">
+      <button class="modebtn active" id="modeClassic">Clásico</button>
+      <button class="modebtn" id="modeDaily">Diario</button>
+    </div>
+    <button id="resetBtn">↻ Reiniciar partida</button>
+    <div class="modalbtns">
+      <button class="btn btn-primary" id="closeSettingsBtn">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" style="max-width:340px;">
+    <h2>Reiniciar partida</h2>
+    <p id="confirmMsg" style="color:var(--muted);font-size:14px;margin:6px 0 18px;">¿Reiniciar la partida actual? Perderás el progreso de esta ronda.</p>
+    <div class="modalbtns">
+      <button class="btn btn-secondary" id="confirmCancelBtn">Cancelar</button>
+      <button class="btn btn-primary" id="confirmOkBtn">Reiniciar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCORE MODAL -->
+<div class="overlay" id="scoreOverlay">
+  <div class="modal">
+    <h2 id="scoreTitle">¡Equipo completo!</h2>
+    <div class="bigscore" id="scoreBig">0</div>
+    <p>Total acumulado</p>
+    <p id="bestLine" class="best"></p>
+    <div class="achv-banner" id="achvBanner" style="display:none;"></div>
+    <div class="recap" id="recap"></div>
+    <div class="modalbtns">
+      <button class="btn btn-secondary" id="closeScoreBtn">Cerrar</button>
+      <button class="btn btn-primary" id="playAgainBtn">Jugar de nuevo</button>
+    </div>
+    <button class="btn btn-secondary" id="shareScoreBtn" style="margin-top:10px;width:100%;">📤 Compartir resultado</button>
+    <button class="btn btn-primary" id="duelBtn" style="margin-top:8px;width:100%;display:none;">⚔️ Retar a un amigo con esta partida</button>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="overlay" id="helpOverlay">
+  <div class="modal" style="max-width:520px;">
+    <h2>Cómo jugar</h2>
+    <div class="helpbody">
+      <p>Cada partida tiene <b>7 estadísticas de carrera</b> de la NBA: <b>Triples-dobles ×5</b>, <b>Triples ×2</b>, y Puntos, Rebotes, Asistencias, Robos y Tapones ×1.</p>
+      <ul>
+        <li>Te va saliendo <b>una leyenda de la NBA al azar</b>, una por una (7 en total).</li>
+        <li>No ves sus números: tienes que <b>saberlos o adivinarlos</b>.</li>
+        <li>Elige en qué estadística libre la colocas. Su cifra real (multiplicada) se suma al <b>total</b> y esa estadística queda ocupada.</li>
+        <li>No se puede deshacer una elección.</li>
+        <li>Supera las medallas de <b>Bronce, Plata y Oro</b>; la primera vez que consigues cada una es un <b>logro</b>.</li>
+      </ul>
+      <p>El truco: los puntos pesan muchísimo, pero no sabes si luego te tocará alguien que anotó todavía más.</p>
+      <p><b>⚔️ Duelos:</b> al terminar una partida pulsa «Retar a un amigo». Tu amigo jugará con los mismos jugadores, en el mismo orden, y veréis quién suma más.</p>
+    </div>
+    <div class="modalbtns">
+      <button class="btn btn-primary" id="closeHelpBtn">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<script src="datos-nba.js"></script>
+<script>
+/* ============ DATA ============ */
+/* Datos de Basket101 (datos-nba.js, generado desde el Excel) */
+const CATEGORIES = FC_NBA.stats.map(c => ({ ...c }));
+const PLAYERS = FC_NBA.pool;   // solo jugadores conocidos (nivel 1); el resto sale en el TresEnRaya
+
+/* ============ SEEDED RNG for Daily mode ============ */
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function dateSeed(d){
+  const s = d.toISOString().slice(0,10);
+  let h = 0;
+  for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) | 0; }
+  return h;
+}
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+function shuffle(arr, rand){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(rand()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* ============ ROUND CATEGORY PICKER ============ */
+const CAT_BY_ID = {};
+CATEGORIES.forEach(c => CAT_BY_ID[c.id] = c);
+
+function pickRoundCategories(rand){
+  // StatsHunter: siempre las 7 estadísticas; primero las que multiplican (triples-dobles ×5, triples ×2)
+  return shuffle(CATEGORIES.map(c => ({ ...c })), rand).sort((a, b) => b.mult - a.mult);
+}
+
+/* ============ SCORE TARGETS ============ */
+// Calibrado con 6.000 partidas simuladas (7 estadísticas); build_nba.py los recalcula para la base de datos actual (FC_NBA.targets), con los mismos
+// percentiles que el resto de Hunters: bronce ≈ p37 del juego "a ojo", plata ≈ p40 y oro ≈ p85 del reparto perfecto.
+const TARGETS = [
+  { id:'bronce', label:'Bronce', em:'🥉', min:46000 },
+  { id:'plata',  label:'Plata',  em:'🥈', min:65000 },
+  { id:'oro',    label:'Oro',    em:'🥇', min:75000 },
+];
+// objetivos recalculados por build_nba.py para la base de datos actual
+if(FC_NBA.targets && FC_NBA.targets['nbastats']) FC_NBA.targets['nbastats'].forEach((v, i) => { if(TARGETS[i]) TARGETS[i].min = v; });
+function tierFor(score){
+  let reached = null;
+  for(const t of TARGETS){ if(score >= t.min) reached = t; }
+  return reached;
+}
+
+/* ============ STATE ============ */
+let mode = 'classic'; // classic | daily | duel
+const GAME_ID = 'nbastats';
+let roundSeed = 0;    // semilla de la ronda: con ella se puede retar a un amigo a la misma partida
+let duelInfo = null;  // {id, seed, rival, used} mientras se juega un duelo
+let roundCategories = []; // the 10 categories (with assigned mult) for this round
+let deck = [];        // 13 players in draw order
+let step = 0;         // index of current player to reveal (0..11)
+let filled = {};       // catId -> {playerName, value}
+let total = 0;
+let history = [];       // {playerName, catId, value}
+let gameOver = false;
+let lastAssignedCat = null; // catId to animate on next board render
+let lastAchievement = null; // TARGETS entry unlocked for the first time this round, or null
+
+const boardEl = document.getElementById('board');
+const currentWrap = document.getElementById('currentWrap');
+const queueBar = document.getElementById('queueBar');
+const runningTotalEl = document.getElementById('runningTotal');
+const bestScoreEl = document.getElementById('bestScore');
+const playedCountEl = document.getElementById('playedCount');
+const dailyBadge = document.getElementById('dailyBadge');
+const newRoundBtn = document.getElementById('newRoundBtn');
+const targetsBar = document.getElementById('targetsBar');
+
+function initialsAvatar(name){
+  const parts = name.split(' ').filter(Boolean);
+  const letters = parts.length>1 ? parts[0][0]+parts[parts.length-1][0] : name.slice(0,2);
+  return letters.toUpperCase();
+}
+
+/* ============ ROUND SETUP ============ */
+function startRound(){
+  // el reto diario solo se juega una vez al día
+  if(mode === 'daily' && window.HG && !HG.daily.canStart(GAME_ID)){
+    mode = 'classic';
+    document.getElementById('modeClassic').classList.add('active');
+    document.getElementById('modeDaily').classList.remove('active');
+    HG.daily.explainBlocked(GAME_ID);
+  }
+  // un duelo solo se juega una vez: "jugar de nuevo" vuelve al modo clásico
+  if(mode === 'duel' && (!duelInfo || duelInfo.used)){ mode = 'classic'; duelInfo = null; }
+  if(mode === 'duel') duelInfo.used = true;
+  roundSeed = mode === 'daily' ? dateSeed(new Date())
+            : mode === 'duel'  ? duelInfo.seed
+            : (Math.random() * 2147483647) | 0;
+  const rand = mulberry32(roundSeed);
+  roundCategories = pickRoundCategories(rand);
+  const chosen = shuffle(PLAYERS, rand).slice(0, roundCategories.length);
+  deck = shuffle(chosen, rand);
+  step = 0;
+  filled = {};
+  total = 0;
+  history = [];
+  gameOver = false;
+  lastAchievement = null;
+  newRoundBtn.style.display = 'none';
+  renderAll();
+}
+
+/* ============ RENDER ============ */
+function renderAll(){
+  renderInfo();
+  renderQueue();
+  renderBoard();
+  renderCurrent();
+}
+
+function renderInfo(){
+  runningTotalEl.textContent = total;
+  const best = getBest();
+  bestScoreEl.textContent = best === null ? '–' : best;
+  playedCountEl.textContent = localStorage.getItem(playedKey()) || '0';
+  dailyBadge.style.display = mode === 'daily' ? 'inline-block' : 'none';
+  renderTargets();
+}
+
+function renderTargets(){
+  targetsBar.innerHTML = TARGETS.map(t => `
+    <div class="target-chip${total >= t.min ? ' reached' : ''}">
+      <div class="tlabel"><span>${t.em}</span><span>${t.label}</span></div>
+      <div class="tmin">${t.min}</div>
+    </div>
+  `).join('');
+  const next = TARGETS.find(t => total < t.min);
+  const nextEl = document.getElementById('nextTargetVal');
+  if(nextEl){
+    nextEl.textContent = next ? next.min : `${TARGETS[TARGETS.length-1].em} ¡Conseguido!`;
+  }
+}
+
+function renderQueue(){
+  queueBar.innerHTML = '';
+  for(let i=0;i<deck.length;i++){
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i < step ? ' done' : (i === step && !gameOver ? ' current' : ''));
+    queueBar.appendChild(dot);
+  }
+  const stepLabelEl = document.getElementById('stepLabel');
+  if(stepLabelEl){
+    stepLabelEl.textContent = gameOver
+      ? `Categoría ${deck.length}/${deck.length}`
+      : `Categoría ${step+1}/${deck.length}`;
+  }
+}
+
+function renderBoard(){
+  boardEl.innerHTML = '';
+  const player = (!gameOver && deck[step]) ? deck[step] : null;
+  roundCategories.forEach(cat=>{
+    const row = document.createElement('div');
+    const f = filled[cat.id];
+    const justAssigned = cat.id === lastAssignedCat;
+    const selectable = !f && player;
+    row.className = 'cat-row' + (f ? ' filled' : '') + (justAssigned ? ' pop' : '') + (selectable ? ' selectable' : '');
+    row.innerHTML = `
+      <div class="cat-left">
+        <span class="cat-icon">${cat.em}</span>
+        <span class="cat-name">${cat.name}</span>
+        ${cat.mult>1 ? `<span class="mult-tag">×${cat.mult}</span>` : ''}
+      </div>
+      <div class="cat-right">
+        ${ f
+          ? `<span class="cat-playername${justAssigned?' enter':''}">${f.playerName}</span><span class="cat-pill${justAssigned?' enter':''}">${f.value}</span>`
+          : `<span class="cat-empty-mark">Vacío</span>` }
+      </div>
+    `;
+    if(selectable){
+      row.addEventListener('click', ()=> assign(cat.id, player.stats[cat.id], cat.mult, player));
+    }
+    boardEl.appendChild(row);
+  });
+  lastAssignedCat = null;
+}
+
+function renderCurrent(){
+  currentWrap.innerHTML = '';
+  if(gameOver){
+    const div = document.createElement('div');
+    div.className = 'finished-msg';
+    div.innerHTML = `Quinteto completo. Total: <b style="color:var(--gold)">${total.toLocaleString('es-ES')}</b>.`;
+    currentWrap.appendChild(div);
+    return;
+  }
+  const player = deck[step];
+
+  const card = document.createElement('div');
+  card.className = 'current-card';
+  card.innerHTML = `
+    <div class="lbl">Te ha tocado</div>
+    <div class="current-avatar">${initialsAvatar(player.name)}</div>
+    <div class="current-name">${player.name}</div>
+    <div class="current-sub">${player.tag}</div>
+    <div class="current-hint">Elige abajo en qué categoría lo colocas ⬇️</div>
+  `;
+  currentWrap.appendChild(card);
+  // force reflow then trigger enter animation
+  void card.offsetWidth;
+  card.classList.add('enter');
+}
+
+function assign(catId, raw, mult, player){
+  // límite de partidas al día: cuenta al colocar el primer jugador (no en el reto del día ni en duelos)
+  if(step === 0 && mode === 'classic' && window.HG && HG.limit && !HG.limit.begin(GAME_ID)) return;
+  const value = raw * mult;
+  filled[catId] = { playerName: player.name, value, raw, mult };
+  total += value;
+  history.push({ playerName: player.name, catName: roundCategories.find(c=>c.id===catId).name, catEm: roundCategories.find(c=>c.id===catId).em, value, raw, mult });
+  lastAssignedCat = catId;
+  step++;
+  if(window.HG){
+    if(mode === 'daily') HG.daily.progress(GAME_ID, total, step >= deck.length, TARGETS[0].min);
+    if(mode === 'duel' && duelInfo) HG.duel.progress(duelInfo.id, total);
+  }
+  if(step >= deck.length){
+    gameOver = true;
+    finishRound();
+  }
+  renderAll();
+}
+
+/* ============ PERSISTENCE ============ */
+function storageKey(){
+  return mode === 'daily' ? `nbastats_best_daily_${todayKey()}` : 'nbastats_best_classic';
+}
+function playedKey(){
+  return mode === 'daily' ? 'nbastats_played_daily' : 'nbastats_played_classic';
+}
+function getBest(){
+  const v = localStorage.getItem(storageKey());
+  return v === null ? null : parseInt(v,10);
+}
+function setBest(score){
+  const cur = getBest();
+  if(cur === null || score > cur){
+    localStorage.setItem(storageKey(), score);
+    return true;
+  }
+  return false;
+}
+function incPlayed(){
+  const cur = parseInt(localStorage.getItem(playedKey())||'0',10);
+  localStorage.setItem(playedKey(), cur+1);
+}
+// best tier ever reached (bronce=1, plata=2, oro=3), across classic and daily,
+// used only to detect the FIRST time a medal is reached (an "achievement")
+function getAchvTier(){ return parseInt(localStorage.getItem('nbastats_achv_tier')||'0',10); }
+function setAchvTier(n){ localStorage.setItem('nbastats_achv_tier', n); }
+
+function finishRound(){
+  incPlayed();
+  const isNewBest = setBest(total);
+  if(window.HG) HG.report('nbastats', { score: total, mode, goal: TARGETS[0].min });
+  if(window.HG && mode === 'duel' && duelInfo) HG.duel.finish(GAME_ID, duelInfo, total);
+  const duelBtn = document.getElementById('duelBtn');
+  if(duelBtn) duelBtn.style.display = (window.HG && mode === 'classic') ? '' : 'none';
+  if(window.HG) HG.sfx.play(tierFor(total) ? 'win' : 'correct');
+  newRoundBtn.style.display = 'inline-block';
+
+  document.getElementById('scoreBig').textContent = total;
+  const best = getBest();
+  const bestLineText = isNewBest
+    ? '¡Nuevo mejor resultado!'
+    : (best !== null ? `Mejor puntuación (${mode==='daily'?'hoy':'clásico'}): ${best}` : '');
+  const tier = tierFor(total);
+  document.getElementById('bestLine').textContent = mode === 'daily'
+    ? (total >= TARGETS[0].min ? `📅 Reto del día superado ✅ (objetivo ${TARGETS[0].min})` : `📅 Reto del día no superado ❌ (objetivo ${TARGETS[0].min})`)
+    : bestLineText;
+  document.getElementById('scoreTitle').textContent = tier
+    ? `${tier.em} ¡Medalla de ${tier.label}!`
+    : '¡Equipo completo!';
+
+  const tierIdx = tier ? TARGETS.indexOf(tier) + 1 : 0;
+  const achvBanner = document.getElementById('achvBanner');
+  lastAchievement = tierIdx > getAchvTier() ? tier : null;
+  if(lastAchievement){
+    setAchvTier(tierIdx);
+    achvBanner.textContent = `🏅 ¡Logro desbloqueado! Primera vez con Medalla de ${tier.label}`;
+    achvBanner.style.display = 'flex';
+  } else {
+    achvBanner.style.display = 'none';
+  }
+
+  const recap = document.getElementById('recap');
+  recap.innerHTML = history.map(h => `
+    <div class="recap-row">
+      <span>${h.catEm} ${h.playerName} → ${h.catName}${h.mult>1 ? ` (${h.raw}×${h.mult})` : ''}</span>
+      <b>${h.value}</b>
+    </div>
+  `).join('');
+
+  document.getElementById('scoreOverlay').classList.add('show');
+}
+
+/* ============ EVENTS ============ */
+function backToClassicIfDone(){
+  if(mode === 'daily' && gameOver){
+    mode = 'classic';
+    document.getElementById('modeClassic').classList.add('active');
+    document.getElementById('modeDaily').classList.remove('active');
+  }
+}
+newRoundBtn.addEventListener('click', () => { backToClassicIfDone(); startRound(); });
+document.getElementById('closeScoreBtn').addEventListener('click', ()=>{
+  document.getElementById('scoreOverlay').classList.remove('show');
+});
+document.getElementById('playAgainBtn').addEventListener('click', ()=>{
+  backToClassicIfDone();
+  document.getElementById('scoreOverlay').classList.remove('show');
+  startRound();
+});
+document.getElementById('shareScoreBtn').addEventListener('click', ()=>{
+  if(!window.HG) return;
+  const tier = tierFor(total);
+  const detail = `${total} pts${tier ? ` · ${tier.em} ${tier.label}` : ''}${lastAchievement ? ' · 🏅 ¡logro nuevo!' : ''}`;
+  HG.share({ emoji:'🏀', game:'StatsHunter', detail });
+});
+function showConfirm(message){
+  return new Promise(resolve => {
+    const overlay = document.getElementById('confirmOverlay');
+    document.getElementById('confirmMsg').textContent = message;
+    overlay.classList.add('show');
+    const okBtn = document.getElementById('confirmOkBtn');
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    function cleanup(result){
+      overlay.classList.remove('show');
+      okBtn.removeEventListener('click', onOk);
+      cancelBtn.removeEventListener('click', onCancel);
+      resolve(result);
+    }
+    function onOk(){ cleanup(true); }
+    function onCancel(){ cleanup(false); }
+    okBtn.addEventListener('click', onOk);
+    cancelBtn.addEventListener('click', onCancel);
+  });
+}
+
+async function resetGame(){
+  if(!gameOver && step > 0){
+    const ok = await showConfirm('¿Reiniciar la partida actual? Perderás el progreso de esta ronda.');
+    if(!ok) return;
+  }
+  document.getElementById('scoreOverlay').classList.remove('show');
+  document.getElementById('settingsOverlay').classList.remove('show');
+  startRound();
+}
+document.getElementById('resetBtn').addEventListener('click', resetGame);
+document.getElementById('resetTopBtn').addEventListener('click', resetGame);
+document.getElementById('helpBtn').addEventListener('click', ()=>{
+  document.getElementById('helpOverlay').classList.add('show');
+});
+document.getElementById('closeHelpBtn').addEventListener('click', ()=>{
+  document.getElementById('helpOverlay').classList.remove('show');
+});
+document.getElementById('settingsBtn').addEventListener('click', ()=>{
+  document.getElementById('settingsOverlay').classList.add('show');
+});
+document.getElementById('closeSettingsBtn').addEventListener('click', ()=>{
+  document.getElementById('settingsOverlay').classList.remove('show');
+});
+document.getElementById('modeClassic').addEventListener('click', ()=>{
+  mode = 'classic';
+  document.getElementById('modeClassic').classList.add('active');
+  document.getElementById('modeDaily').classList.remove('active');
+  document.getElementById('settingsOverlay').classList.remove('show');
+  startRound();
+});
+document.getElementById('modeDaily').addEventListener('click', ()=>{
+  mode = 'daily';
+  document.getElementById('modeDaily').classList.add('active');
+  document.getElementById('modeClassic').classList.remove('active');
+  document.getElementById('settingsOverlay').classList.remove('show');
+  startRound();
+});
+
+/* ============ DUELOS ============ */
+document.getElementById('duelBtn').addEventListener('click', () => {
+  if(window.HG) HG.duel.create(GAME_ID, roundSeed, total);
+});
+// lo usa hunter-account.js para empezar un duelo (mismos jugadores y mismo orden que el rival)
+window.FC_GAME = {
+  id: GAME_ID,
+  playDuel(info){
+    duelInfo = Object.assign({}, info, { used:false });
+    mode = 'duel';
+    document.getElementById('modeClassic').classList.remove('active');
+    document.getElementById('modeDaily').classList.remove('active');
+    ['scoreOverlay','settingsOverlay','helpOverlay'].forEach(id => document.getElementById(id).classList.remove('show'));
+    startRound();
+  },
+  get mode(){ return mode; },
+  get duel(){ return duelInfo; },
+};
+
+/* ============ INIT ============ */
+startRound();
+</script>
+<script src="hunter-account.js" defer></script>
+</body>
+</html>

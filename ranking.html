@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>window.__SOLO_NBA=true;window.__SIN_ANUNCIOS=true;</script>
+<script>(function(){try{if(localStorage.getItem("fc_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Las mejores marcas de todos los jugadores de Basket101, y un ranking solo con tus amigos.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basket101">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Ranking mundial · Basket101">
+<meta property="og:description" content="Las mejores marcas de todos los jugadores de Basket101, y un ranking solo con tus amigos.">
+<meta property="og:url" content="__SITE_URL__/ranking.html">
+<meta property="og:image" content="__SITE_URL__/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>Ranking mundial · Basket101</title>
+<meta name="theme-color" content="#3f63e0">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preload" href="fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/poppins.css">
+<style>
+  :root{
+    --blue-top:#5b86f5; --blue-bot:#3f63e0; --blue-deep:#2f4ec4;
+    --card:#ffffff;
+    --ink:#1b2440; --ink-soft:#5b6685; --muted:#8791ab; --row:#eef1f8;
+    --gold:#ffb020; --gold-deep:#e8960a;
+    --font:'Poppins','Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    --shadow-lg:0 18px 40px rgba(28,45,110,.35);
+  }
+  :root[data-theme="dark"]{
+    --card:#1e2440;
+    --ink:#eef1fb;
+    --ink-soft:#b7bfdc;
+    --muted:#9aa3c4;
+    --row:#2a3154;
+  }
+
+  *{box-sizing:border-box;}
+  html{background:var(--blue-deep);}
+  body{margin:0;font-family:var(--font);color:var(--ink);min-height:100vh;padding:0 0 28px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle at 15% -10%,rgba(255,255,255,.16) 0%,transparent 50%),
+      radial-gradient(circle at 100% 0%,rgba(255,255,255,.10) 0%,transparent 45%),
+      linear-gradient(160deg,var(--blue-top),var(--blue-bot) 55%,var(--blue-deep));}
+  .backrow{max-width:560px;margin:0 auto;padding:12px 16px 0;}
+  .backlink{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:#fff;font-size:12.5px;font-weight:700;
+    padding:6px 13px 6px 9px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);}
+  .backlink .chev{font-size:17px;line-height:1;margin-top:-2px;}
+  .head{text-align:center;color:#fff;padding:14px 16px 20px;}
+  .head .globe{font-size:40px;}
+  .head h1{margin:4px 0 2px;font-size:25px;font-weight:800;}
+  .head p{margin:0;font-size:12.5px;color:rgba(255,255,255,.8);font-weight:600;}
+  .cardwrap{max-width:560px;margin:0 auto;padding:0 12px;}
+  .card{background:var(--card,#fff);border-radius:24px;box-shadow:var(--shadow-lg);padding:14px 12px;}
+  .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+  .tab{border:none;background:var(--row);border-radius:12px;padding:9px 4px;cursor:pointer;font:700 11px/1.2 var(--font);color:var(--ink-soft);}
+  .tab .e{display:block;font-size:19px;margin-bottom:2px;}
+  .tab{padding:8px 4px;font-size:11px;letter-spacing:-.1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
+  .tabs{gap:5px;}
+  .tab.active{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .metric{font-size:11.5px;color:var(--muted);font-weight:700;text-align:center;margin:2px 0 10px;}
+  .me{display:none;align-items:center;justify-content:space-between;gap:8px;background:linear-gradient(120deg,#fff7e6,#ffefd2);
+    border:1px solid rgba(232,150,10,.3);border-radius:14px;padding:10px 12px;margin-bottom:10px;font-size:13px;font-weight:700;}
+  .me b{color:var(--gold-deep);}
+  .list{display:flex;flex-direction:column;gap:6px;}
+  .row{display:flex;align-items:center;gap:10px;background:var(--row);border-radius:12px;padding:9px 12px;}
+  .row .pos{width:30px;text-align:center;font-weight:900;color:var(--muted);font-size:14px;flex:0 0 auto;}
+  .row .nm{flex:1;min-width:0;font-weight:700;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row .sc{font-weight:900;color:var(--gold-deep);font-size:15px;}
+  .row.top1{background:linear-gradient(120deg,#fff4d6,#ffe7a8);}
+  .row.top2{background:linear-gradient(120deg,#f3f5fa,#e3e8f2);}
+  .row.top3{background:linear-gradient(120deg,#fbeee2,#f4dcc6);}
+  .row.mine{outline:2px solid var(--blue-bot);}
+  .msg{text-align:center;color:var(--muted);font-size:13.5px;font-weight:600;padding:26px 10px;}
+  .login{display:flex;justify-content:center;margin-top:12px;}
+  .scope{display:flex;gap:6px;background:var(--row);border-radius:12px;padding:4px;margin-bottom:10px;}
+  .scope button{flex:1;border:none;background:transparent;border-radius:9px;padding:8px 4px;cursor:pointer;font:700 12.5px/1 var(--font);color:var(--ink-soft);}
+  .period{margin-bottom:8px;}
+  .msg a{color:var(--blue-deep,#2f4ec4);font-weight:800;}
+  .scope button.active{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+</style>
+</head>
+<body>
+  <div class="backrow"><a class="backlink" id="backLink" href="index.html"><span class="chev">‹</span> Menú</a></div>
+  <div class="head">
+    <div class="globe">🌍</div>
+    <h1>Ranking mundial</h1>
+    <p>Las mejores marcas de todos los jugadores de Basket101 y el ranking del reto de hoy</p>
+  </div>
+  <div class="cardwrap">
+    <div class="card">
+      
+      <div class="tabs" id="tabs"></div>
+      <div class="scope period" id="period">
+        <button class="active" data-p="best">🏅 Récord</button>
+        <button data-p="today">📅 Reto de hoy</button>
+      </div>
+      <div class="scope" id="scope">
+        <button class="active" data-s="world">🌍 Mundial</button>
+        <button data-s="friends">👥 Amigos</button>
+      </div>
+      <div class="metric" id="metric"></div>
+      <div class="me" id="me"></div>
+      <div class="list" id="list"></div>
+      <div class="login" id="login"></div>
+    </div>
+  </div>
+
+<script>
+const TABS = [
+  
+  { id:'nbastats',     name:'StatsHunter',  em:'📊', metric:'Mejor puntuación', sport:'nba' },
+  { id:'nbatrophy',    name:'TrophyHunter', em:'🏆', metric:'Mejor puntuación', sport:'nba' },
+  { id:'nbaorder',     name:'NBAorder',     em:'🔢', metric:'Mejor puntuación (de 15)', sport:'nba' },
+  { id:'nbamulti',     name:'MultiHunter NBA', em:'🎰', metric:'Mejor puntuación', sport:'nba' },
+  { id:'nbaraya',      name:'TresEnRaya NBA', em:'⭕', metric:'Partidas ganadas a la máquina', sport:'nba' },
+  { id:'nbawordle',    name:'NBAwordle',    em:'🔤', metric:'Apellidos adivinados', sport:'nba' },
+  { id:'nbarayaonline', name:'3 en raya NBA online', em:'🌐', metric:'Partidas de TresEnRaya NBA ganadas online', sport:'nba' },
+];
+const qs = new URLSearchParams(location.search);
+const sportOf = id => (TABS.find(t => t.id === id) || {}).sport || 'futbol';
+const DEF_FUT = window.__SOLO_NBA ? 'nbastats' : 'golhunter';
+let current = qs.get('juego') || (qs.get('deporte') === 'nba' ? 'nbastats' : DEF_FUT);
+if(!TABS.some(t => t.id === current)) current = DEF_FUT;
+let sport = sportOf(current);
+let scope = 'world';
+let period = qs.get('hoy') === '1' ? 'today' : 'best';
+const todayUTC = () => new Date().toISOString().slice(0,10);
+function hoursToReset(){ const n = new Date(); const t = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate()+1); return Math.max(1, Math.ceil((t - n.getTime())/3600000)); }
+let lastRows = [], loaded = false;
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function renderTabs(){
+  document.querySelectorAll('#sport button').forEach(x => x.classList.toggle('active', x.dataset.sp === sport));
+  document.getElementById('backLink').href = sport === 'nba' ? 'index.html' : 'index.html';
+  document.getElementById('tabs').innerHTML = TABS.filter(t => (t.sport || 'futbol') === sport).map(t =>
+    `<button class="tab${t.id===current?' active':''}" data-id="${t.id}"><span class="e">${t.em}</span>${t.name}</button>`).join('');
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => { current = b.dataset.id; renderTabs(); load(); });
+  document.getElementById('metric').textContent = period === 'today'
+    ? (['nbaorder','nbaraya','nbawordle','nbarayaonline'].includes(current) ? `${TABS.find(t => t.id === current).name}: sin ranking diario de puntos` : `Reto del día · se renueva en ${hoursToReset()} h · una sola partida por jugador`)
+    : TABS.find(t => t.id === current).metric;
+  document.querySelectorAll('#period button').forEach(x => x.classList.toggle('active', x.dataset.p === period));
+}
+
+function renderList(){
+  const list = document.getElementById('list'), me = document.getElementById('me');
+  const uid = window.HG && HG.uid();
+  const isScore = !['trofeominas','tresenraya','tttonline','nbaraya','nbawordle','nbarayaonline'].includes(current);
+  if(!lastRows.length){
+    list.innerHTML = scope === 'friends'
+      ? `<div class="msg">${period === 'today' ? 'Ninguno de tus amigos ha jugado todavía el reto de hoy.' : 'Añade amigos desde tu cuenta (arriba a la derecha) para ver aquí sus marcas.'}</div>`
+      : period === 'today'
+        ? `<div class="msg">Nadie ha jugado todavía el reto de hoy.<br><a href="${({nbastats:'statshunter.html',nbatrophy:'trophyhunter.html',nbamulti:'nbamulti.html'})[current]}?diario=1">¡Juégalo y sé el primero!</a></div>`
+        : `<div class="msg">Todavía no hay nadie en este ranking.<br>¡Juega una partida y sé el primero!</div>`;
+  } else {
+    list.innerHTML = lastRows.map((r, i) => {
+      const medal = i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : (i+1);
+      return `<div class="row${i<3?' top'+(i+1):''}${r.id===uid?' mine':''}"><span class="pos">${medal}</span><span class="nm">${esc(r.name)}</span><span class="sc">${r.score}${isScore?'':' 🏆'}</span></div>`;
+    }).join('');
+  }
+  // my position
+  me.style.display = 'none';
+  if(uid){
+    const idx = lastRows.findIndex(r => r.id === uid);
+    const marks = HG.marks()[current] || {};
+    const mine = period === 'today' ? (marks.dailyDate === todayUTC() ? marks.dailyBest : null) : isScore ? marks.best : marks.wins;
+    if(idx >= 0){ me.innerHTML = `<span>Tu posición</span><b>#${idx+1} · ${lastRows[idx].score}</b>`; me.style.display = 'flex'; }
+    else if(mine != null){ me.innerHTML = `<span>Tu mejor marca: ${mine}</span><b>fuera del top 100</b>`; me.style.display = 'flex'; }
+  }
+  const login = document.getElementById('login');
+  login.innerHTML = (window.HG && !HG.uid()) ? `<button class="hg-gbtn" type="button">${HG.googleLogo} Entra con Google para aparecer</button>` : '';
+  const b = login.querySelector('button'); if(b) b.onclick = () => HG.signIn();
+}
+
+async function load(){
+  const list = document.getElementById('list');
+  history.replaceState(null, '', '?juego=' + current + (period === 'today' ? '&hoy=1' : ''));
+  if(period === 'today' && ['nbaorder','nbaraya','nbawordle','nbarayaonline'].includes(current)){
+    lastRows = []; loaded = false;
+    list.innerHTML = current === 'nbarayaonline' ? `<div class="msg">El TresEnRaya NBA online no tiene reto diario.</div>` : current === 'nbaorder' ? `<div class="msg">NBAorder no tiene reto diario.</div>` : `<div class="msg">El reto diario de ${TABS.find(t => t.id === current).name} no tiene ranking de puntos: solo cuenta si lo ganas o no.<br>Mira tus resultados en tu calendario (📊 Ver mis estadísticas).</div>`;
+    document.getElementById('me').style.display = 'none';
+    return;
+  }
+  if(!window.HG || !HG.state().configured){
+    list.innerHTML = `<div class="msg">El ranking estará disponible cuando la app esté conectada a Firebase.</div>`;
+    return;
+  }
+  list.innerHTML = `<div class="msg">Cargando ranking…</div>`;
+  const want = current, wantScope = scope, wantPeriod = period; loaded = false;
+  try{
+    if(wantScope === 'friends'){
+      if(!HG.uid()){
+        if(want !== current || wantScope !== scope || wantPeriod !== period) return;
+        list.innerHTML = `<div class="msg">Inicia sesión para ver el ranking entre amigos.</div>`;
+        loaded = true;
+        return;
+      }
+      const rows = await HG.friends.ranking(want, period);
+      if(want !== current || wantScope !== scope || wantPeriod !== period) return;
+      lastRows = rows.map(r => ({ id:r.uid, name:r.name, score:r.score })); loaded = true;
+      renderList();
+      return;
+    }
+    const db = await HG.getDb();
+    if(!db) throw new Error('sin conexión');
+    const col = wantPeriod === 'today' ? HG.daily.col(want) : 'rank_' + want;
+    const snap = await db.collection(col).orderBy('score','desc').limit(100).get();
+    if(want !== current || wantScope !== scope || wantPeriod !== period) return;
+    lastRows = snap.docs.map(d => ({ id:d.id, ...d.data() })); loaded = true;
+    renderList();
+  }catch(e){
+    if(want !== current || wantScope !== scope || wantPeriod !== period) return;
+    list.innerHTML = `<div class="msg">No se pudo cargar el ranking. Revisa tu conexión.</div>`;
+  }
+}
+
+document.querySelectorAll('#sport button').forEach(b => b.addEventListener('click', () => {
+  if(b.dataset.sp === sport) return;
+  sport = b.dataset.sp;
+  current = sport === 'nba' ? 'nbastats' : DEF_FUT;
+  renderTabs(); load();
+}));
+document.querySelectorAll('#period button').forEach(b => b.addEventListener('click', () => {
+  if(b.dataset.p === period) return;
+  period = b.dataset.p;
+  renderTabs(); load();
+}));
+document.querySelectorAll('#scope button').forEach(b => b.addEventListener('click', () => {
+  if(b.dataset.s === scope) return;
+  scope = b.dataset.s;
+  document.querySelectorAll('#scope button').forEach(x => x.classList.toggle('active', x === b));
+  load();
+}));
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTabs(); load();
+  if(window.HG) HG.onChange(() => { if(loaded) renderList(); });
+});
+</script>
+<script src="hunter-account.js" defer></script>
+</body>
+</html>

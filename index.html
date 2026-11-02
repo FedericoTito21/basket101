@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>window.__SOLO_NBA=true;window.__SIN_ANUNCIOS=true;</script>
+<script>(function(){try{if(localStorage.getItem("fc_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="6 retos de la NBA para jugar desde el móvil: StatsHunter, TrophyHunter, NBAorder, MultiHunter NBA, TresEnRaya NBA y NBAwordle. Retos del día y ranking mundial.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basket101">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Basket101 · retos de baloncesto NBA">
+<meta property="og:description" content="6 retos de la NBA para jugar desde el móvil: StatsHunter, TrophyHunter, NBAorder, MultiHunter NBA, TresEnRaya NBA y NBAwordle. Retos del día y ranking mundial.">
+<meta property="og:url" content="__SITE_URL__/">
+<meta property="og:image" content="__SITE_URL__/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>Basket101</title>
+<meta name="theme-color" content="#c4471a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preload" href="fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/poppins.css">
+<style>
+  :root{
+    --blue-top:#f08a3c;
+    --blue-bot:#d9531e;
+    --blue-deep:#8f2f12;
+    --card:#ffffff;
+    --ink:#1b2440;
+    --ink-soft:#5b6685;
+    --muted:#8791ab;
+    --gold:#ffb020;
+    --gold-deep:#e8960a;
+    --font: 'Poppins', 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    --shadow-lg: 0 18px 40px rgba(28,45,110,.35);
+    --shadow-sm: 0 2px 8px rgba(28,45,110,.08);
+  }
+  :root[data-theme="dark"]{
+    --card:#1e2440;
+    --ink:#eef1fb;
+    --ink-soft:#b7bfdc;
+    --muted:#9aa3c4;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--font);
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,255,255,.16) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,.10) 0%, transparent 45%),
+      linear-gradient(160deg, var(--blue-top), var(--blue-bot) 55%, var(--blue-deep));
+    background-attachment:fixed;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 16px;
+  }
+  .wrap{max-width:480px;width:100%;}
+  .hero{text-align:center;margin-bottom:26px;}
+  .hero-logo{
+    width:72px;height:72px;border-radius:20px;margin:0 auto 14px;
+    background:linear-gradient(145deg,#2a9d5c,#0f5f34);
+    border:2px solid rgba(255,255,255,.55);
+    display:flex;align-items:center;justify-content:center;font-size:34px;
+    box-shadow:var(--shadow-sm);
+  }
+  .hero h1{color:#fff;font-size:26px;font-weight:800;margin:0 0 6px;letter-spacing:.3px;}
+  .hero p{color:rgba(255,255,255,.8);font-size:13.5px;margin:0;font-weight:600;}
+
+  .games{display:flex;flex-direction:column;gap:14px;}
+  .gamecard{
+    background:var(--card);border-radius:22px;padding:18px 18px 18px 16px;
+    display:flex;align-items:center;gap:16px;text-decoration:none;color:inherit;
+    box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.4);
+    transition:transform .15s ease;
+  }
+  .gamecard:active{transform:scale(.98);}
+  .gameicon{
+    width:58px;height:58px;border-radius:16px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:28px;
+    color:#fff;box-shadow:0 6px 14px rgba(20,40,90,.25);
+  }
+  .gameicon.gol{background:linear-gradient(150deg,#2a9d5c,#0f5f34);}
+  .gameicon.tit{background:linear-gradient(150deg,var(--gold),var(--gold-deep));}
+  .gameicon.min{background:linear-gradient(150deg,#556077,#2b3346);}
+  .gameicon.ord{background:linear-gradient(150deg,#ffc05a,#b8520a);}
+  .gamecard:nth-child(6) .meta span:first-child{background:rgba(232,119,15,.14);color:#b8520a;}
+  .games .gamecard:nth-child(6){animation-delay:.35s;}
+  :root[data-theme="dark"] .gamecard:nth-child(6) .meta span:first-child{background:rgba(255,179,90,.18);color:#ffc98a;}
+  .gameicon.ttt{background:linear-gradient(150deg,#39d3bd,#0b6e62);}
+  .gameinfo h2 .new{font-size:9.5px;font-weight:800;letter-spacing:.8px;vertical-align:middle;background:#ffb020;color:#3a2600;padding:2px 6px;border-radius:6px;margin-left:4px;}
+  .gamecard:nth-child(5) .meta span:first-child{background:rgba(19,145,127,.14);color:#0b6e62;}
+  .games .gamecard:nth-child(5){animation-delay:.28s;}
+  :root[data-theme="dark"] .gamecard:nth-child(5) .meta span:first-child{background:rgba(57,211,189,.18);color:#7fe8d8;}
+  .gameicon.nst{background:linear-gradient(150deg,#f0564f,#9e1b25);}
+  .gameicon.ntr{background:linear-gradient(150deg,#3d5ba8,#15254f);}
+  .gameicon.nor{background:linear-gradient(150deg,#4a4f5c,#16181e);}
+  .gameicon.nra{background:linear-gradient(150deg,#4a78d8,#10275a);}
+  .gameicon.nwo{background:linear-gradient(150deg,#b58af0,#3a1672);}
+  .gameicon.nmu{background:linear-gradient(150deg,#2fbf71,#0f6b3a);}
+  .gameicon.mul{background:linear-gradient(150deg,#a78bfa,#5b21b6);}
+  .gameinfo{flex:1;min-width:0;}
+  .gameinfo h2{font-size:17px;font-weight:800;margin:0 0 3px;color:var(--ink);}
+  .gameinfo p{font-size:12.5px;color:var(--ink-soft);margin:0;font-weight:600;line-height:1.4;}
+  .gamearrow{font-size:20px;color:var(--muted);flex:0 0 auto;}
+
+  .comingsoon{
+    background:rgba(255,255,255,.14);border:1px dashed rgba(255,255,255,.4);
+    border-radius:22px;padding:16px;text-align:center;color:rgba(255,255,255,.75);
+    font-size:12.5px;font-weight:600;margin-top:14px;
+  }
+
+  footer{text-align:center;color:rgba(255,255,255,.65);font-size:11.5px;margin-top:22px;}
+
+  @media (max-width:420px){
+    .hero-logo{width:60px;height:60px;font-size:28px;}
+    .hero h1{font-size:22px;}
+    .gamecard{padding:14px;gap:12px;border-radius:18px;}
+    .gameicon{width:50px;height:50px;font-size:23px;border-radius:14px;}
+    .gameinfo h2{font-size:15.5px;}
+  }
+
+  /* ===== DESIGN PASS: fixed background that never runs out on scroll / iOS ===== */
+  html{background:var(--blue-deep);}
+  body{background:none !important;}
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,255,255,.16) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,.10) 0%, transparent 45%),
+      linear-gradient(160deg, var(--blue-top), var(--blue-bot) 55%, var(--blue-deep));
+  }
+
+  body{display:flex;}
+  .hero-logo{overflow:hidden;padding:0;background:linear-gradient(145deg,#2c303a,#101216);font-size:40px;box-shadow:0 10px 24px rgba(20,35,110,.35);}
+  .hero h1{font-size:28px;letter-spacing:.2px;}
+  .gamecard{transition:transform .15s ease, box-shadow .15s ease;}
+  .gamecard:hover{transform:translateY(-2px);box-shadow:0 22px 44px rgba(28,45,110,.42);}
+  .gamecard:hover .gamearrow{color:var(--ink);transform:translateX(2px);}
+  .gamearrow{transition:transform .15s, color .15s;}
+  .gameinfo p{margin-bottom:8px;}
+  .meta{display:flex;flex-wrap:wrap;gap:5px;}
+  .meta span{font-size:10.5px;font-weight:700;color:var(--ink-soft);background:#eef1f8;padding:3px 8px;border-radius:999px;}
+  .gamecard:nth-child(1) .meta span:first-child{background:rgba(42,157,92,.12);color:#1f7a47;}
+  .gamecard:nth-child(2) .meta span:first-child{background:rgba(232,150,10,.14);color:#b36f00;}
+  .gamecard:nth-child(3) .meta span:first-child{background:rgba(85,96,119,.14);color:#3b4459;}
+  .gamecard:nth-child(4) .meta span:first-child{background:rgba(124,58,237,.14);color:#6d28d9;}
+  .games .gamecard{animation:cardIn .45s cubic-bezier(.2,.8,.3,1.1) backwards;}
+  .games .gamecard:nth-child(2){animation-delay:.07s;}
+  .games .gamecard:nth-child(3){animation-delay:.14s;}
+  .games .gamecard:nth-child(4){animation-delay:.21s;}
+  @keyframes cardIn{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:none;}}
+
+  /* ===== cuenta + marcas ===== */
+  .backrow{max-width:480px;margin:0 auto 14px;padding:0;justify-content:flex-end !important;}
+  .marks-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:22px;padding:16px;margin-top:16px;color:#fff;}
+  .marks-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+  .marks-head h3{margin:0;font-size:15px;font-weight:800;}
+  .marks-head span{font-size:11.5px;color:rgba(255,255,255,.75);font-weight:600;}
+  .marks-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .marks-grid .mk:last-child:nth-child(odd){grid-column:1 / -1;}
+  .mk{background:rgba(255,255,255,.95);color:var(--ink);border-radius:14px;padding:10px 12px;}
+  .mk .t{font-size:11.5px;font-weight:700;color:var(--ink-soft);display:flex;gap:6px;align-items:center;}
+  .mk .v{font-size:20px;font-weight:900;color:var(--gold-deep);line-height:1.2;margin-top:2px;}
+  .mk .s{font-size:10.5px;color:var(--muted);font-weight:600;}
+  .marks-login{margin-top:12px;display:flex;justify-content:center;}
+  .marks-login .hg-gbtn{width:100%;}
+  footer a{color:rgba(255,255,255,.8);}
+  .rankbtn{display:flex;align-items:center;gap:14px;margin-top:16px;text-decoration:none;color:var(--ink);
+    background:linear-gradient(120deg,#fff7e6,#ffe6b8);border-radius:22px;padding:14px 18px 14px 16px;box-shadow:var(--shadow-lg);
+    border:1px solid rgba(255,255,255,.5);transition:transform .15s ease;}
+  .rankbtn:hover{transform:translateY(-2px);}
+  .rk-e{font-size:30px;}
+  .rk-t{flex:1;min-width:0;}
+  .rk-t b{display:block;font-size:16px;font-weight:800;}
+  .rk-t small{font-size:12px;color:#b36f00;font-weight:700;}
+  .rk-a{font-size:20px;color:#b36f00;}
+
+  /* interruptores rápidos */
+  .idx-tg{display:flex;gap:6px;}
+  .idx-lang{font:800 12px/1 var(--font);color:#fff;}
+  .idx-t{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.14);font-size:16px;cursor:pointer;position:relative;}
+  .idx-t::after{content:"";position:absolute;inset:-5px;}
+
+  /* progreso en cada tarjeta */
+  .gprog{margin-top:7px;font-size:11.5px;font-weight:800;color:var(--gold-deep);}
+  .gprog.new{color:var(--muted);font-weight:700;}
+  .gprog:empty{display:none;}
+
+  /* reto del día */
+  .daily{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:22px;padding:14px 14px 12px;margin-bottom:14px;color:#fff;}
+  .daily-head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .daily-head h3{margin:0;font-size:15.5px;font-weight:800;}
+  .daily-head span{font-size:11.5px;font-weight:800;background:rgba(255,255,255,.2);padding:4px 9px;border-radius:999px;}
+  .daily p{margin:4px 0 10px;font-size:12px;color:rgba(255,255,255,.8);font-weight:600;}
+  .daily-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
+  .daily-grid .dg{flex:0 0 calc((100% - 8px) / 2);min-width:0;}
+  .dg-o{font-size:10px;font-weight:700;color:var(--muted);white-space:nowrap;}
+  .dg.won{box-shadow:0 0 0 2px #20c975 inset, var(--shadow-sm);}
+  .dg.lost{box-shadow:0 0 0 2px #ff6161 inset, var(--shadow-sm);}
+  .dg.lost .dg-s{background:rgba(255,97,97,.14);color:#d33;}
+  .dg.won .dg-s{background:rgba(32,201,117,.16);color:#15935a;}
+  .dg-cal{display:block;width:100%;margin-top:10px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:10px;font:700 13px var(--font);cursor:pointer;}
+  .dg{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--card);color:var(--ink);text-decoration:none;border-radius:16px;padding:10px 6px 9px;box-shadow:var(--shadow-sm);transition:transform .15s;}
+  .dg:active{transform:scale(.97);}
+  .dg-e{font-size:22px;}
+  .dg-n{font-size:11.5px;font-weight:800;}
+  .dg-s{font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));padding:3px 10px;border-radius:999px;margin-top:3px;}
+  .dg.done .dg-s{background:rgba(32,201,117,.16);color:#15935a;}
+  :root[data-theme="dark"] .meta span{background:#2a3154;color:var(--ink-soft);}
+  :root[data-theme="dark"] .mk{background:#1e2440;}
+  :root[data-theme="dark"] .dg.won .dg-s{color:#4ee29a;}
+  :root[data-theme="dark"] .gamecard:nth-child(1) .meta span:first-child{background:rgba(42,157,92,.2);color:#6fe0a6;}
+  :root[data-theme="dark"] .gamecard:nth-child(2) .meta span:first-child{background:rgba(232,150,10,.2);color:#ffc861;}
+  :root[data-theme="dark"] .gamecard:nth-child(3) .meta span:first-child{background:rgba(255,255,255,.1);color:#d3d9ea;}
+  :root[data-theme="dark"] .gamecard:nth-child(4) .meta span:first-child{background:rgba(167,139,250,.2);color:#c9b5ff;}
+
+  /* acceso a Online */
+  .online-card{display:flex;align-items:center;gap:14px;margin-bottom:14px;background:linear-gradient(120deg,#2c303a,#101216) !important;text-decoration:none;color:#fff;
+    background:linear-gradient(120deg,rgba(44,192,171,.95),rgba(11,110,98,.95));border-radius:22px;padding:14px 16px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.35);}
+  .online-card:active{transform:scale(.98);}
+  .oc-e{font-size:30px;}
+  .oc-t{flex:1;min-width:0;}
+  .oc-t b{display:block;font-size:16.5px;font-weight:800;}
+  .oc-t small{display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.88);line-height:1.35;}
+  .oc-b{font-size:11px;font-weight:800;background:#ff6161;color:#fff;padding:4px 9px;border-radius:999px;white-space:nowrap;}
+  .oc-a{font-size:22px;color:rgba(255,255,255,.85);}
+  /* duelos */
+  .du-list{display:flex;flex-direction:column;gap:6px;}
+  .du{display:flex;align-items:center;gap:10px;background:var(--card);color:var(--ink);text-decoration:none;border-radius:14px;padding:9px 12px;box-shadow:var(--shadow-sm);}
+  .du-e{font-size:20px;}
+  .du-t{flex:1;min-width:0;}
+  .du-t b{display:block;font-size:13.5px;}
+  .du-t small{display:block;font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .du-s{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:#eef1f8;color:var(--ink-soft);white-space:nowrap;}
+  .st-toplay .du-s{background:linear-gradient(135deg,var(--blue-top),var(--blue-deep));color:#fff;}
+  .st-won .du-s{background:rgba(32,201,117,.16);color:#15935a;}
+  .st-lost .du-s{background:rgba(255,97,97,.14);color:#d33;}
+  .du-empty{font-size:12px;color:rgba(255,255,255,.85);font-weight:600;text-align:center;padding:6px 0 2px;}
+  .du-login{width:100%;}
+  :root[data-theme="dark"] .du-s{background:#2a3154;}
+
+  /* escritorio: aprovechar el ancho */
+  @media (min-width:900px){
+    .wrap,.backrow{max-width:880px;}
+    .games{display:grid;grid-template-columns:1fr 1fr;}
+    .gamecard{height:100%;}
+    .marks-grid{grid-template-columns:repeat(4,1fr);}
+  }
+  /* selector de deporte */
+  .sport{display:flex;gap:4px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px;margin:-12px auto 18px;max-width:300px;}
+  .sport a{flex:1;text-align:center;text-decoration:none;color:rgba(255,255,255,.85);font-weight:800;font-size:14px;padding:9px 10px;border-radius:999px;transition:background .15s,color .15s;}
+  .sport a.on{background:#fff;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.18);}
+  :root[data-theme="dark"] .sport a.on{background:var(--card);color:var(--ink);}
+  /* botón de donar (solo en la web NBA sin anuncios) */
+  .donate{display:flex;align-items:center;gap:14px;margin-top:14px;padding:14px 16px;border-radius:20px;text-decoration:none;
+    background:linear-gradient(135deg,#ffcf4d,#ffb020);color:#3b2500;box-shadow:0 10px 24px rgba(90,40,0,.25);transition:transform .15s;}
+  .donate:active{transform:scale(.98);}
+  .donate .dn-e{font-size:30px;line-height:1;}
+  .donate .dn-t{flex:1;display:flex;flex-direction:column;}
+  .donate .dn-t b{font-size:15.5px;font-weight:800;}
+  .donate .dn-t small{font-size:12px;opacity:.8;line-height:1.35;}
+  .donate .dn-a{font-size:22px;font-weight:800;opacity:.6;}
+  .donate{border:0;width:100%;font:inherit;text-align:left;cursor:pointer;}
+  /* ventana de donaciones */
+  .dn-ov{position:fixed;inset:0;z-index:60;background:rgba(10,14,30,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s;}
+  .dn-ov.show{opacity:1;pointer-events:auto;}
+  .dn-box{background:var(--card);color:var(--ink);width:100%;max-width:420px;border-radius:24px;padding:20px 18px 16px;box-shadow:0 18px 40px rgba(0,0,0,.35);transform:translateY(20px);transition:transform .2s;margin-bottom:env(safe-area-inset-bottom,0);}
+  .dn-ov.show .dn-box{transform:none;}
+  .dn-box h3{margin:0 0 4px;font-size:18px;font-weight:800;}
+  .dn-box > p{margin:0 0 14px;font-size:13px;color:var(--ink-soft);font-weight:600;line-height:1.45;}
+  .dn-opt{display:flex;align-items:center;gap:12px;width:100%;margin-bottom:10px;padding:12px 14px;border-radius:16px;border:1.5px solid rgba(127,140,180,.28);background:transparent;color:var(--ink);text-decoration:none;font:inherit;text-align:left;cursor:pointer;}
+  .dn-opt:active{transform:scale(.98);}
+  .dn-opt .oi{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex:0 0 40px;}
+  .dn-opt .ot{flex:1;display:flex;flex-direction:column;min-width:0;}
+  .dn-opt .ot b{font-size:15px;font-weight:800;}
+  .dn-opt .ot small{font-size:12px;color:var(--ink-soft);font-weight:600;}
+  .dn-opt .oa{font-size:20px;font-weight:800;color:var(--ink-soft);}
+  .oi.pp{background:#003087;} .oi.kf{background:#29abe0;} .oi.bz{background:#05c3b2;}
+  .dn-bz{display:none;margin:-4px 0 10px;padding:12px 14px;border-radius:14px;background:rgba(5,195,178,.1);font-size:13px;font-weight:600;line-height:1.5;}
+  .dn-bz.show{display:block;}
+  .dn-bz b.num{font-size:20px;font-weight:800;letter-spacing:.5px;}
+  .dn-close{display:block;width:100%;margin-top:4px;padding:11px;border:0;border-radius:14px;background:rgba(127,140,180,.16);color:var(--ink);font:700 14px var(--font);cursor:pointer;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="backrow">
+      <div class="idx-tg">
+        <button type="button" id="tgSfx" class="idx-t" aria-label="Sonido y vibración" title="Sonido y vibración">🔊</button>
+        <button type="button" id="tgTheme" class="idx-t" aria-label="Cambiar modo claro u oscuro" title="Modo oscuro">🌙</button>
+        <button type="button" id="tgLang" class="idx-t idx-lang" aria-label="English / Español" title="English / Español">EN</button>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-logo" aria-hidden="true">🏀</div>
+      <h1>Basket101</h1>
+      <p>Leyendas y estrellas de la NBA · elige tu reto</p>
+    </div>
+
+    <section class="daily" aria-labelledby="dailyTitle">
+      <div class="daily-head"><h3 id="dailyTitle">📅 Retos del día</h3><span id="dailyCount">0/5 ganados</span></div>
+      <p>Los mismos retos para todo el mundo, una sola partida cada uno. En los Hunter hay que llegar al objetivo; en TresEnRaya NBA y NBAwordle, ganar.</p>
+      <div class="daily-grid">
+        <a class="dg" data-g="nbastats" data-file="statshunter.html"><span class="dg-e">📊</span><span class="dg-n">StatsHunter</span><span class="dg-o"></span><span class="dg-s">Jugar</span></a>
+        <a class="dg" data-g="nbatrophy" data-file="trophyhunter.html"><span class="dg-e">🏆</span><span class="dg-n">TrophyHunter</span><span class="dg-o"></span><span class="dg-s">Jugar</span></a>
+        <a class="dg" data-g="nbamulti" data-file="nbamulti.html"><span class="dg-e">🎰</span><span class="dg-n">MultiHunter NBA</span><span class="dg-o"></span><span class="dg-s">Jugar</span></a>
+        <a class="dg" data-g="nbaraya" data-file="nbaraya.html"><span class="dg-e">⭕</span><span class="dg-n">TresEnRaya NBA</span><span class="dg-o"></span><span class="dg-s">Jugar</span></a>
+        <a class="dg" data-g="nbawordle" data-file="nbawordle.html"><span class="dg-e">🔤</span><span class="dg-n">NBAwordle</span><span class="dg-o"></span><span class="dg-s">Jugar</span></a>
+      </div>
+      <button type="button" class="dg-cal" id="dailyCal">📅 Ver mi calendario de retos</button>
+    </section>
+
+    <a class="online-card" href="online.html">
+      <span class="oc-e" aria-hidden="true">🌐</span>
+      <span class="oc-t"><b>Online</b><small>TresEnRaya NBA en directo, duelos con amigos y resultados cara a cara</small></span>
+      <span class="oc-b" id="duelCount" hidden></span>
+      <span class="oc-a" aria-hidden="true">›</span>
+    </a>
+    <div class="games">
+      <a class="gamecard" href="statshunter.html">
+        <div class="gameicon nst">📊</div>
+        <div class="gameinfo">
+          <h2>StatsHunter</h2>
+          <p>Reparte a cada leyenda en la estadística donde más suma: puntos, rebotes, asistencias…</p>
+          <div class="meta"><span>7 estadísticas</span><span>Triples-dobles ×5 · Triples ×2</span></div>
+        <div class="gprog" data-g="nbastats"></div>
+        </div>
+        <div class="gamearrow">›</div>
+      </a>
+
+      <a class="gamecard" href="trophyhunter.html">
+        <div class="gameicon ntr">🏆</div>
+        <div class="gameinfo">
+          <h2>TrophyHunter</h2>
+          <p>Lo mismo, pero con premios: MVPs, anillos, All-NBA, All-Star, ROY, DPOY…</p>
+          <div class="meta"><span>8 categorías</span><span>MVPs y anillos ×2</span></div>
+        <div class="gprog" data-g="nbatrophy"></div>
+        </div>
+        <div class="gamearrow">›</div>
+      </a>
+
+      <a class="gamecard" href="nbaorder.html">
+        <div class="gameicon nor">🔢</div>
+        <div class="gameinfo">
+          <h2>NBAorder</h2>
+          <p>Ordena a 5 leyendas según sus máximos por partido, altura, peso, temporadas o año de debut.</p>
+          <div class="meta"><span>5 rondas</span><span>Dos intentos por ronda</span></div>
+        <div class="gprog" data-g="nbaorder"></div>
+        </div>
+        <div class="gamearrow">›</div>
+      </a>
+
+      <a class="gamecard" href="nbaraya.html">
+        <div class="gameicon nra">⭕</div>
+        <div class="gameinfo">
+          <h2>TresEnRaya NBA</h2>
+          <p>Tres en raya de leyendas: marca la casilla con un jugador que cumpla la condición de su fila y su columna.</p>
+          <div class="meta"><span>🌐 Online</span><span>Premios, stats, altura, debut…</span></div>
+        <div class="gprog" data-g="nbaraya"></div>
+        </div>
+        <div class="gamearrow">›</div>
+      </a>
+
+      <a class="gamecard" href="nbamulti.html">
+        <div class="gameicon nmu">🎰</div>
+        <div class="gameinfo">
+          <h2>MultiHunter NBA</h2>
+          <p>5 casillas, multiplicadores ×1 a ×5 y un solo premio por partida.</p>
+          <div class="meta"><span>5 casillas</span><span>Premio distinto cada partida</span></div>
+        <div class="gprog" data-g="nbamulti"></div>
+        </div>
+        <div class="gamearrow">›</div>
+      </a>
+      <a class="gamecard" href="nbawordle.html">
+        <div class="gameicon nwo">🔤</div>
+        <div class="gameinfo">
+          <h2>NBAwordle <span class="new">NUEVO</span></h2>
+          <p>Como el Wordle, pero con leyendas: adivina el apellido del jugador en 6 intentos.</p>
+          <div class="meta"><span>6 intentos</span><span>Verde, amarillo y gris</span></div>
+        <div class="gprog" data-g="nbawordle"></div>
+        </div>
+        <div class="gamearrow">›</div>
+      </a>
+    </div>
+
+    <a class="rankbtn" href="ranking.html?deporte=nba"><span class="rk-e">🌍</span><span class="rk-t"><b>Ranking mundial</b><small>Compite en los retos NBA con todo el mundo</small></span><span class="rk-a">›</span></a>
+
+    <div class="marks-card" id="marksCard">
+      <div class="marks-head"><h3>Tus marcas</h3><span id="marksWho">Guardadas en este móvil</span></div>
+      <div class="marks-grid" id="marksGrid"></div>
+      <div class="marks-login" id="marksLogin"></div>
+    </div>
+
+<!--DONAR-->
+    <button type="button" class="donate" id="donateBtn"><span class="dn-e">☕</span><span class="dn-t"><b>Apoya Basket101</b><small>Sin anuncios y sin límite de partidas. Si te gusta, invítame a un café</small></span><span class="dn-a">›</span></button>
+<!--/DONAR-->
+    <footer>Basket101 · retos de baloncesto para jugar desde el móvil · <!--DONAR--><a href="#donar" id="donateLink">Donar</a> · <!--/DONAR--><a href="privacidad.html">Privacidad</a></footer>
+  </div>
+<script>
+const SPORT = 'nba';
+try{ localStorage.setItem('fc_sport', SPORT); }catch(e){}
+document.addEventListener('DOMContentLoaded', () => {
+  if(!window.HG) return;
+  const grid = document.getElementById('marksGrid'), who = document.getElementById('marksWho'), login = document.getElementById('marksLogin');
+  HG.onChange(st => {
+    const m = st.marks;
+    grid.innerHTML = Object.entries(HG.games).filter(([id, g]) => (g.sport || 'futbol') === SPORT).map(([id,g]) => {
+      const v = m[id] || {};
+      const main = g.kind === 'score' ? (v.best != null ? v.best : '–') : (v.wins || 0) + ' 🏆';
+      const sub = g.kind === 'score' ? HG.plural(v.played) : (v.bestTime != null ? `récord ${v.bestTime}s` : HG.plural(v.played));
+      return `<div class="mk"><div class="t"><span>${g.em}</span>${g.name}</div><div class="v">${main}</div><div class="s">${sub}</div></div>`;
+    }).join('');
+    // progreso dentro de cada tarjeta
+    document.querySelectorAll('.gprog').forEach(el => {
+      const g = HG.games[el.dataset.g], v = m[el.dataset.g] || {};
+      if(!v.played){ el.textContent = '✨ Aún no has jugado'; el.className = 'gprog new'; return; }
+      el.className = 'gprog';
+      el.textContent = g.kind === 'score'
+        ? (v.best != null ? `🏅 Récord ${Number(v.best).toLocaleString('es-ES')} · ${HG.plural(v.played)}` : `🎮 ${HG.plural(v.played)}`)
+        : `🏆 ${v.wins||0} ${v.wins===1?'victoria':'victorias'}${v.streak ? ` · racha ${v.streak}` : ''}`;
+    });
+    // retos del día: cuáles has ganado y cuáles no
+    const ND = document.querySelectorAll('.dg').length;
+    let wonN = 0, playedN = 0;
+    document.querySelectorAll('.dg').forEach(a => {
+      const id = a.dataset.g, r = HG.daily.result(id), goal = HG.daily.goal(id), s = a.querySelector('.dg-s'), o = a.querySelector('.dg-o');
+      const fmt = n => Number(n).toLocaleString('es-ES');
+      a.classList.toggle('won', !!(r && r.w)); a.classList.toggle('lost', !!(r && !r.w));
+      if(r){ playedN++; if(r.w) wonN++; }
+      o.textContent = r && r.s != null ? `${fmt(r.s)} / ${fmt(r.g)}` : r ? 'Jugado hoy' : goal ? `Objetivo ${fmt(goal)}` : 'Hay que ganar';
+      s.textContent = r ? (r.w ? '✅ Superado' : '❌ Fallado') : 'Jugar';
+      a.href = r ? (r.s != null ? `ranking.html?juego=${id}&hoy=1` : '#') : `${a.dataset.file}?diario=1`;
+      a.onclick = r && r.s == null ? (e => { e.preventDefault(); HG.openStats(); }) : null;
+      a.setAttribute('aria-label', `${a.querySelector('.dg-n').textContent}: ${r ? (r.w ? 'reto de hoy superado' : 'reto de hoy no superado') : 'jugar el reto de hoy'}`);
+    });
+    const cntEl = document.getElementById('dailyCount');
+    cntEl.textContent = playedN === ND ? (wonN === ND ? `¡${ND} de ${ND}! 🎉` : `${wonN} de ${ND} ganados`) : `${wonN}/${ND} ganados · ${ND - playedN} por jugar`;
+    // interruptores
+    document.getElementById('tgSfx').textContent = HG.sfx.enabled() ? '🔊' : '🔇';
+    document.getElementById('tgTheme').textContent = HG.theme.get() === 'dark' ? '☀️' : '🌙';
+    who.textContent = st.user ? 'Sincronizadas con tu cuenta' : 'Guardadas en este móvil';
+    login.innerHTML = st.user ? '' : `<button class="hg-gbtn" type="button">${HG.googleLogo} Entrar con Google para guardarlas</button>`;
+    const b = login.querySelector('button'); if(b) b.onclick = () => HG.signIn();
+  });
+  // online: solo el aviso de pendientes (todo lo demás está en online.html)
+  let duelUid = undefined;
+  async function renderDuels(st){
+    const cnt = document.getElementById('duelCount');
+    if(!st.ready) return;
+    const uid = st.user ? st.user.uid : null;
+    if(uid === duelUid) return;
+    duelUid = uid;
+    if(!uid || !st.configured){ cnt.hidden = true; return; }
+    let n = 0;
+    try{
+      const list = (await HG.duel.list()) || [];
+      n += list.filter(x => x.status === 'toplay').length;
+      const db = await HG.getDb();
+      const snap = await db.collection('ttt').where('to', '==', uid).where('status', '==', 'waiting').limit(5).get();
+      snap.forEach(d => { if(Date.now() - (d.data().ping || 0) < 60000) n++; });
+    }catch(e){}
+    if(duelUid !== uid) return;
+    cnt.hidden = !n; cnt.textContent = n + (n === 1 ? ' pendiente' : ' pendientes');
+  }
+  HG.onChange(renderDuels);
+  document.getElementById('dailyCal').onclick = () => HG.openStats();
+  document.getElementById('tgSfx').onclick = () => { HG.sfx.toggle(); HG.toast(HG.sfx.enabled() ? '🔊 Sonido y vibración activados' : '🔇 Sonido y vibración desactivados'); };
+  document.getElementById('tgTheme').onclick = () => HG.theme.toggle();
+  const tl = document.getElementById('tgLang'); tl.textContent = HG.lang.now() === 'en' ? 'ES' : 'EN'; tl.onclick = HG.lang.switch;
+});
+</script>
+<!--DONAR-->
+<div class="dn-ov" id="dnOv" role="dialog" aria-modal="true" aria-labelledby="dnTitle">
+  <div class="dn-box">
+    <h3 id="dnTitle">☕ Apoya Basket101</h3>
+    <p>Basket101 es gratis, sin anuncios y sin límite de partidas. Si te gusta, cualquier donación ayuda a mantenerlo y a seguir añadiendo retos. ¡Gracias!</p>
+    <div id="dnList"></div>
+    <button type="button" class="dn-close" id="dnClose">Cerrar</button>
+  </div>
+</div>
+<script>
+/* Formas de donar: las pone build.py (DONAR en build.py). Solo salen las que tienen dato. */
+const DONAR = __DONAR_JSON__;
+(function(){
+  const ov = document.getElementById('dnOv'), list = document.getElementById('dnList');
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  let h = '';
+  if(DONAR.paypal) h += `<a class="dn-opt" href="${esc(DONAR.paypal)}" target="_blank" rel="noopener"><span class="oi pp">P</span><span class="ot"><b>PayPal</b><small>Con tu cuenta de PayPal</small></span><span class="oa">›</span></a>`;
+  if(DONAR.tarjeta) h += `<a class="dn-opt" href="${esc(DONAR.tarjeta)}" target="_blank" rel="noopener"><span class="oi kf">💳</span><span class="ot"><b>Tarjeta o Google Pay</b><small>También Apple Pay · pago seguro</small></span><span class="oa">›</span></a>`;
+  if(DONAR.bizum) h += `<button type="button" class="dn-opt" id="dnBz"><span class="oi bz">B</span><span class="ot"><b>Bizum</b><small>Desde la app de tu banco (solo España)</small></span><span class="oa">›</span></button>
+    <div class="dn-bz" id="dnBzInfo">Abre la app de tu banco → <b>Bizum</b> → <b>Enviar dinero</b> a este número:<br><b class="num">${esc(DONAR.bizum)}</b><br>En el concepto puedes poner «Basket101». <button type="button" class="dn-opt" id="dnBzCopy" style="margin:8px 0 0;padding:8px 12px;justify-content:center;"><b>📋 Copiar número</b></button></div>`;
+  list.innerHTML = h;
+  const open = e => { if(e) e.preventDefault(); ov.classList.add('show'); };
+  const close = () => ov.classList.remove('show');
+  document.getElementById('donateBtn').onclick = open;
+  const dl = document.getElementById('donateLink'); if(dl) dl.onclick = open;
+  document.getElementById('dnClose').onclick = close;
+  ov.addEventListener('click', e => { if(e.target === ov) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+  const bz = document.getElementById('dnBz');
+  if(bz){
+    bz.onclick = () => document.getElementById('dnBzInfo').classList.toggle('show');
+    document.getElementById('dnBzCopy').onclick = async () => {
+      try{ await navigator.clipboard.writeText(String(DONAR.bizum).replace(/\s+/g, '')); if(window.HG) HG.toast('📋 Número copiado'); }catch(e){}
+    };
+  }
+  if(location.hash === '#donar') open();
+})();
+</script>
+<!--/DONAR-->
+<script src="hunter-account.js" defer></script>
+</body>
+</html>

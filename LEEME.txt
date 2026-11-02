@@ -1,0 +1,43 @@
+BASKET101 · retos de la NBA (web sin anuncios, con botón de donar)
+====================================================================
+
+Web:  https://basket101.web.app      -> en INGLÉS (la de por defecto)
+      https://basket101.web.app/es/  -> en CASTELLANO
+      El botón EN/ES (portada y menú de la cuenta) cambia de idioma y lo recuerda.
+
+Páginas:  index.html (portada), statshunter.html, trophyhunter.html, nbaorder.html, nbawordle.html,
+          nbamulti.html, nbaraya.html, ranking.html, online.html, privacidad.html, 404.html
+          (se escriben en castellano; el inglés sale de traduccion_en.py al hacer build.py)
+Datos:    datos-nba.js  (se genera con build_nba.py desde NBA_datos.xlsx;
+                         actualizar_nba.bat / actualizar_nba.py lo actualiza con nba_api)
+
+AMPLIAR LA BASE DE DATOS (muchos más jugadores)
+  Doble clic en ampliar_nba.bat (en tu ordenador: NBA.com no deja conectarse desde servidores).
+  Añade a TODOS los jugadores con 6 o más temporadas en la NBA y genera datos-nba.js.
+  Para más o menos jugadores:  ampliar_nba.bat --temporadas 4   (más)   /   --temporadas 10   (menos)
+  La primera vez tarda (~1 hora por cada 1.000 jugadores nuevos); si se corta, vuelve a ejecutarlo.
+  Los jugadores nuevos poco conocidos entran como Nivel 2: valen en TresEnRaya y como intento en
+  NBAwordle, pero los Hunter, NBAorder y la respuesta de NBAwordle siguen usando los conocidos (Nivel 1).
+  Después: publicar.bat
+Retos del día: StatsHunter, TrophyHunter, MultiHunter NBA, TresEnRaya NBA y NBAwordle
+Cuentas y rankings: Firebase (proyecto futclass-a483e, config en hunter-account.js)
+
+AJUSTES (en build.py)
+  SITE_URL = "https://basket101.web.app"
+  DONAR    = paypal  -> tu enlace de PayPal.me
+             tarjeta -> tu enlace de Ko-fi o Buy Me a Coffee (tarjeta, Google Pay, Apple Pay)
+             bizum   -> tu número de teléfono (se mostrará en la web)
+             Las vacías no salen.
+
+TEXTOS NUEVOS
+  Si cambias o añades textos en castellano, pon su traducción en traduccion_en.py.
+  build.py avisa si ve textos que parecen seguir en castellano en la versión inglesa.
+
+PUBLICAR (cada vez)
+  Doble clic en publicar.bat   (hace: python build.py  y  firebase deploy --only hosting)
+
+REGLAS DE FIRESTORE (solo cuando cambian; ahora hace falta UNA vez para el ranking de los retos diarios NBA)
+  Doble clic en publicar_reglas.bat
+  OJO: el proyecto de Firebase es el mismo que FutClass. firestore.rules de Basket101 incluye
+  también las reglas de FutClass; copia este mismo firestore.rules al proyecto de FutClass
+  para que, si subes reglas desde allí, no se borren las de los retos diarios NBA.
